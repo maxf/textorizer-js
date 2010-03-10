@@ -6,6 +6,8 @@
 		<link type="text/css" href="css/ui-lightness/jquery-ui-1.8rc3.custom.css" rel="stylesheet" />	
 		<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui-1.8rc3.custom.min.js"></script>
+
+		<script type="text/javascript" src="textorizer.js"></script>
     <script type="text/javascript"> 
 
       var defaults = {
@@ -24,8 +26,6 @@
         "t2_kerning":0,
         "t2_font_scale":1.5
       };
-
-        
 
       $(function() {
 
@@ -144,7 +144,32 @@
           $("#t2_original_image").attr("src",$("#t2_original_image_url").val());
         });
 
+        function t1Params() {
+          return {
+            originalImage: null, //TODO: put original image into a canvas
+            text: $("#t1_text").val(),
+            opacity: $("#t1_opacity").slider('value'),
+            nbStrings: $("#t1_nb_strings").slider('value'),
+            threshold: $("#t1_threshold").slider('value'),
+            fontSizeMin: $("#t1_font_size").slider('values',0),
+            fontSizeMax: $("#t1_font_size").slider('values',1),
+            font: $('#t1_font :selected').text()
+          };
+        }
 
+        function t2Params() {
+          return {
+            originalImage: null, //TODO: put original image into a canvas
+            text: $("#t2_text").val(),
+            opacity: $("#t2_opacity").slider('value'),
+            textSize: $("#t2_text_size").slider('value'),
+            lineHeight: $("#t2_line_height").slider('value'),
+            saturation: $("#t2_saturation").slider('value'),
+            kerning: $("#t2_kerning").slider('value'),
+            fontScale: $("#t2_font_scale").slider('value'),
+            font: $('#t1_font :selected').text()
+          };
+        }
 
 
       });
@@ -170,11 +195,11 @@
           <input id="t1_original_image_url" type="text"></input><br/>
           <img id="t1_original_image" height="100px"/>
 
-          <label>Opacity: <span id="t1_opacity_value">30</span></label>
-          <div id="t1_opacity"></div>
-
           <label>Text:</label>
           <textarea id="t1_text" cols="40" rows="6"></textarea>
+
+          <label>Opacity: <span id="t1_opacity_value">30</span></label>
+          <div id="t1_opacity"></div>
 
           <label>Number of Strings: <span id="t1_nb_strings_value">1000</span></label>
           <div id="t1_nb_strings"></div>
@@ -191,9 +216,9 @@
             <option>Helvetica</option>
           </select>
           <div class="buttons">
-            <button id="t1_preview">Preview</button>
-            <button id="t1_textorize_png">to Image</button>
-            <button id="t1_textorize_svg">to SVG</button>
+            <button id="t1_preview"       onclick="Textorizer1.preview(t1Params())">Preview</button>
+            <button id="t1_textorize_png" onclick="Textorizer1.toPNG(t1Params())">to Image</button>
+            <button id="t1_textorize_svg" onclick="Textorizer1.toSVG(t1Params())">to SVG</button>
           </div>
       </div>
 
@@ -202,11 +227,11 @@
         <input id="t2_original_image_url" type="text"></input><br/>
         <img id="t2_original_image" height="100px"/>
 
-        <label>Opacity: <span id="t2_opacity_value">30</span></label>
-        <div id="t2_opacity"></div>
-
         <label>Text:</label>
         <textarea id="t2_text" cols="40" rows="6"></textarea>
+
+        <label>Opacity: <span id="t2_opacity_value">30</span></label>
+        <div id="t2_opacity"></div>
 
         <label>Text Size: <span id="t2_text_size_value">30</span></label>
         <div id="t2_text_size"></div>
@@ -229,9 +254,9 @@
           <option>Helvetica</option>
         </select>
         <div class="buttons">
-          <button id="t2_preview">Preview</button>
-          <button id="t2_textorize_png">to Image</button>
-          <button id="t2_textorize_svg">to SVG</button>
+          <button id="t2_preview"       onclick="Textorizer2.preview(t2Params())">Preview</button>
+          <button id="t2_textorize_png" onclick="Textorizer2.toPNG(t2Params())">to Image</button>
+          <button id="t2_textorize_svg" onclick="Textorizer2.toSVG(t2Params())">to SVG</button>
         </div>
       </div>
     </div>
