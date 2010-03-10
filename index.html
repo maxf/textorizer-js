@@ -9,12 +9,14 @@
     <script type="text/javascript"> 
 
       var defaults = {
+        "t1_original_image_url":"http://lapin-bleu.net/images/exit-621x377.png",
         "t1_opacity":30,
         "t1_nb_strings":1000,
         "t1_threshold":100,
         "t1_font_size_min":10,
         "t1_font_size_max":30,
 
+        "t2_original_image_url":"http://farm1.static.flickr.com/4/4463635_d3f29bae3b_o.jpg",
         "t2_opacity":30,
         "t2_text_size":12,
         "t2_line_height":1,
@@ -26,7 +28,11 @@
         
 
       $(function() {
+
         $("#tabs").tabs();
+
+        $("#t1_original_image_url").val(defaults["t1_original_image_url"]);
+        $("#t1_original_image").attr("src",defaults["t1_original_image_url"]);
 
         $("#t1_opacity").slider({min:0, 
                                  max:255, 
@@ -68,6 +74,9 @@
         $("#t1_textorize_svg").button();
 
 
+
+        $("#t2_original_image_url").val(defaults["t2_original_image_url"]);
+        $("#t2_original_image").attr("src",defaults["t2_original_image_url"]);
         $("#t2_opacity").slider({min:0, 
                                  max:255, 
                                  value:defaults["t2_opacity"],
@@ -123,12 +132,29 @@
         $("#t2_preview").button();
         $("#t2_textorize_png").button();
         $("#t2_textorize_svg").button();
+
+
+        // CONTROLLERS
+
+        $("#t1_original_image_url").change(function() {
+          $("#t1_original_image").attr("src",$("#t1_original_image_url").val());
+        });
+
+        $("#t2_original_image_url").change(function() {
+          $("#t2_original_image").attr("src",$("#t2_original_image_url").val());
+        });
+
+
+
+
       });
     </script> 
     <style type="text/css">
       .buttons { margin-top: 1em }
       label { display: block; margin: .5em 0 .2em -1em }
       #tabs { width: 500px }
+      img { border: 1px solid gray; }
+      input { width: 100% }
     </style>
   </head>
   <body>
@@ -140,8 +166,9 @@
         <li><a href="#tabs-textorizer2">Textorizer 2</a></li>
         </ul>
         <div id="tabs-textorizer1">
-          <label>Original Image:</label>
-          <input id="t1_original_image" type="file" accept="image/gif,image/png,image/jpeg"/>
+          <label>Original Image URL:</label>
+          <input id="t1_original_image_url" type="text"></input><br/>
+          <img id="t1_original_image" height="100px"/>
 
           <label>Opacity: <span id="t1_opacity_value">30</span></label>
           <div id="t1_opacity"></div>
@@ -171,8 +198,9 @@
       </div>
 
       <div id="tabs-textorizer2">
-        <label>Original Image:</label>
-        <input id="t2_original_image" type="file" accept="image/gif,image/png,image/jpeg">
+        <label>Original Image URL:</label>
+        <input id="t2_original_image_url" type="text"></input><br/>
+        <img id="t2_original_image" height="100px"/>
 
         <label>Opacity: <span id="t2_opacity_value">30</span></label>
         <div id="t2_opacity"></div>
