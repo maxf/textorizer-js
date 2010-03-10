@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>textorizer-js</title>
+    <link rel="stylesheet" href="/style.css"/>
+		<link type="text/css" href="css/ui-lightness/jquery-ui-1.8rc3.custom.css" rel="stylesheet" />	
+		<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui-1.8rc3.custom.min.js"></script>
+    <script type="text/javascript"> 
+
+      var defaults = {
+        "t1_opacity":30,
+        "t1_nb_strings":1000,
+        "t1_threshold":100,
+        "t1_font_size_min":10,
+        "t1_font_size_max":30,
+
+        "t2_opacity":30,
+        "t2_text_size":12,
+        "t2_line_height":1,
+        "t2_saturation":0,
+        "t2_kerning":0,
+        "t2_font_scale":1.5
+      };
+
+        
+
+      $(function() {
+        $("#tabs").tabs();
+
+        $("#t1_opacity").slider({min:0, 
+                                 max:255, 
+                                 value:defaults["t1_opacity"],
+                                 slide: function(event, ui) {
+                                   $("#t1_opacity_value").text(ui.value);
+                                 }});
+        $("#t1_opacity_value").text(defaults["t1_opacity"]);
+        $("#t1_nb_strings").slider({min:100, 
+                                    max:100000, 
+                                    value:defaults["t1_nb_strings"],
+                                    slide: function(event, ui) {
+                                      $("#t1_nb_strings_value").text(ui.value);
+                                    }});
+        $("#t1_nb_strings_value").text(defaults["t1_nb_strings"]);
+        $("#t1_threshold").slider({min:0, 
+                                   max:200,
+                                   step:.1,
+                                   value:defaults["t1_threshold"],
+                                   slide: function(event, ui) {
+                                     $("#t1_threshold_value").text(ui.value);
+                                   }});
+        $("#t1_threshold_value").text(defaults["t1_threshold"]);
+        $("#t1_font_size").slider({range: true,
+                                   min: 0,
+                                   max: 50,
+                                   step: .1,
+                                   values: [defaults["t1_font_size_min"], defaults["t1_font_size_max"]],
+                                   slide: function(event, ui) {
+                                     $("#t1_font_size_value_min").text(ui.values[0]);
+                                     $("#t1_font_size_value_max").text(ui.values[1]);
+                                   }});
+        $("#t1_font_size_value_min").text($("#t1_font_size").slider("values", 0));
+        $("#t1_font_size_value_max").text($("#t1_font_size").slider("values", 1));
+
+
+        $("#t1_preview").button();
+        $("#t1_textorize_png").button();
+        $("#t1_textorize_svg").button();
+
+
+        $("#t2_opacity").slider({min:0, 
+                                 max:255, 
+                                 value:defaults["t2_opacity"],
+                                 slide: function(event, ui) {
+                                   $("#t2_opacity_value").text(ui.value);
+                                 }});
+        $("#t2_opacity_value").text(defaults["t2_opacity"]);
+
+        $("#t2_text_size").slider({min:4, 
+                                   max:50, 
+                                   step: .1,
+                                   value:defaults["t2_text_size"],
+                                   slide: function(event, ui) {
+                                     $("#t2_text_size_value").text(ui.value);
+                                   }});
+        $("#t2_text_size_value").text(defaults["t2_text_size"]);
+
+        $("#t2_line_height").slider({min:0.5, 
+                                     max:3,
+                                     step: .05,
+                                     value:defaults["t2_line_height"],
+                                     slide: function(event, ui) {
+                                       $("#t2_line_height_value").text(ui.value);
+                                     }});
+        $("#t2_line_height_value").text(defaults["t2_line_height"]);
+
+        $("#t2_saturation").slider({min:0, 
+                                    max:255,
+                                    value:defaults["t2_saturation"],
+                                    slide: function(event, ui) {
+                                      $("#t2_saturation_value").text(ui.value);
+                                    }});
+        $("#t2_saturation_value").text(defaults["t2_saturation"]);
+
+        $("#t2_kerning").slider({min:-.5,
+                                 max:.5,
+                                 step: .05,
+                                 value:defaults["t2_kerning"],
+                                 slide: function(event, ui) {
+                                   $("#t2_kerning_value").text(ui.value);
+                                 }});
+        $("#t2_kerning_value").text(defaults["t2_kerning"]);
+
+        $("#t2_font_scale").slider({min:0, 
+                                   max:5,
+                                   step: .05,
+                                   value:defaults["t2_font_scale"],
+                                   slide: function(event, ui) {
+                                     $("#t2_font_scale_value").text(ui.value);
+                                   }});
+        $("#t2_font_scale_value").text(defaults["t2_font_scale"]);
+
+        $("#t2_preview").button();
+        $("#t2_textorize_png").button();
+        $("#t2_textorize_svg").button();
+      });
+    </script> 
+    <style type="text/css">
+      .buttons { margin-top: 1em }
+      label { display: block; margin: .5em 0 .2em -1em }
+      #tabs { width: 500px }
+    </style>
+  </head>
+  <body>
+    <h1>Textorizer-js</h1>
+
+    <div id="tabs">
+      <ul>
+        <li><a href="#tabs-textorizer1">Textorizer 1</a></li>
+        <li><a href="#tabs-textorizer2">Textorizer 2</a></li>
+        </ul>
+        <div id="tabs-textorizer1">
+          <label>Original Image:</label>
+          <input id="t1_original_image" type="file" accept="image/gif,image/png,image/jpeg"/>
+
+          <label>Opacity: <span id="t1_opacity_value">30</span></label>
+          <div id="t1_opacity"></div>
+
+          <label>Text:</label>
+          <textarea id="t1_text" cols="40" rows="6"></textarea>
+
+          <label>Number of Strings: <span id="t1_nb_strings_value">1000</span></label>
+          <div id="t1_nb_strings"></div>
+
+          <label>Threshold: <span id="t1_threshold_value">100</span></label>
+          <div id="t1_threshold"></div>
+
+          <label>Font Sizes: <span id="t1_font_size_value_min">5</span> - <span id="t1_font_size_value_max">50</span></label>
+          <div id="t1_font_size"></div>
+          
+          <label>Font:</label>
+          <select id="t1_font">
+            <option>Times New Roman</option>
+            <option>Helvetica</option>
+          </select>
+          <div class="buttons">
+            <button id="t1_preview">Preview</button>
+            <button id="t1_textorize_png">to Image</button>
+            <button id="t1_textorize_svg">to SVG</button>
+          </div>
+      </div>
+
+      <div id="tabs-textorizer2">
+        <label>Original Image:</label>
+        <input id="t2_original_image" type="file" accept="image/gif,image/png,image/jpeg">
+
+        <label>Opacity: <span id="t2_opacity_value">30</span></label>
+        <div id="t2_opacity"></div>
+
+        <label>Text:</label>
+        <textarea id="t2_text" cols="40" rows="6"></textarea>
+
+        <label>Text Size: <span id="t2_text_size_value">30</span></label>
+        <div id="t2_text_size"></div>
+
+        <label>Line Height: <span id="t2_line_height_value">30</span></label>
+        <div id="t2_line_height"></div>
+
+        <label>Saturation: <span id="t2_saturation_value">30</span></label>
+        <div id="t2_saturation"></div>
+
+        <label>Kerning: <span id="t2_kerning_value">30</span></label>
+        <div id="t2_kerning"></div>
+
+        <label>Font Scale: <span id="t2_font_scale_value">30</span></label>
+        <div id="t2_font_scale"></div>
+
+        <label>Font:</label>
+        <select id="t2_font">
+          <option>Times New Roman</option>
+          <option>Helvetica</option>
+        </select>
+        <div class="buttons">
+          <button id="t2_preview">Preview</button>
+          <button id="t2_textorize_png">to Image</button>
+          <button id="t2_textorize_svg">to SVG</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
