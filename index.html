@@ -29,6 +29,9 @@
 
       $(function() {
 
+        var originalImageCanvas = $("#original_image_canvas");
+        var originalImageCanvasCtx = document.getElementById("original_image_canvas").getContext('2d');
+
         $("#tabs").tabs();
 
         $("#t1_original_image_url").val(defaults["t1_original_image_url"]);
@@ -134,15 +137,37 @@
         $("#t2_textorize_svg").button();
 
 
-        // CONTROLLERS
-
+        // When a new image is selected
         $("#t1_original_image_url").change(function() {
-          $("#t1_original_image").attr("src",$("#t1_original_image_url").val());
+          var newURL = $(this).val();
+          var t = new Image();
+          t.src = newURL;
+
+          // Display its thumbnail
+          $("#t1_original_image").attr("src",newURL);
+
+          // Put its pixels into the canvas
+          originalImageCanvas.attr("width",t.width);
+          originalImageCanvas.attr("height",t.height);
+          originalImageCanvasCtx.drawImage(t,0,0);
         });
 
         $("#t2_original_image_url").change(function() {
-          $("#t2_original_image").attr("src",$("#t2_original_image_url").val());
+          var newURL = $(this).val();
+          var t = new Image();
+          t.src = newURL;
+
+          // Display its thumbnail
+          $("#t2_original_image").attr("src",newURL);
+
+          // Put its pixels into the canvas
+          originalImageCanvas.attr("width",t.width);
+          originalImageCanvas.attr("height",t.height);
+          originalImageCanvasCtx.drawImage(t,0,0);
         });
+
+
+
 
         function t1Params() {
           return {
@@ -260,5 +285,8 @@
         </div>
       </div>
     </div>
+
+    <canvas style="display:none" id="original_image_canvas" width="10" height="10"></canvas>
+
   </body>
 </html>
