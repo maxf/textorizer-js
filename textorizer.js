@@ -1,7 +1,10 @@
+
+
+
 var Textorizer1 = new function() {
   this.preview = function(params) {
     this._params = params;
-    alert("implement me");
+    this._textorize();
   };
 
 
@@ -25,7 +28,7 @@ var Textorizer1 = new function() {
     var x,y,tx,ty;
     var dx,dy,dmag2,vnear,b,textScale,dir,r;
     var v,p;
-    var words = this._params['text'].split('\r\n');
+    var words = this._params['text'].split('\n');
     var word;
 
     var targetCanvas = this._params['targetCanvas'];
@@ -37,6 +40,8 @@ var Textorizer1 = new function() {
     var font         = this._params['font'];
     var inputWidth   = sourceCanvas.width;
     var inputHeight  = sourceCanvas.height;
+    var outputWidth  = targetCanvas.width;
+    var outputHeight = targetCanvas.height;
     var ctx          = sourceCanvas.getContext('2d');
     var pixels       = ctx.getImageData(0,0,inputWidth,inputHeight).data;
 
@@ -44,15 +49,15 @@ var Textorizer1 = new function() {
       x=Math.floor(2+Math.random()*(inputWidth-1));
       y=Math.floor(2+Math.random()*(inputHeight-1));
 
-      v=pixels.getter(x+y*inputWidth);
+      v=pixels[x+y*inputWidth];
 
-      ctx.fillStyle(v);
+      ctx.fillStyle = v;
       dx=dy=0;
 
       for (var i=0; i<3; i++) {
         for (var j=0; j<3; j++) {
-          p=pixels.getter((x+i-1)+inputWidth*(y+j-1));
-          vnear=this._brightness(p);
+          var pindex = (x+i-1)+inputWidth*(y+j-1);
+          vnear=(pixels[pindex]+pixels[pindex+1]+pixels[pindex+2])/3;
           dx += Sx[j][i] * vnear;
           dy += Sy[j][i] * vnear;
         }
@@ -77,43 +82,22 @@ var Textorizer1 = new function() {
             dir=Math.atan(dy/dx)+PI;
         ctx.font = textScale+"px "+font;
 
-        pushMatrix();
-      tx=int(float(x)*CanvasWidth/InputWidth);
-      ty=int(float(y)*CanvasHeight/InputHeight);
-      r=dir+PI/2;
-      word=(String)(Words[h % Words.length]);
+        ctx.save();
 
-      // screen output
-      translate(tx,ty);
-      rotate(r);
-      fill(v);
-      text(word, 0,0);
-      stroke(1.0,0.,0.);
-      popMatrix();
+        tx=Math.round(x*outputWidth/inputWidth);
+        ty=Math.round(y*outputHeight/inputHeight);
+        r=dir+Math.PI/2;
+        word=Words[h % Words.length];
 
-      // SVG output
-      SvgBuffer.append("<text transform='translate("+tx+","+ty+") scale("+textScale/15.0+") rotate("+r*180/PI+")' fill='rgb("+int(red(v))+","+int(green(v))+","+int(blue(v))+")'>"+word+"</text>\n");
+        ctx.translate(tx,ty);
+        ctx.rotate(r);
+        ctx.fillStyle = v;
+        ctx.fillText(word, 0,0);
 
+        ctx.restore();
+      }
     }
-  }
-
-  SvgBuffer.append("</g>\n</svg>\n");
-  SvgOutput=new String[1];
-  SvgOutput[0]=SvgBuffer.toString();
-  saveStrings(SvgFileName, SvgOutput);
-  }
-
-
-
-
-
-
-
-
-
-
-
-
+  };
 };
 
 var Textorizer2 = new function() {
