@@ -204,21 +204,22 @@
 
         function t1Params() {
           return {
-            originalImage: null, //TODO: put original image into a canvas
+            originalImage: originalImageCanvasCtx,
             text: $("#t1_text").val(),
             opacity: $("#t1_opacity").slider('value'),
             nbStrings: $("#t1_nb_strings").slider('value'),
             threshold: $("#t1_threshold").slider('value'),
             fontSizeMin: $("#t1_font_size").slider('values',0),
             fontSizeMax: $("#t1_font_size").slider('values',1),
+            outputHeight: $("#t1_output_height").slider('value'),
             font: $('#t1_font :selected').text(),
-            outputHeight: $("#t1_output_height").slider('value')
+            targetCanvas: document.getElementById('output_canvas').getContext('2d')
           };
         }
 
         function t2Params() {
           return {
-            originalImage: null, //TODO: put original image into a canvas
+            originalImage: originalImage: originalImageCanvasCtx,
             text: $("#t2_text").val(),
             opacity: $("#t2_opacity").slider('value'),
             textSize: $("#t2_text_size").slider('value'),
@@ -227,7 +228,7 @@
             kerning: $("#t2_kerning").slider('value'),
             fontScale: $("#t2_font_scale").slider('value'),
             font: $('#t1_font :selected').text(),
-            outputHeight: $("#t2_output_height").slider('value')
+            targetCanvas: document.getElementById('output_canvas').getContext('2d')
           };
         }
 
