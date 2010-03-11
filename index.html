@@ -32,11 +32,11 @@
       $(function() {
 
 
-        var originalImageCanvas = $("#original_image_canvas");
-        var originalImageCanvasCtx = document.getElementById("original_image_canvas").getContext('2d');
+        var sourceCanvas = document.getElementById("original_image_canvas");
+        var sourceCanvasCtx = sourceCanvas.getContext('2d');
 
         function resizeOutputCanvasHeightTo(height) {
-          var ar = originalImageCanvas.attr("height")/originalImageCanvas.attr("width");
+          var ar = sourceCanvas.height/sourceCanvas.width;
           document.getElementById("output_canvas").height=height;
           document.getElementById("output_canvas").width=height*ar;
         }
@@ -180,9 +180,9 @@
           $("#t1_original_image").attr("src",newURL);
 
           // Put its pixels into the canvas
-          originalImageCanvas.attr("width",t.width);
-          originalImageCanvas.attr("height",t.height);
-          originalImageCanvasCtx.drawImage(t,0,0);
+          sourceCanvas.width=t.width;
+          sourceCanvas.height=t.height;
+          sourceCanvasCtx.drawImage(t,0,0);
         });
 
         $("#t2_original_image_url").change(function() {
@@ -194,9 +194,9 @@
           $("#t2_original_image").attr("src",newURL);
 
           // Put its pixels into the canvas
-          originalImageCanvas.attr("width",t.width);
-          originalImageCanvas.attr("height",t.height);
-          originalImageCanvasCtx.drawImage(t,0,0);
+          sourceCanvas.width=t.width;
+          sourceCanvas.height=t.height;
+          sourceCanvasCtx.drawImage(t,0,0);
         });
 
 
@@ -204,7 +204,7 @@
 
         function t1Params() {
           return {
-            originalImage: originalImageCanvasCtx,
+            sourceCanvas: sourceCanvas,
             text: $("#t1_text").val(),
             opacity: $("#t1_opacity").slider('value'),
             nbStrings: $("#t1_nb_strings").slider('value'),
@@ -213,13 +213,13 @@
             fontSizeMax: $("#t1_font_size").slider('values',1),
             outputHeight: $("#t1_output_height").slider('value'),
             font: $('#t1_font :selected').text(),
-            targetCanvas: document.getElementById('output_canvas').getContext('2d')
+            targetCanvas: document.getElementById('output_canvas')
           };
         }
 
         function t2Params() {
           return {
-            originalImage: originalImage: originalImageCanvasCtx,
+            sourceCanvas: sourceCanvas,
             text: $("#t2_text").val(),
             opacity: $("#t2_opacity").slider('value'),
             textSize: $("#t2_text_size").slider('value'),
@@ -228,7 +228,7 @@
             kerning: $("#t2_kerning").slider('value'),
             fontScale: $("#t2_font_scale").slider('value'),
             font: $('#t1_font :selected').text(),
-            targetCanvas: document.getElementById('output_canvas').getContext('2d')
+            targetCanvas: document.getElementById('output_canvas')
           };
         }
 
