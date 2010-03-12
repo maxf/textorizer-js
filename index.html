@@ -11,7 +11,7 @@
     <script type="text/javascript"> 
 
       var defaults = {
-        "t1_original_image_url":"http://lapin-bleu.net/images/exit-621x377.png",
+        "t1_original_image_url":"http://farm1.static.flickr.com/4/4463635_d3f29bae3b_o.jpg",
         "t1_text":"this\nis\ntextorizer1",
         "t1_opacity":30,
         "t1_nb_strings":1000,
@@ -32,17 +32,17 @@
       };
 
 
-      var sourceCanvas;
-      var sourceCanvasCtx;
+      var inputCanvas;
+      var inputCanvasCtx;
 
       function t1Preview()
       {
         // Put the pixels of the original image into the canvas
         var t = new Image();
         t.src = $("#t1_original_image_url").val();
-        sourceCanvas.width=t.width;
-        sourceCanvas.height=t.height;
-        sourceCanvasCtx.drawImage(t,0,0);
+        inputCanvas.width=t.width;
+        inputCanvas.height=t.height;
+        inputCanvasCtx.drawImage(t,0,0);
 
         Textorizer1.preview(t1Params())
       };
@@ -52,9 +52,9 @@
         // Put the pixels of the original image into the canvas
         var t = new Image();
         t.src = $("#t2_original_image_url").val();
-        sourceCanvas.width=t.width;
-        sourceCanvas.height=t.height;
-        sourceCanvasCtx.drawImage(t,0,0);
+        inputCanvas.width=t.width;
+        inputCanvas.height=t.height;
+        inputCanvasCtx.drawImage(t,0,0);
 
         Textorizer2.preview(t1Params())
       };
@@ -62,11 +62,11 @@
 
       $(function() {
 
-        sourceCanvas = document.getElementById("original_image_canvas");
-        sourceCanvasCtx = sourceCanvas.getContext('2d');
+        inputCanvas = document.getElementById("original_image_canvas");
+        inputCanvasCtx = inputCanvas.getContext('2d');
 
         function resizeOutputCanvasHeightTo(height) {
-          var ar = sourceCanvas.height/sourceCanvas.width;
+          var ar = inputCanvas.height/inputCanvas.width;
           document.getElementById("output_canvas").height=height;
           document.getElementById("output_canvas").width=height*ar;
         }
@@ -234,7 +234,7 @@
 
       function t1Params() {
         return {
-          sourceCanvas: sourceCanvas,
+          inputCanvas: inputCanvas,
           text: $("#t1_text").val(),
           opacity: $("#t1_opacity").slider('value'),
           nbStrings: $("#t1_nb_strings").slider('value'),
@@ -243,13 +243,13 @@
           fontSizeMax: $("#t1_font_size").slider('values',1),
           outputHeight: $("#t1_output_height").slider('value'),
           font: $('#t1_font :selected').text(),
-          targetCanvas: document.getElementById('output_canvas')
+          outputCanvas: document.getElementById('output_canvas')
         };
       }
 
       function t2Params() {
         return {
-          sourceCanvas: sourceCanvas,
+          inputCanvas: inputCanvas,
           text: $("#t2_text").val(),
           opacity: $("#t2_opacity").slider('value'),
           textSize: $("#t2_text_size").slider('value'),
@@ -258,7 +258,7 @@
           kerning: $("#t2_kerning").slider('value'),
           fontScale: $("#t2_font_scale").slider('value'),
           font: $('#t1_font :selected').text(),
-          targetCanvas: document.getElementById('output_canvas')
+          outputCanvas: document.getElementById('output_canvas')
         };
       }
 
@@ -271,7 +271,7 @@
 
       #main   { position: relative }
       #tabs   { width: 500px; }
-      #output { position: absolute; left: 520px; top: 0; background-color: green }
+      #output { position: absolute; left: 520px; top: 0; border: 1px solid black }
 
     </style>
   </head>

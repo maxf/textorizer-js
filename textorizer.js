@@ -1,6 +1,3 @@
-
-
-
 var Textorizer1 = new function() {
   this.preview = function(params) {
     this._params = params;
@@ -20,6 +17,14 @@ var Textorizer1 = new function() {
 
   //==== private ====
 
+  this._colorAt = function(pixels,w,x,y) {
+    var red = pixels[4*(x+y*w)];
+    var green = pixels[4*(x+y*w)+1];
+    var blue = pixels[4*(x+y*w)+2];
+    var alpha = pixels[4*(x+y*w)+3];
+
+    return "rgb("+red+","+green+","+blue+")";
+  };
 
   var Sx = [[-1,0,1], [-2,0,2], [-1,0,1]];
   var Sy = [[-1,-2,-1], [0,0,0], [1,2,1]];
@@ -31,33 +36,36 @@ var Textorizer1 = new function() {
     var words = this._params['text'].split('\n');
     var word;
 
-    var targetCanvas = this._params['targetCanvas'];
-    var sourceCanvas = this._params['sourceCanvas'];
+    var outputCanvas = this._params['outputCanvas'];
+    var inputCanvas = this._params['inputCanvas'];
     var nbStrokes    = this._params['nbStrings'];
     var threshold    = this._params['threshold'];
     var minFontScale = this._params['fontSizeMin'];
     var maxFontScale = this._params['fontSizeMax'];
     var font         = this._params['font'];
-    var inputWidth   = sourceCanvas.width;
-    var inputHeight  = sourceCanvas.height;
-    var outputWidth  = targetCanvas.width;
-    var outputHeight = targetCanvas.height;
-    var ctx          = sourceCanvas.getContext('2d');
-    var pixels       = ctx.getImageData(0,0,inputWidth,inputHeight).data;
+    var inputWidth   = inputCanvas.width;
+    var inputHeight  = inputCanvas.height;
+    var outputWidth  = outputCanvas.width;
+    var outputHeight = outputCanvas.height;
+    var inputCtx    = inputCanvas.getContext('2d');
+    var outputCtx    = outputCanvas.getContext('2d');
+    var pixels       = inputCtx.getImageData(0,0,inputWidth,inputHeight).data;
+
+    // clear output canvas
+    outputCtx.fillStyle = "white";
+    outputCtx.fillRect(0,0,outputWidth,outputHeight);
 
     for (var h=nbStrokes-1;h>=0; h--) {
       x=Math.floor(2+Math.random()*(inputWidth-1));
       y=Math.floor(2+Math.random()*(inputHeight-1));
 
-      v=pixels[x+y*inputWidth];
-
-      ctx.fillStyle = v;
       dx=dy=0;
 
       for (var i=0; i<3; i++) {
         for (var j=0; j<3; j++) {
-          var pindex = (x+i-1)+inputWidth*(y+j-1);
+          var pindex = 4*((x+i-1)+inputWidth*(y+j-1));
           vnear=(pixels[pindex]+pixels[pindex+1]+pixels[pindex+2])/3;
+
           dx += Sx[j][i] * vnear;
           dy += Sy[j][i] * vnear;
         }
@@ -69,32 +77,36 @@ var Textorizer1 = new function() {
       if (dmag2 > threshold) {
         b = 2*(inputWidth + inputHeight) / 5000.0;
         textScale=minFontScale+Math.sqrt(dmag2)*maxFontScale/80;
-        if (dx==0)
+        if (dx==0) {
           dir=Math.PI/2;
-        else if (dx > 0)
-          dir=Math.atan(dy/dx);
-        else
+        }
+        else if (dx > 0) {
+          dir=Math.atan2(dy,dx);
+        }
+        else {
           if (dy==0)
             dir=0;
           else if (dy > 0)
-            dir=Math.atan(-dx/dy)+Math.PI/2;
+          dir=Math.atan2(-dx,dy)+Math.PI/2;
           else
-            dir=Math.atan(dy/dx)+Math.PI;
-        ctx.font = textScale+"px "+font;
+            dir=Math.atan2(dy,dx)+Math.PI;
+        }
 
-        ctx.save();
+        outputCtx.font = textScale+"px "+font;
+        outputCtx.save();
 
         tx=Math.round(x*outputWidth/inputWidth);
         ty=Math.round(y*outputHeight/inputHeight);
         r=dir+Math.PI/2;
+
         word=words[h % words.length];
 
-        ctx.translate(tx,ty);
-        ctx.rotate(r);
-        ctx.fillStyle = v;
-        ctx.fillText(word, 0,0);
+        outputCtx.translate(tx,ty);
+        outputCtx.rotate(r);
+        outputCtx.fillStyle = this._colorAt(pixels,inputWidth,x,y);
+        outputCtx.fillText(word, 0,0);
 
-        ctx.restore();
+        outputCtx.restore();
       }
     }
   };
