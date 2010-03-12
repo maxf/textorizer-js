@@ -1,0 +1,21 @@
+{
+        // TODO: let user select any picture from a visited page
+
+
+  // Required
+  "name": "textorizer-js",
+  "version": "1.0",
+
+  // Recommended
+  "description": "Textorizer as a chrome extension",
+
+  // Pick one (or none)
+  "browser_action": {
+    "default_icon": "textorizer.png",
+    "default_title": "Textorizer",
+    "popup": "popup.html"
+  },
+
+  "permissions": ["tabs","http://*/"]
+
+}
