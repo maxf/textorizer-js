@@ -68,18 +68,18 @@ var Textorizer1 = new function() {
 
       if (dmag2 > threshold) {
         b = 2*(inputWidth + inputHeight) / 5000.0;
-        textScale=minFontScale+sqrt(dmag2)*maxFontScale/80;
+        textScale=minFontScale+Math.sqrt(dmag2)*maxFontScale/80;
         if (dx==0)
-          dir=PI/2;
+          dir=Math.PI/2;
         else if (dx > 0)
           dir=Math.atan(dy/dx);
         else
           if (dy==0)
             dir=0;
           else if (dy > 0)
-            dir=Math.atan(-dx/dy)+PI/2;
+            dir=Math.atan(-dx/dy)+Math.PI/2;
           else
-            dir=Math.atan(dy/dx)+PI;
+            dir=Math.atan(dy/dx)+Math.PI;
         ctx.font = textScale+"px "+font;
 
         ctx.save();
@@ -87,7 +87,7 @@ var Textorizer1 = new function() {
         tx=Math.round(x*outputWidth/inputWidth);
         ty=Math.round(y*outputHeight/inputHeight);
         r=dir+Math.PI/2;
-        word=Words[h % Words.length];
+        word=words[h % words.length];
 
         ctx.translate(tx,ty);
         ctx.rotate(r);
