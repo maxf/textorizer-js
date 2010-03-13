@@ -1,17 +1,18 @@
 var Textorizer = [];
 
 Textorizer[0] = new function() {
+
   this.preview = function(params) {
     this._params = params;
     this._textorize();
   };
 
-
-
   this.toPNG = function(params) {
     this._params = params;
-    alert("implement me");
+    this._textorize();
+    window.open(this._params['outputCanvas'].toDataURL());
   };
+
   this.toSVG = function(params) {
     this._params = params;
     alert("implement me");
