@@ -39,23 +39,30 @@ Textorizer[0] = new function() {
     var word;
 
     var outputCanvas = this._params['outputCanvas'];
-    var inputCanvas = this._params['inputCanvas'];
+    var inputCanvas  = this._params['inputCanvas'];
     var nbStrokes    = this._params['nbStrings'];
     var threshold    = this._params['threshold'];
     var minFontScale = this._params['fontSizeMin'];
     var maxFontScale = this._params['fontSizeMax'];
     var font         = this._params['font'];
+    var opacity      = this._params['opacity'];
+
     var inputWidth   = inputCanvas.width;
     var inputHeight  = inputCanvas.height;
     var outputWidth  = outputCanvas.width;
     var outputHeight = outputCanvas.height;
-    var inputCtx    = inputCanvas.getContext('2d');
+    var inputCtx     = inputCanvas.getContext('2d');
     var outputCtx    = outputCanvas.getContext('2d');
     var pixels       = inputCtx.getImageData(0,0,inputWidth,inputHeight).data;
 
     // clear output canvas
     outputCtx.fillStyle = "white";
     outputCtx.fillRect(0,0,outputWidth,outputHeight);
+
+    // and add in the initial picture with transparency
+    outputCtx.globalAlpha = opacity/256;
+    outputCtx.drawImage(inputCanvas,0,0,outputWidth,outputHeight);
+    outputCtx.globalAlpha = 1;
 
     for (var h=nbStrokes-1;h>=0; h--) {
       x=Math.floor(2+Math.random()*(inputWidth-1));

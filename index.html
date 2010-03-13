@@ -132,17 +132,24 @@
                                     changeOutputHeightTo(1,ui.value);
                                  }});
 
+        opacities[0].slider({min:0, 
+                             max:255, 
+                             value:defaults[0]["opacity"],
+                             slide: function(event, ui) {
+                               opacity_values[0].text(ui.value);
+                             }});
+
+        opacities[1].slider({min:0, 
+                             max:255, 
+                             value:defaults[1]["opacity"],
+                             slide: function(event, ui) {
+                               opacity_values[1].text(ui.value);
+                             }});
 
         for (var i=0;i<2;i++) {
           input_urls[i].val(defaults[i]["input_url"]);
           input_thumbs[i].attr("src",defaults[i]["input_url"]);
           texts[i].val(defaults[i]["text"]);
-          opacities[i].slider({min:0, 
-                               max:255, 
-                               value:defaults[i]["opacity"],
-                               slide: function(event, ui) {
-                                 opacity_value.text(ui.value);
-                               }});
           opacity_values[i].text(defaults[i]["opacity"]);
           output_height_values[i].text(defaults[i]["output_height"]);
           preview_buttons[i].button();
