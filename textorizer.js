@@ -1,4 +1,6 @@
-var Textorizer1 = new function() {
+var Textorizer = [];
+
+Textorizer[0] = new function() {
   this.preview = function(params) {
     this._params = params;
     this._textorize();
@@ -112,7 +114,7 @@ var Textorizer1 = new function() {
   };
 };
 
-var Textorizer2 = new function() {
+Textorizer[1] = new function() {
   this.preview = function(params) {
     this._params = params;
     alert("implement me");
