@@ -2,20 +2,12 @@ var Textorizer = [];
 
 Textorizer[0] = new function() {
 
-  this.preview = function(params) {
+  this.textorize = function(params, openImageSeparately) {
     this._params = params;
     this._textorize();
-  };
 
-  this.toPNG = function(params) {
-    this._params = params;
-    this._textorize();
-    window.open(this._params['outputCanvas'].toDataURL());
-  };
-
-  this.toSVG = function(params) {
-    this._params = params;
-    alert("implement me");
+    if (openImageSeparately)
+      window.open(this._params['outputCanvas'].toDataURL());
   };
 
   //==== private ====
@@ -38,7 +30,6 @@ Textorizer[0] = new function() {
     var v,p;
     var words = this._params['text'].split('\n');
     var word;
-
     var outputCanvas = this._params['outputCanvas'];
     var inputCanvas  = this._params['inputCanvas'];
     var nbStrokes    = this._params['nbStrings'];
@@ -47,6 +38,7 @@ Textorizer[0] = new function() {
     var maxFontScale = this._params['fontSizeMax'];
     var font         = this._params['font'];
     var opacity      = this._params['opacity'];
+    var inputURL     = this._params['input_url'];
 
     var inputWidth   = inputCanvas.width;
     var inputHeight  = inputCanvas.height;
@@ -117,25 +109,127 @@ Textorizer[0] = new function() {
         outputCtx.fillText(word, 0,0);
 
         outputCtx.restore();
+
       }
     }
+
   };
 };
 
+
+//#################################################################
+
 Textorizer[1] = new function() {
-  this.preview = function(params) {
-    this._params = params;
-    alert("implement me");
-  };
-  this.toPNG = function(params) {
-    this._params = params;
-    alert("implement me");
-  };
-  this.toSVG = function(params) {
+
+  this.textorize = function(params, openImageSeparately) {
     this._params = params;
     alert("implement me");
   };
 
-  this._params = null;
+
+  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+  // return the image's pixel value at x,y, averaged with its radiusXradius
+  // neighbours.
+
+  this._pixelAverageAt = function(x, y, radius) {
+    var pixel;
+    var resultR=0.0, resultG=0.0, resultB=0.0;
+    var count=0;
+
+    for (var i=-radius; i<=radius; i++) {
+      for (var j=-radius; j<=radius; j++) {
+        if (x+i>=0 && x+i<InputWidth && y+j>=0 && y+j<InputHeight) {
+          count++;
+          pixel=Image.pixels[(x+i)+InputWidth*(y+j)];
+          resultR+=red(pixel);
+          resultG+=green(pixel);
+          resultB+=blue(pixel);
+        }
+      }
+    }
+    return {red:resultR/count, green:resultG/count, blue:resultB/count};
+  };
+
+  // return the brightness at a pixel
+  this._brightness = function(pixel) {
+    return (pixel.red+pixel.green+pixel.blue)/3;
+  };
+
+
+  this._textorize = function() {
+    var textbuffer;
+    var text = this._params['text'];
+    var nbletters = text.length;
+    var ti=0;
+    var x,y;
+    var rx, scale, r,g,b, c, charToPrint, pixel;
+    var outputCanvas = this._params['outputCanvas'];
+    var inputCanvas  = this._params['inputCanvas'];
+    var nbStrokes    = this._params['nbStrings'];
+    var threshold    = this._params['threshold'];
+    var minFontScale = this._params['fontSizeMin'];
+    var maxFontScale = this._params['fontSizeMax'];
+    var font         = this._params['font'];
+    var opacity      = this._params['opacity'];
+    var inputURL     = this._params['input_url'];
+
+    var inputWidth   = inputCanvas.width;
+    var inputHeight  = inputCanvas.height;
+    var outputWidth  = outputCanvas.width;
+    var outputHeight = outputCanvas.height;
+    var inputCtx     = inputCanvas.getContext('2d');
+    var outputCtx    = outputCanvas.getContext('2d');
+    var pixels       = inputCtx.getImageData(0,0,inputWidth,inputHeight).data;
+
+    var imgScaleFactorX = inputWidth/outputWidth;
+    var imgScaleFactorY = inputHeight/outputHeight;
+
+    for (y=0; y < outputHeight; y+=T2FontSize*T2LineHeight) {
+      rx=1;
+
+      // skip any white space at the beginning of the line
+      while (text[ti%nbletters] == ' ') ti++;
+
+      while (rx < outputWidth) {
+        x=Math.floor(rx)-1;
+
+        pixel = pixelAverageAt(Math.floor(x*imgScaleFactorX), Math.floor(y*imgScaleFactorY), 1);
+
+        r=pixel.red; g=pixel.green; b=pixel.blue;
+
+        if (r+g+b<3*255) { // eliminate white
+
+          scale=2-this._brightness(pixel)/255.0;
+          c=text[ti%nbletters];
+
+          charToPrint=c;
+          color charColour = color(r,g,b);
+          if (T2ColourAdjustment>0) {
+            var saturation = saturation(charColour);
+            var newSaturation = (saturation+T2ColourAdjustment)>255?255:(saturation+T2ColourAdjustment);
+            colorMode(HSB,255);
+            charColour = color(hue(charColour), newSaturation, brightness(charColour));
+            fill(charColour);
+            colorMode(RGB,255);
+          } else {
+            fill(charColour);
+          }
+
+          textSize(T2FontSize * (1 + T2FontScaleFactor*pow(scale-1,3)));
+          text(charToPrint, x, y+T2FontSize*T2LineHeight);
+
+          r=red(charColour); g=green(charColour); b=blue(charColour);
+
+          rx+=textWidth(Character.toString(c)) * (1+T2Kerning);
+          ti++; // next letter
+        } else {
+          // advance one em
+          rx+=textWidth(" ") * (1+T2Kerning);
+        }
+      }
+    }
+  };
 };
 
