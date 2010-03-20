@@ -49,7 +49,7 @@
         output_canvases[i].width = height*aspectRatios[i];
       }
 
-      function preview(i)
+      function go(i,openImageSeparately)
       {
         // Put the pixels of the original image into the canvas
         var t = new Image();
@@ -58,7 +58,7 @@
         inputCanvas.height=t.height;
         inputCanvasCtx.drawImage(t,0,0);
 
-        Textorizer[i].preview(params(i))
+        Textorizer[i].textorize(params(i),openImageSeparately)
       };
 
 
@@ -85,7 +85,6 @@
       var opacities;
       var preview_buttons;
       var png_buttons;
-      var svg_buttons;
 
       $(function() {
 
@@ -97,7 +96,6 @@
         input_thumbs = [$("#t1_input_thumb"), $("#t2_input_thumb")];
         preview_buttons = [$("#t1_preview_button"), $("#t2_preview_button")];
         png_buttons = [$("#t1_png_button"), $("#t2_png_button")];
-        svg_buttons = [$("#t1_svg_button"), $("#t2_svg_button")];
         texts = [$("#t1_text"), $("#t2_text")];
         opacities = [$("#t1_opacity"), $("#t2_opacity")];
         opacity_values = [$("#t1_opacity_value"), $("#t2_opacity_value")];
@@ -148,7 +146,6 @@
           output_height_values[i].text(defaults[i]["output_height"]);
           preview_buttons[i].button();
           png_buttons[i].button();
-          svg_buttons[i].button();
         }
 
         /* specific settings */
@@ -232,22 +229,23 @@
           text: texts[i].val(),
           opacity: opacities[i].slider('value'),
           outputHeight: output_heights[i].slider('value'),
-          outputCanvas: output_canvases[i]
+          outputCanvas: output_canvases[i],
+          inputURL: input_urls[i]
         };
         switch(i) {
         case 0:
-          params["nbStrings"] = $("#t1_nb_strings").slider('value');
+          params["nb_strings"] = $("#t1_nb_strings").slider('value');
           params["threshold"] = $("#t1_threshold").slider('value');
-          params["fontSizeMin"] = $("#t1_font_size").slider('values',0);
-          params["fontSizeMax"] = $("#t1_font_size").slider('values',1);
+          params["font_size_min"] = $("#t1_font_size").slider('values',0);
+          params["font_size_max"] = $("#t1_font_size").slider('values',1);
           params["font"] = $('#t1_font :selected').text();
           break;
         case 1:
-          params["textSize"] = $("#t2_text_size").slider('value'),
-          params["lineHeight"] = $("#t2_line_height").slider('value'),
+          params["text_size"] = $("#t2_text_size").slider('value'),
+          params["line_height"] = $("#t2_line_height").slider('value'),
           params["saturation"] = $("#t2_saturation").slider('value'),
           params["kerning"] = $("#t2_kerning").slider('value'),
-          params["fontScale"] = $("#t2_font_scale").slider('value'),
+          params["font_scale"] = $("#t2_font_scale").slider('value'),
           params["font"] = $('#t1_font :selected').text()
           break;
         }
@@ -307,9 +305,8 @@
             <div id="t1_output_height"></div>
             
             <div class="buttons">
-              <button id="t1_preview_button"  onclick="preview(0)">Preview</button>
-              <button id="t1_png_button" onclick="Textorizer[0].toPNG(params(0))">to Image</button>
-              <button id="t1_svg_button" onclick="Textorizer[0].toSVG(params(0))">to SVG</button>
+              <button id="t1_preview_button"  onclick="go(0,false)">Preview</button>
+              <button id="t1_png_button" onclick="go(0,true)">to Image</button>
             </div>
           </div>
           <canvas id="t1_output_canvas" width="500" height="500"></canvas>
@@ -352,9 +349,8 @@
             <div id="t2_output_height"></div>
             
             <div class="buttons">
-              <button id="t2_preview_button" onclick="Textorizer[1].preview(params(1))">Preview</button>
-              <button id="t2_png_button" onclick="Textorizer[1].toPNG(params(1))">to Image</button>
-              <button id="t2_svg_button" onclick="Textorizer[1].toSVG(params(1))">to SVG</button>
+              <button id="t2_preview_button" onclick="go(1,false)">Preview</button>
+              <button id="t2_png_button" onclick="go(1,true)">to Image</button>
             </div>
           </div>
           <canvas id="t2_output_canvas" width="500" height="500"></canvas>

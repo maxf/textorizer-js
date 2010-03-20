@@ -1,9 +1,12 @@
 var Textorizer = [];
 
+
+
 Textorizer[0] = new function() {
 
   this.textorize = function(params, openImageSeparately) {
     this._params = params;
+    this.inputPixmap = new Pixmap(params['inputCanvas']);
     this._textorize();
 
     if (openImageSeparately)
@@ -12,14 +15,6 @@ Textorizer[0] = new function() {
 
   //==== private ====
 
-  this._colorAt = function(pixels,w,x,y) {
-    var red = pixels[4*(x+y*w)];
-    var green = pixels[4*(x+y*w)+1];
-    var blue = pixels[4*(x+y*w)+2];
-    var alpha = pixels[4*(x+y*w)+3];
-
-    return "rgb("+red+","+green+","+blue+")";
-  };
 
   var Sx = [[-1,0,1], [-2,0,2], [-1,0,1]];
   var Sy = [[-1,-2,-1], [0,0,0], [1,2,1]];
@@ -31,7 +26,6 @@ Textorizer[0] = new function() {
     var words = this._params['text'].split('\n');
     var word;
     var outputCanvas = this._params['outputCanvas'];
-    var inputCanvas  = this._params['inputCanvas'];
     var nbStrokes    = this._params['nbStrings'];
     var threshold    = this._params['threshold'];
     var minFontScale = this._params['fontSizeMin'];
@@ -40,13 +34,12 @@ Textorizer[0] = new function() {
     var opacity      = this._params['opacity'];
     var inputURL     = this._params['input_url'];
 
-    var inputWidth   = inputCanvas.width;
-    var inputHeight  = inputCanvas.height;
+    var inputWidth   = this.inputPixmap.width;
+    var inputHeight  = this.inputPixmap.height;
+
     var outputWidth  = outputCanvas.width;
     var outputHeight = outputCanvas.height;
-    var inputCtx     = inputCanvas.getContext('2d');
     var outputCtx    = outputCanvas.getContext('2d');
-    var pixels       = inputCtx.getImageData(0,0,inputWidth,inputHeight).data;
 
     // clear output canvas
     outputCtx.fillStyle = "white";
@@ -54,7 +47,7 @@ Textorizer[0] = new function() {
 
     // and add in the initial picture with transparency
     outputCtx.globalAlpha = opacity/256;
-    outputCtx.drawImage(inputCanvas,0,0,outputWidth,outputHeight);
+    outputCtx.drawImage(this.inputPixmap.canvas,0,0,outputWidth,outputHeight);
     outputCtx.globalAlpha = 1;
 
     for (var h=nbStrokes-1;h>=0; h--) {
@@ -65,9 +58,7 @@ Textorizer[0] = new function() {
 
       for (var i=0; i<3; i++) {
         for (var j=0; j<3; j++) {
-          var pindex = 4*((x+i-1)+inputWidth*(y+j-1));
-          vnear=(pixels[pindex]+pixels[pindex+1]+pixels[pindex+2])/3;
-
+          vnear = this.inputPixmap.colorAt(x+i-1,y+j-1).brightness();
           dx += Sx[j][i] * vnear;
           dy += Sy[j][i] * vnear;
         }
@@ -105,7 +96,7 @@ Textorizer[0] = new function() {
 
         outputCtx.translate(tx,ty);
         outputCtx.rotate(r);
-        outputCtx.fillStyle = this._colorAt(pixels,inputWidth,x,y);
+        outputCtx.fillStyle = this.inputPixmap.colorAt(x,y).toString();
         outputCtx.fillText(word, 0,0);
 
         outputCtx.restore();
@@ -123,40 +114,16 @@ Textorizer[1] = new function() {
 
   this.textorize = function(params, openImageSeparately) {
     this._params = params;
-    alert("implement me");
+    this.inputPixmap = new Pixmap(params['inputCanvas']);
+    this._textorize();
+
+    if (openImageSeparately)
+      window.open(this._params['outputCanvas'].toDataURL());
+
   };
 
 
   //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-  // return the image's pixel value at x,y, averaged with its radiusXradius
-  // neighbours.
-
-  this._pixelAverageAt = function(x, y, radius) {
-    var pixel;
-    var resultR=0.0, resultG=0.0, resultB=0.0;
-    var count=0;
-
-    for (var i=-radius; i<=radius; i++) {
-      for (var j=-radius; j<=radius; j++) {
-        if (x+i>=0 && x+i<InputWidth && y+j>=0 && y+j<InputHeight) {
-          count++;
-          pixel=Image.pixels[(x+i)+InputWidth*(y+j)];
-          resultR+=red(pixel);
-          resultG+=green(pixel);
-          resultB+=blue(pixel);
-        }
-      }
-    }
-    return {red:resultR/count, green:resultG/count, blue:resultB/count};
-  };
-
-  // return the brightness at a pixel
-  this._brightness = function(pixel) {
-    return (pixel.red+pixel.green+pixel.blue)/3;
-  };
-
 
   this._textorize = function() {
     var textbuffer;
@@ -167,13 +134,13 @@ Textorizer[1] = new function() {
     var rx, scale, r,g,b, c, charToPrint, pixel;
     var outputCanvas = this._params['outputCanvas'];
     var inputCanvas  = this._params['inputCanvas'];
-    var nbStrokes    = this._params['nbStrings'];
-    var threshold    = this._params['threshold'];
-    var minFontScale = this._params['fontSizeMin'];
-    var maxFontScale = this._params['fontSizeMax'];
     var font         = this._params['font'];
     var opacity      = this._params['opacity'];
     var inputURL     = this._params['input_url'];
+    var kerning      = this._params['kerning'];
+    var lineHeight   = this._params['line_height'];
+    var fontScale    = this._params['font_scale'];
+    var fontSize     = this._params['text_size'];
 
     var inputWidth   = inputCanvas.width;
     var inputHeight  = inputCanvas.height;
@@ -181,55 +148,119 @@ Textorizer[1] = new function() {
     var outputHeight = outputCanvas.height;
     var inputCtx     = inputCanvas.getContext('2d');
     var outputCtx    = outputCanvas.getContext('2d');
-    var pixels       = inputCtx.getImageData(0,0,inputWidth,inputHeight).data;
 
     var imgScaleFactorX = inputWidth/outputWidth;
     var imgScaleFactorY = inputHeight/outputHeight;
 
-    for (y=0; y < outputHeight; y+=T2FontSize*T2LineHeight) {
+    // clear output canvas
+    outputCtx.fillStyle = "white";
+    outputCtx.fillRect(0,0,outputWidth,outputHeight);
+
+    // and add in the initial picture with transparency
+    outputCtx.globalAlpha = opacity/256;
+    outputCtx.drawImage(this.inputPixmap.canvas,0,0,outputWidth,outputHeight);
+    outputCtx.globalAlpha = 1;
+
+
+    for (y=0; y < outputHeight; y+=fontSize*lineHeight) {
       rx=1;
 
       // skip any white space at the beginning of the line
       while (text[ti%nbletters] == ' ') ti++;
 
       while (rx < outputWidth) {
+
         x=Math.floor(rx)-1;
 
-        pixel = pixelAverageAt(Math.floor(x*imgScaleFactorX), Math.floor(y*imgScaleFactorY), 1);
+        pixel = this.inputPixmap.colorAverageAt(Math.floor(x*imgScaleFactorX),
+                                                Math.floor(y*imgScaleFactorY),
+                                                1);
+        if (!pixel.isWhite()) {
 
-        r=pixel.red; g=pixel.green; b=pixel.blue;
-
-        if (r+g+b<3*255) { // eliminate white
-
-          scale=2-this._brightness(pixel)/255.0;
+          scale = 2 - pixel.brightness()/255.0;
           c=text[ti%nbletters];
 
-          charToPrint=c;
-          color charColour = color(r,g,b);
-          if (T2ColourAdjustment>0) {
-            var saturation = saturation(charColour);
-            var newSaturation = (saturation+T2ColourAdjustment)>255?255:(saturation+T2ColourAdjustment);
+          /*
+          if (T2ColorAdjustment>0) {
+            var saturation = saturation(pixel);
+            var newSaturation = (saturation+T2ColorAdjustment)>255?255:(saturation+T2ColorAdjustment);
             colorMode(HSB,255);
-            charColour = color(hue(charColour), newSaturation, brightness(charColour));
-            fill(charColour);
+            pixel = color(hue(charColor), newSaturation, brightness(charColor));
+            fill(pixel);
             colorMode(RGB,255);
-          } else {
-            fill(charColour);
-          }
+          } else */
 
-          textSize(T2FontSize * (1 + T2FontScaleFactor*pow(scale-1,3)));
-          text(charToPrint, x, y+T2FontSize*T2LineHeight);
+          outputCtx.fillStyle = pixel.toString();
 
-          r=red(charColour); g=green(charColour); b=blue(charColour);
+          outputCtx.font = (fontSize * (1 + fontScale*Math.pow(scale-1,3))) + " " + font;
 
-          rx+=textWidth(Character.toString(c)) * (1+T2Kerning);
+          outputCtx.fillText(c, x, y+fontSize*lineHeight);
+
+          rx+=outputCtx.measureText(c).width * (1+kerning);
           ti++; // next letter
         } else {
           // advance one em
-          rx+=textWidth(" ") * (1+T2Kerning);
+          rx+=outputCtx.measureText(" ").width * (1+kerning);
         }
       }
     }
   };
 };
 
+var Color = function(r,g,b,a) {
+  this.r = r;
+  this.g = g;
+  this.b = b;
+  this.a = a;
+};
+
+Color.prototype.toString = function() {
+  return "rgb("+this.r+","+this.g+","+this.b+")";
+}
+
+Color.prototype.isWhite = function() {
+  return this.r+this.g+this.b >= 3*255;
+}
+
+Color.prototype.brightness = function() {
+  return (this.r+this.g+this.b)/3;
+}
+
+
+//################################################################################
+
+var Pixmap = function(canvas) {
+  this.canvas = canvas;
+  this.width = this.canvas.width;
+  this.height = this.canvas.height;
+  this.context = this.canvas.getContext('2d');
+  this._pixels = this.context.getImageData(0,0,this.canvas.width,this.canvas.height).data;
+}
+
+Pixmap.prototype.colorAt = function(x,y) {
+  var index = 4*(x + this.width*y);
+  return new Color( this._pixels[index],
+                     this._pixels[index+1],
+                     this._pixels[index+2],
+                     this._pixels[index+3] );
+};
+
+
+Pixmap.prototype.colorAverageAt = function( x, y, radius ) {
+  var index;
+  var resultR=0.0, resultG=0.0, resultB=0.0;
+  var count=0;
+
+  for (var i=-radius; i<=radius; i++) {
+    for (var j=-radius; j<=radius; j++) {
+      if (x+i>=0 && x+i<this.width && y+j>=0 && y+j<this.height) {
+        count++;
+        index = 4*((x+i)+this.width*(y+j));
+        resultR+=this._pixels[index];
+        resultG+=this._pixels[index+1];
+        resultB+=this._pixels[index+2];
+      }
+    }
+  }
+  return new Color(resultR/count, resultG/count, resultB/count, 1);
+};
