@@ -174,7 +174,8 @@ Textorizer[1] = new function() {
 
         pixel = this.inputPixmap.colorAverageAt(Math.floor(x*imgScaleFactorX),
                                                 Math.floor(y*imgScaleFactorY),
-                                                1);
+                                                Math.floor(fontSize*fontScale/2));
+
         if (!pixel.isWhite()) {
 
           scale = 2 - pixel.brightness()/255.0;
@@ -192,11 +193,16 @@ Textorizer[1] = new function() {
 
           outputCtx.fillStyle = pixel.toString();
 
-          outputCtx.font = (fontSize * (1 + fontScale*Math.pow(scale-1,3))) + " " + font;
+          console.log(outputCtx.fillStyle);
+
+          outputCtx.font = (fontSize * (1 + fontScale*Math.pow(scale-1,3))) + "px " + font;
+
+          var letterWidth = outputCtx.measureText(c).width;
+          var spaceWidth = outputCtx.measureText("m").width/4;
 
           outputCtx.fillText(c, x, y+fontSize*lineHeight);
 
-          rx+=outputCtx.measureText(c).width * (1+kerning);
+          rx += letterWidth * (1+kerning);
           ti++; // next letter
         } else {
           // advance one em
