@@ -199,7 +199,8 @@ Textorizer[1] = new function() {
           var letterWidth = outputCtx.measureText(c).width;
           var spaceWidth = outputCtx.measureText("m").width/4;
 
-          outputCtx.fillText(c, x, y+fontSize*lineHeight);
+          // empirically shift letter to the top-left, since sampled pixel is on its top-left corner
+          outputCtx.fillText(c, x-fontSize/2, y+3+fontSize*lineHeight-fontSize/2);
 
           rx += letterWidth * (1+kerning);
           ti++; // next letter
