@@ -1,10 +1,17 @@
 <html>
   <head>
     <script>
-      chrome.tabs.create({url:"index.html"}, null);
+
+chrome.extension.onRequest.addListener(
+  function(request, sender, sendResponse) {
+    console.log("message received, img: "+request.image);
+    chrome.tabs.create({url:"index.html?image="+encodeURIComponent(request.image)}, null);
+});
+
+
     </script>
   </head>
   <body>
-    <h1>Textorizer opening</h1>
+    <h1>Textorizer active</h1>
   </body>
 </html>

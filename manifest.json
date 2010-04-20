@@ -1,6 +1,4 @@
 {
-        // TODO: let user select any picture from a visited page
-
 
   // Required
   "name": "textorizer-js",
@@ -16,6 +14,12 @@
     "popup": "popup.html"
   },
 
-  "permissions": ["tabs","http://*/"]
+  "content_scripts": [ {
+    "all_frames": true,
+    "js": [ "content.js" ],
+    "matches": [ "http://*/*", "https://*/*", "file://*/*" ],
+    "run_at": "document_end"
+  } ],
 
+  "permissions": ["tabs","http://*/"]
 }

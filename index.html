@@ -10,8 +10,15 @@
 		<script type="text/javascript" src="textorizer.js"></script>
     <script type="text/javascript"> 
 
+      var embeddedURLPos = location.href.indexOf('image=');
+      alert(embeddedURLPos);
+      var inputURL = (embeddedURLPos != -1) ? decodeURIComponent(location.href.substring(embeddedURLPos+6))
+                                            : "http://farm1.static.flickr.com/4/4463635_d3f29bae3b_o.jpg";
+      
+        
+
       var defaults = [{
-        "input_url":"http://farm1.static.flickr.com/4/4463635_d3f29bae3b_o.jpg",
+        "input_url":inputURL,
         "text":"this\nis\ntextorizer1",
         "opacity":30,
         "nb_strings":1000,
