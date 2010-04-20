@@ -26,7 +26,7 @@ Textorizer[0] = new function() {
     var words = this._params['text'].split('\n');
     var word;
     var outputCanvas = this._params['outputCanvas'];
-    var nbStrokes    = this._params['nbStrings'];
+    var nbStrokes    = this._params['nb_strings'];
     var threshold    = this._params['threshold'];
     var minFontScale = this._params['fontSizeMin'];
     var maxFontScale = this._params['fontSizeMax'];
@@ -174,7 +174,8 @@ Textorizer[1] = new function() {
 
         pixel = this.inputPixmap.colorAverageAt(Math.floor(x*imgScaleFactorX),
                                                 Math.floor(y*imgScaleFactorY),
-                                                Math.floor(fontSize*fontScale/2));
+                                                Math.floor(fontSize*fontScale/6));
+//                                                1);
 
         if (!pixel.isWhite()) {
 
@@ -193,8 +194,6 @@ Textorizer[1] = new function() {
 
           outputCtx.fillStyle = pixel.toString();
 
-          console.log(outputCtx.fillStyle);
-
           outputCtx.font = (fontSize * (1 + fontScale*Math.pow(scale-1,3))) + "px " + font;
 
           var letterWidth = outputCtx.measureText(c).width;
@@ -206,7 +205,7 @@ Textorizer[1] = new function() {
           ti++; // next letter
         } else {
           // advance one em
-          rx+=outputCtx.measureText(" ").width * (1+kerning);
+          rx += outputCtx.measureText(" ").width * (1+kerning);
         }
       }
     }
@@ -221,7 +220,7 @@ var Color = function(r,g,b,a) {
 };
 
 Color.prototype.toString = function() {
-  return "rgb("+this.r+","+this.g+","+this.b+")";
+  return "rgb("+Math.round(this.r)+","+Math.round(this.g)+","+Math.round(this.b)+")";
 }
 
 Color.prototype.isWhite = function() {
@@ -251,6 +250,7 @@ Pixmap.prototype.colorAt = function(x,y) {
                      this._pixels[index+3] );
 };
 
+//################################################################################
 
 Pixmap.prototype.colorAverageAt = function( x, y, radius ) {
   var index;
