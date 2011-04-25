@@ -8,7 +8,6 @@ Textorizer[0] = new function() {
     this._params = params;
     this.inputPixmap = new Pixmap(params['inputCanvas']);
     this._textorize();
-
     if (openImageSeparately)
       window.open(this._params['outputCanvas'].toDataURL());
   };
@@ -28,8 +27,8 @@ Textorizer[0] = new function() {
     var outputCanvas = this._params['outputCanvas'];
     var nbStrokes    = this._params['nb_strings'];
     var threshold    = this._params['threshold'];
-    var minFontScale = this._params['fontSizeMin'];
-    var maxFontScale = this._params['fontSizeMax'];
+    var minFontScale = this._params['font_size_min'];
+    var maxFontScale = this._params['font_size_max'];
     var font         = this._params['font'];
     var opacity      = this._params['opacity'];
     var inputURL     = this._params['input_url'];
@@ -41,6 +40,13 @@ Textorizer[0] = new function() {
     var outputHeight = outputCanvas.height;
     var outputCtx    = outputCanvas.getContext('2d');
 
+    // reset the context shadow
+    outputCtx.shadowColor="black";
+    outputCtx.shadowOffsetX=0;
+    outputCtx.shadowOffsetY=0;
+    outputCtx.shadowBlur=0;
+
+
     // clear output canvas
     outputCtx.fillStyle = "white";
     outputCtx.fillRect(0,0,outputWidth,outputHeight);
@@ -49,6 +55,12 @@ Textorizer[0] = new function() {
     outputCtx.globalAlpha = opacity/256;
     outputCtx.drawImage(this.inputPixmap.canvas,0,0,outputWidth,outputHeight);
     outputCtx.globalAlpha = 1;
+
+    // set the text shadow
+    outputCtx.shadowColor="black";
+    outputCtx.shadowOffsetX=1;
+    outputCtx.shadowOffsetY=1;
+    outputCtx.shadowBlur=1;
 
     for (var h=nbStrokes-1;h>=0; h--) {
       x=Math.floor(2+Math.random()*(inputWidth-1));
@@ -127,7 +139,7 @@ Textorizer[1] = new function() {
 
   this._textorize = function() {
     var textbuffer;
-    var text = this._params['text'];
+    var text = this._params['text']+" ";
     var nbletters = text.length;
     var ti=0;
     var x,y;
@@ -152,6 +164,14 @@ Textorizer[1] = new function() {
     var imgScaleFactorX = inputWidth/outputWidth;
     var imgScaleFactorY = inputHeight/outputHeight;
 
+
+    // reset values
+    outputCtx.shadowColor="black";
+    outputCtx.shadowOffsetX=0;
+    outputCtx.shadowOffsetY=0;
+    outputCtx.shadowBlur=0;
+
+
     // clear output canvas
     outputCtx.fillStyle = "white";
     outputCtx.fillRect(0,0,outputWidth,outputHeight);
@@ -161,6 +181,11 @@ Textorizer[1] = new function() {
     outputCtx.drawImage(this.inputPixmap.canvas,0,0,outputWidth,outputHeight);
     outputCtx.globalAlpha = 1;
 
+    // text shadow
+    outputCtx.shadowColor="black";
+    outputCtx.shadowOffsetX=1;
+    outputCtx.shadowOffsetY=1;
+    outputCtx.shadowBlur=1;
 
     for (y=0; y < outputHeight; y+=fontSize*lineHeight) {
       rx=1;
@@ -177,97 +202,181 @@ Textorizer[1] = new function() {
                                                 Math.floor(fontSize*fontScale/6));
 //                                                1);
 
-        if (!pixel.isWhite()) {
-
-          scale = 2 - pixel.brightness()/255.0;
+//        if (!pixel.isWhite()) {
           c=text[ti%nbletters];
+          var letterWidth = outputCtx.measureText(c).width;
+
+          if (c!=" ") {
+            scale = 2 - pixel.brightness()/255.0;
 
           /*
-          if (T2ColorAdjustment>0) {
-            var saturation = saturation(pixel);
-            var newSaturation = (saturation+T2ColorAdjustment)>255?255:(saturation+T2ColorAdjustment);
-            colorMode(HSB,255);
-            pixel = color(hue(charColor), newSaturation, brightness(charColor));
-            fill(pixel);
-            colorMode(RGB,255);
-          } else */
+           if (T2ColorAdjustment>0) {
+           var saturation = saturation(pixel);
+           var newSaturation = (saturation+T2ColorAdjustment)>255?255:(saturation+T2ColorAdjustment);
+           colorMode(HSB,255);
+           pixel = color(hue(charColor), newSaturation, brightness(charColor));
+           fill(pixel);
+           colorMode(RGB,255);
+           } else */
 
-          outputCtx.fillStyle = pixel.toString();
+            outputCtx.fillStyle = pixel.toString();
 
-          outputCtx.font = (fontSize * (1 + fontScale*Math.pow(scale-1,3))) + "px " + font;
+            outputCtx.font = (fontSize * (1 + fontScale*Math.pow(scale-1,3))) + "px " + font;
 
-          var letterWidth = outputCtx.measureText(c).width;
-          var spaceWidth = outputCtx.measureText("m").width/4;
 
-          // empirically shift letter to the top-left, since sampled pixel is on its top-left corner
-          outputCtx.fillText(c, x-fontSize/2, y+3+fontSize*lineHeight-fontSize/2);
+            // empirically shift letter to the top-left, since sampled pixel is on its top-left corner
+            outputCtx.fillText(c, x-fontSize/2, y+3+fontSize*lineHeight-fontSize/2);
+            rx += letterWidth * (1+kerning);
+          } else {
+            // this is white space, reduce its width to make the text denser
+            rx += letterWidth/1.5;
+          }
 
-          rx += letterWidth * (1+kerning);
           ti++; // next letter
-        } else {
+//        } else {
           // advance one em
-          rx += outputCtx.measureText(" ").width * (1+kerning);
-        }
+//          rx += outputCtx.measureText(" ").width * (1+kerning);
+//        }
       }
     }
   };
 };
 
-var Color = function(r,g,b,a) {
-  this.r = r;
-  this.g = g;
-  this.b = b;
-  this.a = a;
-};
-
-Color.prototype.toString = function() {
-  return "rgb("+Math.round(this.r)+","+Math.round(this.g)+","+Math.round(this.b)+")";
-}
-
-Color.prototype.isWhite = function() {
-  return this.r+this.g+this.b >= 3*255;
-}
-
-Color.prototype.brightness = function() {
-  return (this.r+this.g+this.b)/3;
-}
-
-
 //################################################################################
+Textorizer[2] = new function() {
 
-var Pixmap = function(canvas) {
-  this.canvas = canvas;
-  this.width = this.canvas.width;
-  this.height = this.canvas.height;
-  this.context = this.canvas.getContext('2d');
-  this._pixels = this.context.getImageData(0,0,this.canvas.width,this.canvas.height).data;
-}
+  // public
 
-Pixmap.prototype.colorAt = function(x,y) {
-  var index = 4*(x + this.width*y);
-  return new Color( this._pixels[index],
-                     this._pixels[index+1],
-                     this._pixels[index+2],
-                     this._pixels[index+3] );
-};
+  this.textorize = function(params, openImageSeparately) {
 
-//################################################################################
+    this._params = params;
+    this.inputPixmap = new Pixmap(params['inputCanvas']);
+    this._wiggleFrequency = this._params['wiggle']/100.0;
+    this._wiggleAmplitude = this._wiggleFrequency==0 ? 0 : .5/this._wiggleFrequency;
 
-Pixmap.prototype.colorAverageAt = function( x, y, radius ) {
-  var index;
-  var resultR=0.0, resultG=0.0, resultB=0.0;
-  var count=0;
+    this._excoffize();
+    if (openImageSeparately)
+      window.open(this._params['outputCanvas'].toDataURL());
+  };
 
-  for (var i=-radius; i<=radius; i++) {
-    for (var j=-radius; j<=radius; j++) {
-      if (x+i>=0 && x+i<this.width && y+j>=0 && y+j<this.height) {
-        count++;
-        index = 4*((x+i)+this.width*(y+j));
-        resultR+=this._pixels[index];
-        resultG+=this._pixels[index+1];
-        resultB+=this._pixels[index+2];
+  // private
+  this._wiggle = function(x) { return this._wiggleAmplitude*Math.sin(x*this._wiggleFrequency); };
+  this._S2P = function(x,y) {
+    // convert x,y from "sinusoidal space" to picture space
+    var c=Math.cos(this._params['theta']), s=Math.sin(this._params['theta']);
+    var sx=this._params['sx'], sy=this._params['sy'];
+    var tx=this._params['tx'], ty=this._params['ty'];
+    return [x*sx*c - y*sy*s + sx*c*tx - sy*s*ty, x*sx*s + y*sy*c + sx*s*tx + sy*c*ty];
+  };
+  this._P2S = function(x,y)
+    // convert x,y from picture space to  "sinusoidal space"
+  {
+    var c=Math.cos(-this._params['theta']), s=Math.sin(-this._params['theta']);
+    var sx = 1/this._params['sx'], sy = 1/this._params['sy'];
+    var tx = -this._params['tx'], ty = -this._params['ty'];
+
+    return [ x*sx*c - y*sx*s + tx, x*sy*s + y*sy*c + ty ];
+  };
+  this._sidePoints=function(x1,y1,x2,y2,r)
+  {
+    var L=Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
+    var px=(x2-x1)*r/L;
+    var py=(y2-y1)*r/L;
+
+    return [x1-py-(px/20), y1+px-(py/20), x1+py-(px/20), y1-px-(py/20)];
+  };
+
+  this._excoffize = function() {
+    var outputCanvas = this._params['outputCanvas'];
+    var outputCtx = outputCanvas.getContext('2d');
+    var inputWidth   = this.inputPixmap.width;
+    var inputHeight  = this.inputPixmap.height;
+    var outputWidth  = outputCanvas.width;
+    var outputHeight = outputCanvas.height;
+    var opacity      = this._params['opacity'];
+    var lineHeight   = this._params['line_height'];
+
+
+    // reset values
+    outputCtx.shadowColor="black";
+    outputCtx.shadowOffsetX=0;
+    outputCtx.shadowOffsetY=0;
+    outputCtx.shadowBlur=0;
+
+
+    // clear output canvas
+    outputCtx.fillStyle = "white";
+    outputCtx.fillRect(0,0,outputWidth,outputHeight);
+
+    // and add in the initial picture with transparency
+    outputCtx.globalAlpha = opacity/256;
+    outputCtx.drawImage(this.inputPixmap.canvas,0,0,outputWidth,outputHeight);
+    outputCtx.globalAlpha = 1;
+
+    // ready to draw
+    outputCtx.fillStyle='black';
+
+
+    // boundaries of the image in sinusoidal space
+    var corner1 = this._P2S(0,0);
+    var corner2 = this._P2S(inputWidth,0);
+    var corner3 = this._P2S(inputWidth,inputHeight);
+    var corner4 = this._P2S(0,inputHeight);
+
+    var minX=Math.min(corner1[0],corner2[0],corner3[0],corner4[0]);
+    var minY=Math.min(corner1[1],corner2[1],corner3[1],corner4[1]);
+    var maxX=Math.max(corner1[0],corner2[0],corner3[0],corner4[0]);
+    var maxY=Math.max(corner1[1],corner2[1],corner3[1],corner4[1]);
+
+    // from the min/max bounding box, we know which sines to draw
+
+    var stepx=2;
+    var stepy=lineHeight;
+
+    var x,y;
+
+    for (y=minY-this._wiggleAmplitude ;y<maxY+this._wiggleAmplitude;y+=stepy) {
+      for (x=minX;x<maxX;x+=stepx) {
+        var imageP=this._S2P(x,y+this._wiggle(x),params);
+        var rx=imageP[0];
+        var ry=imageP[1];
+
+        // rx2,ry2 is the point ahead, to which we draw a segment
+        var imageP2=this._S2P(x+stepx,y+this._wiggle(x+stepx),params);
+        var rx2=imageP2[0];
+        var ry2=imageP2[1];
+
+        if ((rx  >= 0 && rx  < inputWidth && ry  >= 0 && ry  < inputHeight)||
+            (rx2 >= 0 && rx2 < inputWidth && ry2 >= 0 && ry2 < inputHeight)) {
+
+          var radius=100/(10+this.inputPixmap.brightnessAverageAt(Math.floor(rx), Math.floor(ry), 1));
+          var radius2=100/(10+this.inputPixmap.brightnessAverageAt(Math.floor(rx2), Math.floor(ry2), 1));
+
+          var sidePoints=this._sidePoints(rx,ry,rx2,ry2,radius);
+          var sidePoints2=this._sidePoints(rx2,ry2,rx,ry,radius2);
+
+          // scale everything to output resolution
+          var zoom=outputWidth/inputWidth;
+          sidePoints[0]*=zoom;
+          sidePoints[1]*=zoom;
+          sidePoints[2]*=zoom;
+          sidePoints[3]*=zoom;
+          sidePoints2[0]*=zoom;
+          sidePoints2[1]*=zoom;
+          sidePoints2[2]*=zoom;
+          sidePoints2[3]*=zoom;
+
+
+          outputCtx.beginPath();
+          outputCtx.moveTo(sidePoints[0],sidePoints[1]);
+          outputCtx.lineTo(sidePoints[2],sidePoints[3]);
+          outputCtx.lineTo(sidePoints2[0],sidePoints2[1]);
+          outputCtx.lineTo(sidePoints2[2],sidePoints2[3]);
+          outputCtx.fill();
+        }
       }
     }
-  }
-  return new Color(resultR/count, resultG/count, resultB/count, 1);
+
+  };
+
 };

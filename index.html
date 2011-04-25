@@ -2,263 +2,14 @@
 <html>
   <head>
     <title>textorizer-js</title>
-    <link rel="stylesheet" href="/style.css"/>
+    <link rel="stylesheet" href="style.css"/>
 		<link type="text/css" href="css/ui-lightness/jquery-ui-1.8rc3.custom.css" rel="stylesheet" />	
 		<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui-1.8rc3.custom.min.js"></script>
 
 		<script type="text/javascript" src="textorizer.js"></script>
-    <script type="text/javascript"> 
-
-      var embeddedURLPos = location.href.indexOf('image=');
-      alert(embeddedURLPos);
-      var inputURL = (embeddedURLPos != -1) ? decodeURIComponent(location.href.substring(embeddedURLPos+6))
-                                            : "http://farm1.static.flickr.com/4/4463635_d3f29bae3b_o.jpg";
-      
-        
-
-      var defaults = [{
-        "input_url":inputURL,
-        "text":"this\nis\ntextorizer1",
-        "opacity":30,
-        "nb_strings":1000,
-        "threshold":100,
-        "font_size_min":10,
-        "font_size_max":30,
-        "output_height":500
-        },{
-        "input_url":"http://www.slipperybrick.com/wp-content/uploads/2007/12/opera-software-sues-microsoft-browser.jpg",
-        "text":"this is textorizer",
-        "opacity":30,
-        "text_size":12,
-        "line_height":1,
-        "saturation":0,
-        "kerning":0,
-        "font_scale":1.5,
-        "output_height":500
-      }];
-
-
-      var inputCanvas;
-      var inputCanvasCtx;
-      var aspectRatios=[];
-
-
-      function changeOutputHeightTo(i,newHeight)
-      {
-        resizeOutputCanvasHeightTo(i,newHeight);
-        output_height_values[i].text(newHeight);
-        output_width_values[i].text(Math.floor(newHeight*aspectRatios[i]));
-      }
-
-      function resizeOutputCanvasHeightTo(i, height) {
-        output_canvases[i].height = height;
-        output_canvases[i].width = height*aspectRatios[i];
-      }
-
-      function go(i,openImageSeparately)
-      {
-        // Put the pixels of the original image into the canvas
-        var t = new Image();
-        t.src = input_urls[i].val();
-        inputCanvas.width=t.width;
-        inputCanvas.height=t.height;
-        inputCanvasCtx.drawImage(t,0,0);
-
-        Textorizer[i].textorize(params(i),openImageSeparately)
-      };
-
-
-      function thumb_loaded(event,i) {
-        var newImg = new Image();
-        newImg.src = event.target.src;
-        aspectRatios[i] = newImg.width / newImg.height;
-
-        output_canvases[i].height = defaults[i]["output_height"];
-        output_canvases[i].width = defaults[i]["output_height"] * aspectRatios[i];
-        output_width_values[i].text(Math.floor(defaults[i]["output_height"]*aspectRatios[i]));
-        output_height_values[i].text(Math.floor(defaults[i]["output_height"]));
-      }
-
-
-      var input_urls;
-      var input_thumbs;
-      var aspectRatios;
-      var output_canvases;
-      var output_width_values, output_height_values;
-      var output_heights;
-      var opacity_values;
-      var texts;
-      var opacities;
-      var preview_buttons;
-      var png_buttons;
-
-      $(function() {
-
-        inputCanvas = document.getElementById("input_canvas");
-        inputCanvasCtx = inputCanvas.getContext('2d');
-        $("#tabs").tabs();
-
-        input_urls = [$("#t1_input_url"), $("#t2_input_url")];
-        input_thumbs = [$("#t1_input_thumb"), $("#t2_input_thumb")];
-        preview_buttons = [$("#t1_preview_button"), $("#t2_preview_button")];
-        png_buttons = [$("#t1_png_button"), $("#t2_png_button")];
-        texts = [$("#t1_text"), $("#t2_text")];
-        opacities = [$("#t1_opacity"), $("#t2_opacity")];
-        opacity_values = [$("#t1_opacity_value"), $("#t2_opacity_value")];
-        output_canvases = [document.getElementById("t1_output_canvas"), document.getElementById("t2_output_canvas")];
-        output_heights = [$("#t1_output_height"), $("#t2_output_height")];
-        output_width_values = [$("#t1_output_width_value"), $("#t2_output_width_value")];
-        output_height_values = [$("#t1_output_height_value"), $("#t2_output_height_value")];
-
-
-        // FIXME: find a way to avoid closure crap and move into loop
-        input_thumbs[0].load(function(e) { thumb_loaded(e,0); });
-        input_thumbs[1].load(function(e) { thumb_loaded(e,1); });
-
-        output_heights[0].slider({min:100, 
-                                  max:2000, 
-                                  step: 1,
-                                  value:defaults[0]["output_height"],
-                                  slide: function(event, ui) {
-                                    changeOutputHeightTo(0,ui.value);
-                                 }});
-        output_heights[1].slider({min:100, 
-                                  max:2000, 
-                                  step: 1,
-                                  value:defaults[1]["output_height"],
-                                  slide: function(event, ui) {
-                                    changeOutputHeightTo(1,ui.value);
-                                 }});
-
-        opacities[0].slider({min:0, 
-                             max:255, 
-                             value:defaults[0]["opacity"],
-                             slide: function(event, ui) {
-                               opacity_values[0].text(ui.value);
-                             }});
-
-        opacities[1].slider({min:0, 
-                             max:255, 
-                             value:defaults[1]["opacity"],
-                             slide: function(event, ui) {
-                               opacity_values[1].text(ui.value);
-                             }});
-
-        for (var i=0;i<2;i++) {
-          input_urls[i].val(defaults[i]["input_url"]);
-          input_thumbs[i].attr("src",defaults[i]["input_url"]);
-          texts[i].val(defaults[i]["text"]);
-          opacity_values[i].text(defaults[i]["opacity"]);
-          output_height_values[i].text(defaults[i]["output_height"]);
-          preview_buttons[i].button();
-          png_buttons[i].button();
-        }
-
-        /* specific settings */
-        $("#t1_nb_strings").slider({min:100, 
-                                    max:100000, 
-                                    value:defaults[0]["nb_strings"],
-                                    slide: function(event, ui) {
-                                      $("#t1_nb_strings_value").text(ui.value);
-                                    }});
-        $("#t1_nb_strings_value").text(defaults[0]["nb_strings"]);
-        $("#t1_threshold").slider({min:0, 
-                                   max:200,
-                                   step:.1,
-                                   value:defaults[0]["threshold"],
-                                   slide: function(event, ui) {
-                                     $("#t1_threshold_value").text(ui.value);
-                                   }});
-        $("#t1_threshold_value").text(defaults[0]["threshold"]);
-        $("#t1_font_size").slider({range: true,
-                                   min: 0,
-                                   max: 50,
-                                   step: .1,
-                                   values: [defaults[0]["font_size_min"], defaults[0]["font_size_max"]],
-                                   slide: function(event, ui) {
-                                     $("#t1_font_size_value_min").text(ui.values[0]);
-                                     $("#t1_font_size_value_max").text(ui.values[1]);
-                                   }});
-        $("#t1_font_size_value_min").text($("#t1_font_size").slider("values", 0));
-        $("#t1_font_size_value_max").text($("#t1_font_size").slider("values", 1));
-
-
-        $("#t2_text_size").slider({min:4, 
-                                   max:50, 
-                                   step: .1,
-                                   value:defaults[1]["text_size"],
-                                   slide: function(event, ui) {
-                                     $("#t2_text_size_value").text(ui.value);
-                                   }});
-        $("#t2_text_size_value").text(defaults[1]["text_size"]);
-
-        $("#t2_line_height").slider({min:0.5, 
-                                     max:3,
-                                     step: .05,
-                                     value:defaults[1]["line_height"],
-                                     slide: function(event, ui) {
-                                       $("#t2_line_height_value").text(ui.value);
-                                     }});
-        $("#t2_line_height_value").text(defaults[1]["line_height"]);
-
-        $("#t2_saturation").slider({min:0, 
-                                    max:255,
-                                    value:defaults[1]["saturation"],
-                                    slide: function(event, ui) {
-                                      $("#t2_saturation_value").text(ui.value);
-                                    }});
-        $("#t2_saturation_value").text(defaults[1]["saturation"]);
-
-        $("#t2_kerning").slider({min:-.5,
-                                 max:.5,
-                                 step: .05,
-                                 value:defaults[1]["kerning"],
-                                 slide: function(event, ui) {
-                                   $("#t2_kerning_value").text(ui.value);
-                                 }});
-        $("#t2_kerning_value").text(defaults[1]["kerning"]);
-
-        $("#t2_font_scale").slider({min:0, 
-                                   max:5,
-                                   step: .05,
-                                   value:defaults[1]["font_scale"],
-                                   slide: function(event, ui) {
-                                     $("#t2_font_scale_value").text(ui.value);
-                                   }});
-        $("#t2_font_scale_value").text(defaults[1]["font_scale"]);
-
-      });
-
-      function params(i) {
-        var params={
-          inputCanvas: inputCanvas,
-          text: texts[i].val(),
-          opacity: opacities[i].slider('value'),
-          outputHeight: output_heights[i].slider('value'),
-          outputCanvas: output_canvases[i],
-          inputURL: input_urls[i]
-        };
-        switch(i) {
-        case 0:
-          params["nb_strings"] = $("#t1_nb_strings").slider('value');
-          params["threshold"] = $("#t1_threshold").slider('value');
-          params["font_size_min"] = $("#t1_font_size").slider('values',0);
-          params["font_size_max"] = $("#t1_font_size").slider('values',1);
-          params["font"] = $('#t1_font :selected').text();
-          break;
-        case 1:
-          params["text_size"] = $("#t2_text_size").slider('value'),
-          params["line_height"] = $("#t2_line_height").slider('value'),
-          params["saturation"] = $("#t2_saturation").slider('value'),
-          params["kerning"] = $("#t2_kerning").slider('value'),
-          params["font_scale"] = $("#t2_font_scale").slider('value'),
-          params["font"] = $('#t1_font :selected').text()
-          break;
-        }
-        return params;
-      }
-    </script> 
+    <script type="text/javascript" src="view.js"></script> 
+    <script type="text/javascript" src="utils.js"></script> 
 
     <style type="text/css">
       .buttons { margin-top: 1em }
@@ -266,26 +17,25 @@
       img { border: 1px solid gray; }
       input { width: 100% }
 
-      #tabs_textorizer1, #tabs_textorizer2 { position: relative }
-      #t1_panel, #t2_panel { width: 450px; }
-      #t1_output_canvas, #t2_output_canvas { position: absolute; left: 500px; top: 32px; border: 1px solid black }
+      #tabs_textorizer1, #tabs_textorizer2, #tabs_excoffizer { position: relative }
+      #t1_panel, #t2_panel, #e_panel { width: 300px; }
+      #t1_output_canvas, #t2_output_canvas, #e_output_canvas { position: absolute; left: 330px; top: 32px; border: 1px solid black }
     </style>
   </head>
   <body>
-    <h1>Textorizer-js</h1>
-
     <div id="main">
       <div id="tabs">
         <ul>
           <li><a href="#tabs_textorizer1">Textorizer 1</a></li>
           <li><a href="#tabs_textorizer2">Textorizer 2</a></li>
+          <li><a href="#tabs_excoffizer">Excoffizer</a></li>
         </ul>
         
         <div id="tabs_textorizer1">
           <div id="t1_panel">
             <label>Original Image URL:</label>
-            <input id="t1_input_url" type="text"/><br/>
-            <img id="t1_input_thumb" height="100px"/>
+            <input id="t1_input_url" type="text"/><input value="Choose local image" id="t1_input_button" type="button"/><br/>
+            <img id="t1_input_thumb" height="100px" alt="thumbnail" src=""/>
             
             <label>Text:</label>
             <textarea id="t1_text" cols="40" rows="6"></textarea>
@@ -304,8 +54,10 @@
             
             <label>Font:</label>
             <select id="t1_font">
-              <option>Times New Roman</option>
+              <option>Arial Black</option>
+              <option>Impact</option>
               <option>Helvetica</option>
+              <option>Times New Roman</option>
             </select>
             
             <label>Output Size: <span id="t1_output_width_value">500</span> x <span id="t1_output_height_value">500</span></label>
@@ -322,11 +74,11 @@
         <div id="tabs_textorizer2">
           <div id="t2_panel">
             <label>Original Image URL:</label>
-            <input id="t2_input_url" type="text"/><br/>
-            <img id="t2_input_thumb" height="100px"/>
+            <input id="t2_input_url" type="text"/><input value="Choose local image" id="t2_input_button" type="button"/><br/>
+            <img id="t2_input_thumb" height="100px" alt="thumbnail" src=""/>
             
             <label>Text:</label>
-            <textarea id="t2_text" cols="40" rows="6"></textarea>
+            <textarea id="t2_text" cols="46" rows="4"></textarea>
             
             <label>Opacity: <span id="t2_opacity_value">30</span></label>
             <div id="t2_opacity"></div>
@@ -348,8 +100,10 @@
             
             <label>Font:</label>
             <select id="t2_font">
-              <option>Times New Roman</option>
+              <option>Arial Black</option>
+              <option>Impact</option>
               <option>Helvetica</option>
+              <option>Times New Roman</option>
             </select>
             
             <label>Output Size: <span id="t2_output_width_value">500</span> x <span id="t2_output_height_value">500</span></label>
@@ -360,15 +114,46 @@
               <button id="t2_png_button" onclick="go(1,true)">to Image</button>
             </div>
           </div>
-          <canvas id="t2_output_canvas" width="500" height="500"></canvas>
+          <canvas id="t2_output_canvas" width="400" height="400"></canvas>
+        </div>
+
+        <div id="tabs_excoffizer">
+          <div id="e_panel">
+            <label>Original Image URL:</label>
+            <input id="e_input_url" type="text"/><input value="Choose local image" id="e_input_button" type="button"/><br/>
+            <img id="e_input_thumb" height="100px" alt="thumbnail" src=""/>
+            
+            <label>Opacity: <span id="e_opacity_value">30</span></label>
+            <div id="e_opacity"></div>
+            
+            <label>Theta: <span id="e_theta_value">0</span></label>
+            <div id="e_theta"></div>
+            <label>Wiggle: <span id="e_wiggle_value">10</span></label>
+            <div id="e_wiggle"></div>
+            <label>Line Height: <span id="e_line_height_value">5</span></label>
+            <div id="e_line_height"></div>
+            <label>Sx: <span id="e_sx_value">1</span></label>
+            <div id="e_sx"></div>
+            <label>Sy: <span id="e_sy_value">1</span></label>
+            <div id="e_sy"></div>
+            <label>Tx: <span id="e_tx_value">0</span></label>
+            <div id="e_tx"></div>
+            <label>Ty: <span id="e_ty_value">0</span></label>
+            <div id="e_ty"></div>
+
+            <label>Output Size: <span id="e_output_width_value">500</span> x <span id="e_output_height_value">500</span></label>
+            <div id="e_output_height"></div>
+            
+            <div class="buttons">
+              <button id="e_preview_button" onclick="go(2,false)">Preview</button>
+              <button id="e_png_button" onclick="go(2,true)">to Image</button>
+            </div>
+          </div>
+          <canvas id="e_output_canvas" width="400" height="400"></canvas>
         </div>
       </div>
     </div>
 
-
-
-
     <canvas style="display:none" id="input_canvas" width="10" height="10"></canvas>
-
   </body>
 </html>
