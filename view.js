@@ -1,3 +1,4 @@
+      var PassThroughURL = "textorizer-passthrough?url=";
 
       var inputURL = "jetlag.jpg";
 
@@ -36,10 +37,6 @@
           "output_height":450
         }];
 
-
-      var currentWindow = Titanium.UI.getMainWindow();
-      currentWindow.setWidth(1000);
-      currentWindow.setHeight(700);
 
       var inputCanvas;
       var inputCanvasCtx;
@@ -103,31 +100,22 @@
         input_urls = [$("#t1_input_url"), $("#t2_input_url"), $("#e_input_url")];
         input_thumbs = [$("#t1_input_thumb"), $("#t2_input_thumb"), $("#e_input_thumb")];
 
-        // When the button is clicked, popup a file chooser and change the image thumb
+        // When the button is clicked, load the picture
         $("#t1_input_button").click(function(){
-          Titanium.UI.openFileChooserDialog(function(filenames){
-            if (filenames && filenames[0]) {
-              $("#t1_input_url").val("file://"+filenames[0]);
-              $("#t1_input_thumb").attr("src","file://"+filenames[0]);
-            }
-          });
+          $("#t1_input_button").attr('disabled','disabled');
+          $("#t1_input_thumb").attr("src", PassThroughURL+input_urls[0].val());
         });
         $("#t2_input_button").click(function(){
-          Titanium.UI.openFileChooserDialog(function(filenames){
-            if (filenames && filenames[0]) {
-              $("#t2_input_url").val("file://"+filenames[0]);
-              $("#t2_input_thumb").attr("src","file://"+filenames[0]);
-            }
-          });
+          $("#t2_input_thumb").attr("src", PassThroughURL+input_urls[1].val());
         });
         $("#e_input_button").click(function(){
-          Titanium.UI.openFileChooserDialog(function(filenames){
-            if (filenames && filenames[0]) {
-              $("#e_input_url").val("file://"+filenames[0]);
-              $("#e_input_thumb").attr("src","file://"+filenames[0]);
-            }
-          });
+          $("#e_input_thumb").attr("src", PassThroughURL+input_urls[2].val());
         });
+
+        // only activate the buttons when the image is loaded
+        $("#t1_input_thumb").load(function(){$("#t1_input_button").attr('disabled','');});
+        $("#t2_input_thumb").load(function(){$("#t2_input_button").attr('disabled','');});
+        $("#e_input_thumb").load(function(){$("#e_input_button").attr('disabled','');});
 
         preview_buttons = [$("#t1_preview_button"), $("#t2_preview_button"), $("#e_preview_button")];
         png_buttons = [$("#t1_png_button"), $("#t2_png_button"),$("#e_png_button")];
