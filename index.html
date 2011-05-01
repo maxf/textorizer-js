@@ -12,14 +12,15 @@
     <script type="text/javascript" src="utils.js"></script> 
 
     <style type="text/css">
+      body { font-size: 80% }
       .buttons { margin-top: 1em }
-      label { display: block; margin: .5em 0 .2em -1em }
+      label { display: block; margin: .5em 0 .2em 0 }
       img { border: 1px solid gray; }
       input { width: 100% }
 
-      #tabs_textorizer1, #tabs_textorizer2, #tabs_excoffizer { position: relative }
-      #t1_panel, #t2_panel, #e_panel { width: 300px; }
-      #t1_output_canvas, #t2_output_canvas, #e_output_canvas { position: absolute; left: 330px; top: 32px; border: 1px solid black }
+      #tabs_textorizer1, #tabs_textorizer2, #tabs_excoffizer { position: relative; padding: 0 }
+      #t1_panel, #t2_panel, #e_panel { width: 250px; }
+      #t1_output_canvas, #t2_output_canvas, #e_output_canvas { position: absolute; left: 270px; top: 0px; border: 1px solid black }
     </style>
   </head>
   <body>
@@ -41,7 +42,7 @@
             </p>
             
             <label>Text:</label>
-            <textarea id="t1_text" cols="40" rows="6"></textarea>
+            <textarea id="t1_text" cols="37" rows="6"></textarea>
             
             <label>Opacity: <span id="t1_opacity_value">30</span></label>
             <div id="t1_opacity"></div>
