@@ -59,7 +59,7 @@ function go(i,openImageSeparately)
 {
   // Put the pixels of the original image into the canvas
   var t = new Image();
-  t.src = input_urls[i].val();
+  t.src = PassThroughURL+input_urls[i].val();
   inputCanvas.width=t.width;
   inputCanvas.height=t.height;
   inputCanvasCtx.drawImage(t,0,0);
@@ -102,20 +102,35 @@ $(function() {
 
     // When the button is clicked, load the picture
     $("#t1_input_button").click(function(){
-                                  $("#t1_input_button").attr('disabled','disabled');
+                                  $("#t1_spinning_wheel").show();
+                                  $("#t1_input_thumb").hide();
                                   $("#t1_input_thumb").attr("src", PassThroughURL+input_urls[0].val());
                                 });
     $("#t2_input_button").click(function(){
+                                  $("#t2_spinning_wheel").show();
+                                  $("#t2_input_thumb").hide();
                                   $("#t2_input_thumb").attr("src", PassThroughURL+input_urls[1].val());
                                 });
     $("#e_input_button").click(function(){
-                                 $("#e_input_thumb").attr("src", PassThroughURL+input_urls[2].val());
+                                  $("#e_spinning_wheel").show();
+                                  $("#e_input_thumb").hide();
+                                  $("#e_input_thumb").attr("src", PassThroughURL+input_urls[2].val());
                                });
 
     // only activate the buttons when the image is loaded
-    $("#t1_input_thumb").load(function(){$("#t1_input_button").attr('disabled','');});
-    $("#t2_input_thumb").load(function(){$("#t2_input_button").attr('disabled','');});
-    $("#e_input_thumb").load(function(){$("#e_input_button").attr('disabled','');});
+    $("#t1_input_thumb").load(function(){
+                                $("#t1_spinning_wheel").hide();
+                                $("#t1_input_thumb").show();
+                              });
+    $("#t2_input_thumb").load(function(){
+                                $("#t2_spinning_wheel").hide();
+                                $("#t2_input_thumb").show();
+                              });
+    $("#e_input_thumb").load(function(){
+                                $("#e_spinning_wheel").hide();
+                                $("#e_input_thumb").show();
+                              });
+
 
     preview_buttons = [$("#t1_preview_button"), $("#t2_preview_button"), $("#e_preview_button")];
     png_buttons = [$("#t1_png_button"), $("#t2_png_button"),$("#e_png_button")];

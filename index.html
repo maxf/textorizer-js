@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>textorizer-js</title>
-    <link rel="stylesheet" href="style.css"/>
+<!--    <link rel="stylesheet" href="style.css"/>-->
 		<link type="text/css" href="css/ui-lightness/jquery-ui-1.8rc3.custom.css" rel="stylesheet" />	
 		<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui-1.8rc3.custom.min.js"></script>
@@ -35,7 +35,10 @@
           <div id="t1_panel">
             <label>Original Image URL:</label>
             <input id="t1_input_url" type="text"/><input value="load image" id="t1_input_button" type="button"/><br/>
-            <img id="t1_input_thumb" height="100px" alt="thumbnail" src=""/>
+            <p style="text-align: center">
+              <img id="t1_spinning_wheel" src="spinning_wheel.gif" alt="spinning wheel"  style="vertical-align: middle; display: none" />
+              <img id="t1_input_thumb" height="100px" alt="thumbnail" src="" style="vertical-align: middle"/>
+            </p>
             
             <label>Text:</label>
             <textarea id="t1_text" cols="40" rows="6"></textarea>
@@ -74,8 +77,11 @@
         <div id="tabs_textorizer2">
           <div id="t2_panel">
             <label>Original Image URL:</label>
-            <input id="t2_input_url" type="text"/><input value="Choose local image" id="t2_input_button" type="button"/><br/>
-            <img id="t2_input_thumb" height="100px" alt="thumbnail" src=""/>
+            <input id="t2_input_url" type="text"/><input value="load image" id="t2_input_button" type="button"/><br/>
+            <p style="text-align: center">
+              <img id="t2_spinning_wheel" src="spinning_wheel.gif" alt="spinning wheel"  style="vertical-align: middle; display: none" />
+              <img id="t2_input_thumb" height="100px" alt="thumbnail" src="" style="vertical-align: middle"/>
+            </p>
             
             <label>Text:</label>
             <textarea id="t2_text" cols="46" rows="4"></textarea>
@@ -120,8 +126,11 @@
         <div id="tabs_excoffizer">
           <div id="e_panel">
             <label>Original Image URL:</label>
-            <input id="e_input_url" type="text"/><input value="Choose local image" id="e_input_button" type="button"/><br/>
-            <img id="e_input_thumb" height="100px" alt="thumbnail" src=""/>
+            <input id="e_input_url" type="text"/><input value="load image" id="e_input_button" type="button"/><br/>
+            <p style="text-align: center">
+              <img id="e_spinning_wheel" src="spinning_wheel.gif" alt="spinning wheel"  style="vertical-align: middle; display: none" />
+              <img id="e_input_thumb" height="100px" alt="thumbnail" src="" style="vertical-align: middle"/>
+            </p>
             
             <label>Opacity: <span id="e_opacity_value">30</span></label>
             <div id="e_opacity"></div>
