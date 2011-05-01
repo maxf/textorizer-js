@@ -261,14 +261,14 @@ Textorizer[2] = new function() {
   // private
   this._wiggle = function(x) { return this._wiggleAmplitude*Math.sin(x*this._wiggleFrequency); };
   this._S2P = function(x,y) {
-    // convert x,y from "sinusoidal space" to picture space
+    // convert x,y from "sine space" to picture space
     var c=Math.cos(this._params['theta']), s=Math.sin(this._params['theta']);
     var sx=this._params['sx'], sy=this._params['sy'];
     var tx=this._params['tx'], ty=this._params['ty'];
     return [x*sx*c - y*sy*s + sx*c*tx - sy*s*ty, x*sx*s + y*sy*c + sx*s*tx + sy*c*ty];
   };
   this._P2S = function(x,y)
-    // convert x,y from picture space to  "sinusoidal space"
+    // convert x,y from picture space to  "sine space"
   {
     var c=Math.cos(-this._params['theta']), s=Math.sin(-this._params['theta']);
     var sx = 1/this._params['sx'], sy = 1/this._params['sy'];
@@ -316,7 +316,7 @@ Textorizer[2] = new function() {
     outputCtx.fillStyle='black';
 
 
-    // boundaries of the image in sinusoidal space
+    // boundaries of the image in sine space
     var corner1 = this._P2S(0,0);
     var corner2 = this._P2S(inputWidth,0);
     var corner3 = this._P2S(inputWidth,inputHeight);
