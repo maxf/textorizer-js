@@ -60,20 +60,20 @@ function go(i,openImageSeparately)
   // Put the pixels of the original image into the canvas
   var t = new Image();
   t.src = PassThroughURL+input_urls[i].val();
-  inputCanvas.width=t.width;
-  inputCanvas.height=t.height;
-  inputCanvasCtx.drawImage(t,0,0);
+  t.onload = function() {
+    inputCanvas.width=t.width;
+    inputCanvas.height=t.height;
+    inputCanvasCtx.drawImage(t,0,0);
+    Textorizer[i].textorize(params(i),openImageSeparately);
+  };
 
-  // and textorize
-  Textorizer[i].textorize(params(i),openImageSeparately);
 };
 
-
+// a thumbnail has been loaded, prepare the output canvas
 function thumb_loaded(event,i) {
   var newImg = new Image();
   newImg.src = event.target.src;
   aspectRatios[i] = newImg.width / newImg.height;
-
   output_canvases[i].height = defaults[i]["output_height"];
   output_canvases[i].width = defaults[i]["output_height"] * aspectRatios[i];
   output_width_values[i].text(Math.floor(defaults[i]["output_height"]*aspectRatios[i]));
@@ -118,17 +118,20 @@ $(function() {
                                });
 
     // only activate the buttons when the image is loaded
-    $("#t1_input_thumb").load(function(){
+    $("#t1_input_thumb").load(function(e){
                                 $("#t1_spinning_wheel").hide();
                                 $("#t1_input_thumb").show();
+                                thumb_loaded(e,0);
                               });
-    $("#t2_input_thumb").load(function(){
+    $("#t2_input_thumb").load(function(e){
                                 $("#t2_spinning_wheel").hide();
                                 $("#t2_input_thumb").show();
+                                thumb_loaded(e,1);
                               });
-    $("#e_input_thumb").load(function(){
-                                $("#e_spinning_wheel").hide();
-                                $("#e_input_thumb").show();
+    $("#e_input_thumb").load(function(e){
+                               $("#e_spinning_wheel").hide();
+                               $("#e_input_thumb").show();
+                               thumb_loaded(e,2);
                               });
 
 
@@ -142,12 +145,6 @@ $(function() {
     output_heights = [$("#t1_output_height"), $("#t2_output_height"), $("#e_output_height")];
     output_width_values = [$("#t1_output_width_value"), $("#t2_output_width_value"), $("#e_output_width_value")];
     output_height_values = [$("#t1_output_height_value"), $("#t2_output_height_value"), $("#e_output_height_value")];
-
-
-    // FIXME: find a way to avoid closure crap and move into loop
-    input_thumbs[0].load(function(e) { thumb_loaded(e,0); });
-    input_thumbs[1].load(function(e) { thumb_loaded(e,1); });
-    input_thumbs[2].load(function(e) { thumb_loaded(e,2); });
 
     output_heights[0].slider({min:100,
                               max:2000,
