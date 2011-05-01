@@ -1,4 +1,4 @@
-var PassThroughURL = "textorizer-passthrough?url=";
+var PassThroughURL = "textorizer-passthrough.php?url=";
 
 var inputURL = "http://farm1.static.flickr.com/33/59279271_fe73796ca6_m.jpg";
 
