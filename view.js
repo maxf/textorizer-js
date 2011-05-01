@@ -1,6 +1,6 @@
 var PassThroughURL = "textorizer-passthrough?url=";
 
-var inputURL = "jetlag.jpg";
+var inputURL = "http://farm1.static.flickr.com/33/59279271_fe73796ca6_m.jpg";
 
 var defaults = [{
                   // Textorizer 1
