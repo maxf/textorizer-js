@@ -248,7 +248,6 @@ Textorizer[2] = new function() {
   // public
 
   this.textorize = function(params, openImageSeparately) {
-
     this._params = params;
     this.inputPixmap = new Pixmap(params['inputCanvas']);
     this._wiggleFrequency = this._params['wiggle']/100.0;

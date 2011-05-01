@@ -57,6 +57,8 @@ function resizeOutputCanvasHeightTo(i, height) {
 
 function go(i,openImageSeparately)
 {
+  buttons[i].hide(); buttons_wheels[i].show();
+
   // Put the pixels of the original image into the canvas
   var t = new Image();
   t.src = PassThroughURL+input_urls[i].val();
@@ -65,8 +67,8 @@ function go(i,openImageSeparately)
     inputCanvas.height=t.height;
     inputCanvasCtx.drawImage(t,0,0);
     Textorizer[i].textorize(params(i),openImageSeparately);
+    buttons[i].show(); buttons_wheels[i].hide();
   };
-
 };
 
 // a thumbnail has been loaded, prepare the output canvas
@@ -88,6 +90,8 @@ var output_heights;
 var opacity_values;
 var texts;
 var opacities;
+var buttons_wheels;
+var buttons;
 var preview_buttons;
 var png_buttons;
 
@@ -99,6 +103,8 @@ $(function() {
 
     input_urls = [$("#t1_input_url"), $("#t2_input_url"), $("#e_input_url")];
     input_thumbs = [$("#t1_input_thumb"), $("#t2_input_thumb"), $("#e_input_thumb")];
+    buttons_wheels = [$("#t1_buttons_spinning_wheel"), $("#t2_buttons_spinning_wheel"), $("#e_buttons_spinning_wheel")];
+    buttons = [$("#t1_buttons"), $("#t2_buttons"), $("#e_buttons")];
 
     // When the button is clicked, load the picture
     $("#t1_input_button").click(function(){

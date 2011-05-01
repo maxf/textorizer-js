@@ -13,7 +13,7 @@
 
     <style type="text/css">
       body { font-size: 80% }
-      .buttons { margin-top: 1em }
+      .buttons { margin-top: 1em; text-align: center }
       label { display: block; margin: .5em 0 .2em 0 }
       img { border: 1px solid gray; }
       input { width: 100% }
@@ -40,9 +40,18 @@
               <img id="t1_spinning_wheel" src="spinning_wheel.gif" alt="spinning wheel"  style="vertical-align: middle; display: none" />
               <img id="t1_input_thumb" height="100px" alt="thumbnail" src="" style="vertical-align: middle"/>
             </p>
+
+            <div class="buttons">
+              <img id="t1_buttons_spinning_wheel" src="spinning_wheel.gif" alt="spinning wheel"  style="vertical-align: middle; display: none" />
+              <span id="t1_buttons">
+                <button id="t1_preview_button"  onclick="go(0,false)">Preview</button>
+                <button id="t1_png_button" onclick="go(0,true)">Make Image <small>(popup)</small></button>
+              </span>
+            </div>
+
             
             <label>Text:</label>
-            <textarea id="t1_text" cols="37" rows="6"></textarea>
+            <textarea id="t1_text" cols="38" rows="6"></textarea>
             
             <label>Opacity: <span id="t1_opacity_value">30</span></label>
             <div id="t1_opacity"></div>
@@ -67,10 +76,6 @@
             <label>Output Size: <span id="t1_output_width_value">500</span> x <span id="t1_output_height_value">500</span></label>
             <div id="t1_output_height"></div>
             
-            <div class="buttons">
-              <button id="t1_preview_button"  onclick="go(0,false)">Preview</button>
-              <button id="t1_png_button" onclick="go(0,true)">to Image</button>
-            </div>
           </div>
           <canvas id="t1_output_canvas" width="500" height="500"></canvas>
         </div>
@@ -83,9 +88,17 @@
               <img id="t2_spinning_wheel" src="spinning_wheel.gif" alt="spinning wheel"  style="vertical-align: middle; display: none" />
               <img id="t2_input_thumb" height="100px" alt="thumbnail" src="" style="vertical-align: middle"/>
             </p>
-            
+
+            <div class="buttons">
+              <img id="t2_buttons_spinning_wheel" src="spinning_wheel.gif" alt="spinning wheel"  style="vertical-align: middle; display: none" />
+              <span id="t2_buttons">
+                <button id="t2_preview_button"  onclick="go(1,false)">Preview</button>
+                <button id="t2_png_button" onclick="go(1,true)">Make Image <small>(popup)</small></button>
+              </span>
+            </div>
+
             <label>Text:</label>
-            <textarea id="t2_text" cols="46" rows="4"></textarea>
+            <textarea id="t2_text" cols="38" rows="4"></textarea>
             
             <label>Opacity: <span id="t2_opacity_value">30</span></label>
             <div id="t2_opacity"></div>
@@ -116,10 +129,6 @@
             <label>Output Size: <span id="t2_output_width_value">500</span> x <span id="t2_output_height_value">500</span></label>
             <div id="t2_output_height"></div>
             
-            <div class="buttons">
-              <button id="t2_preview_button" onclick="go(1,false)">Preview</button>
-              <button id="t2_png_button" onclick="go(1,true)">to Image</button>
-            </div>
           </div>
           <canvas id="t2_output_canvas" width="400" height="400"></canvas>
         </div>
@@ -132,7 +141,16 @@
               <img id="e_spinning_wheel" src="spinning_wheel.gif" alt="spinning wheel"  style="vertical-align: middle; display: none" />
               <img id="e_input_thumb" height="100px" alt="thumbnail" src="" style="vertical-align: middle"/>
             </p>
-            
+
+            <div class="buttons">
+              <div style="text-align: center">
+              <img id="e_buttons_spinning_wheel" src="spinning_wheel.gif" alt="spinning wheel"  style="vertical-align: middle; display: none" />
+              <span id="e_buttons">
+                <button id="e_preview_button"  onclick="go(2,false)">Preview</button>
+                <button id="e_png_button" onclick="go(2,true)">Make Image <small>(popup)</small></button>
+              </span>
+            </div>
+
             <label>Opacity: <span id="e_opacity_value">30</span></label>
             <div id="e_opacity"></div>
             
@@ -154,10 +172,6 @@
             <label>Output Size: <span id="e_output_width_value">500</span> x <span id="e_output_height_value">500</span></label>
             <div id="e_output_height"></div>
             
-            <div class="buttons">
-              <button id="e_preview_button" onclick="go(2,false)">Preview</button>
-              <button id="e_png_button" onclick="go(2,true)">to Image</button>
-            </div>
           </div>
           <canvas id="e_output_canvas" width="400" height="400"></canvas>
         </div>
