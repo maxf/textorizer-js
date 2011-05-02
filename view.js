@@ -75,6 +75,9 @@ function thumb_loaded(event,i) {
   output_canvases[i].width = defaults[i]["output_height"] * aspectRatios[i];
   output_width_values[i].text(Math.floor(defaults[i]["output_height"]*aspectRatios[i]));
   output_height_values[i].text(Math.floor(defaults[i]["output_height"]));
+
+  // and render a preview
+  go(i,false);
 }
 
 var input_thumbs;
@@ -124,18 +127,15 @@ $(function() {
     // only re activate the buttons when the image is loaded **FIXME - image could already be loaded (if we reselect the existing URL)
     $("#t1_input_thumb").load(function(e){
                                 thumb_loaded(e,0);
-                                $("#t1_secondary_panel").show();
-                                $("#t1_output_canvas").show();
+                                $("#t1_secondary_panel, #t1_output_canvas, #t1_input_thumb").show();
                               });
     $("#t2_input_thumb").load(function(e){
                                 thumb_loaded(e,1);
-                                $("#t2_secondary_panel").show();
-                                $("#t2_output_canvas").show();
+                                $("#t2_secondary_panel, #t2_output_canvas, #t2_input_thumb").show();
                               });
     $("#e_input_thumb").load(function(e){
                                thumb_loaded(e,2);
-                               $("#e_secondary_panel").show();
-                               $("#e_output_canvas").show();
+                                $("#e_secondary_panel, #e_output_canvas, #e_input_thumb").show();
                               });
 
 

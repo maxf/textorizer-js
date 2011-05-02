@@ -34,8 +34,9 @@
         
         <div id="tabs_textorizer1">
           <div id="t1_panel">
+            <p>Select a picture:</p>
             <p style="text-align: center">
-              <img id="t1_input_thumb" height="100px" alt="Select an image file below" src="" style="vertical-align: middle"/>
+              <img id="t1_input_thumb" height="100px" alt="Select an image file below" src="" style="vertical-align: middle; display:none"/>
             </p>
 
             <input id="t1_file_selector" type="file" accept="image/*" class="image_selector"/>
@@ -82,20 +83,22 @@
 
         <div id="tabs_textorizer2">
           <div id="t2_panel">
+            <p>Select a picture:</p>
             <p style="text-align: center">
-              <img id="t2_input_thumb" height="100px" alt="Select an image file below" src="" style="vertical-align: middle"/>
+              <img id="t2_input_thumb" height="100px" alt="Select an image file below" src="" style="vertical-align: middle; display:none"/>
             </p>
             <input id="t2_file_selector" type="file" accept="image/*" class="image_selector"/>
 
-            <div class="buttons">
-              <img id="t2_buttons_spinning_wheel" src="spinning_wheel.gif" alt="spinning wheel"  style="vertical-align: middle; display: none" />
-              <span id="t2_buttons">
-                <button id="t2_preview_button"  onclick="go(1,false)">Preview</button>
-                <button id="t2_png_button" onclick="go(1,true)">Make Image <small>(popup)</small></button>
-              </span>
-            </div>
-
             <div id="t2_secondary_panel" style="display:none">
+
+              <div class="buttons">
+                <img id="t2_buttons_spinning_wheel" src="spinning_wheel.gif" alt="spinning wheel"  style="vertical-align: middle; display: none" />
+                <span id="t2_buttons">
+                  <button id="t2_preview_button"  onclick="go(1,false)">Preview</button>
+                  <button id="t2_png_button" onclick="go(1,true)">Make Image <small>(popup)</small></button>
+                </span>
+              </div>
+
               <label>Output Size: <span id="t2_output_width_value">500</span> x <span id="t2_output_height_value">500</span></label>
               <div id="t2_output_height"></div>
               
@@ -134,8 +137,9 @@
 
         <div id="tabs_excoffizer">
           <div id="e_panel">
+            <p>Select a picture:</p>
             <p style="text-align: center">
-              <img id="e_input_thumb" height="100px" alt="Select an image file below" src="" style="vertical-align: middle"/>
+              <img id="e_input_thumb" height="100px" alt="Select an image file below" src="" style="vertical-align: middle; display:none"/>
             </p>
             <input id="e_file_selector" type="file" accept="image/*" class="image_selector"/>
 
