@@ -1,11 +1,5 @@
-var PassThroughURL = "textorizer-passthrough.php?url=";
-
-//var inputURL = "http://farm1.static.flickr.com/33/59279271_fe73796ca6_m.jpg";
-var inputURL = "http://localhost/~mf/balance.png";
-
 var defaults = [{
                   // Textorizer 1
-                  "input_url":inputURL,
                   "text":"letters\nfonts\nwords\ntext\nkerning",
                   "opacity":30,
                   "nb_strings":1000,
@@ -15,7 +9,6 @@ var defaults = [{
                   "output_height":450
                 },{
                   // Textorizer 2
-                  "input_url":inputURL,
                   "text":"She knows, now, absolutely, hearing the white noise that is London, that Damien's theory of jet lag is correct: that her mortal soul is leagues behind her, being reeled in on some ghostly umbilical down the vanished wake of the plane that brought her here, hundreds of thousands of feet above the Atlantic. Souls can't move that quickly, and are left behind, and must be awaited, upon arrival, like lost luggage.", // http://www.williamgibsonbooks.com/books/pattern.asp#excerpt
                   "opacity":150,
                   "text_size":12,
@@ -26,7 +19,6 @@ var defaults = [{
                   "output_height":450
                 },{
                   // excoffizer
-                  "input_url":inputURL,
                   "opacity":30,
                   "theta":0,
                   "wiggle":10,
@@ -62,7 +54,7 @@ function go(i,openImageSeparately)
   output_canvases[i].style.display="none";
   // Put the pixels of the original image into the canvas
   var t = new Image();
-  t.src = PassThroughURL+input_urls[i].val();
+  t.src = input_thumbs[i].attr("src");
   t.onload = function() {
     inputCanvas.width=t.width;
     inputCanvas.height=t.height;
@@ -84,7 +76,6 @@ function thumb_loaded(event,i) {
   output_height_values[i].text(Math.floor(defaults[i]["output_height"]));
 }
 
-var input_urls;
 var input_thumbs;
 var output_canvases;
 var output_width_values, output_height_values;
@@ -103,38 +94,39 @@ $(function() {
     inputCanvasCtx = inputCanvas.getContext('2d');
     $("#tabs").tabs();
 
-    input_urls = [$("#t1_input_url"), $("#t2_input_url"), $("#e_input_url")];
     input_thumbs = [$("#t1_input_thumb"), $("#t2_input_thumb"), $("#e_input_thumb")];
     buttons_wheels = [$("#t1_buttons_spinning_wheel"), $("#t2_buttons_spinning_wheel"), $("#e_buttons_spinning_wheel")];
     buttons = [$("#t1_buttons"), $("#t2_buttons"), $("#e_buttons")];
 
-    // When the button is clicked, load the picture
-    $("#t1_input_button").click(function(){
-      if ($("#t1_input_thumb").attr("src")!=PassThroughURL+input_urls[0].val()) {
-        // only do something if we're loading a new input image
-        $("#t1_spinning_wheel").show();
-        $("#t1_input_thumb").hide();
-        $("#t1_input_thumb").attr("src", PassThroughURL+input_urls[0].val());
-      }
-    });
-    $("#t2_input_button").click(function(){
-      if ($("#t2_input_thumb").attr("src")!=PassThroughURL+input_urls[1].val()) {
-        // only do something if we're loading a new input image
-        $("#t2_spinning_wheel").show();
-        $("#t2_input_thumb").hide();
-        $("#t2_input_thumb").attr("src", PassThroughURL+input_urls[1].val());
-      }
-    });
-    $("#e_input_button").click(function(){
-      if ($("#e_input_thumb").attr("src")!=PassThroughURL+input_urls[2].val()) {
-        // only do something if we're loading a new input image
-        $("#e_spinning_wheel").show();
-        $("#e_input_thumb").hide();
-        $("#e_input_thumb").attr("src", PassThroughURL+input_urls[2].val());
-      }
-    });
+    $(".image_selector").change(function(e){
+                                  var fr = new FileReader();
+                                  switch(e.target) {
+                                    case document.getElementById("t1_file_selector"):
+                                      $("#t1_spinning_wheel").show(); $("#t1_input_thumb").hide();
+                                      fr.onload = function() {
+                                        $("#t1_input_thumb").attr("src",fr.result);
+                                        $("#t1_spinning_wheel").hide(); $("#t1_input_thumb").show();
+                                      };
+                                      break;
+                                    case document.getElementById("t2_file_selector"):
+                                      $("#t2_spinning_wheel").show(); $("#t2_input_thumb").hide();
+                                      fr.onload = function() {
+                                        $("#t2_input_thumb").attr("src",fr.result);
+                                        $("#t2_spinning_wheel").hide(); $("#t2_input_thumb").show();
+                                      };
+                                      break;
+                                    case document.getElementById("e_file_selector"):
+                                      $("#e_spinning_wheel").show(); $("#e_input_thumb").hide();
+                                      fr.onload = function() {
+                                        $("#e_input_thumb").attr("src",fr.result);
+                                        $("#e_spinning_wheel").hide(); $("#e_input_thumb").show();
+                                      };
+                                      break;
+                                    }
+                                    fr.readAsDataURL(e.target.files[0]);
+                                  });
 
-    // only re activate the buttons when the image is loaded **FIXME - image could already be loaded (if we reselect the eisting URL)
+    // only re activate the buttons when the image is loaded **FIXME - image could already be loaded (if we reselect the existing URL)
     $("#t1_input_thumb").load(function(e){
                                 $("#t1_spinning_wheel").hide();
                                 $("#t1_input_thumb").show();
@@ -205,8 +197,6 @@ $(function() {
                          }});
 
     for (var i=0;i<=2;i++) {
-      input_urls[i].val(defaults[i]["input_url"]);
-      input_thumbs[i].attr("src",PassThroughURL+defaults[i]["input_url"]);
       opacity_values[i].text(defaults[i]["opacity"]);
       output_height_values[i].text(defaults[i]["output_height"]);
       preview_buttons[i].button();
@@ -346,6 +336,7 @@ $(function() {
                          $("#e_ty_value").text(ui.value);
                        }});
     $("#e_ty_value").text(defaults[2]["ty"]);
+
   });
 
 function params(i) {
@@ -353,8 +344,7 @@ function params(i) {
     inputCanvas: inputCanvas,
     opacity: opacities[i].slider('value'),
     outputHeight: output_heights[i].slider('value'),
-    outputCanvas: output_canvases[i],
-    inputURL: input_urls[i]
+    outputCanvas: output_canvases[i]
   };
   switch(i) {
   case 0:
@@ -386,3 +376,4 @@ function params(i) {
   }
   return params;
 }
+

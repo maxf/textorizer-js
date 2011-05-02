@@ -31,7 +31,6 @@ Textorizer[0] = new function() {
     var maxFontScale = this._params['font_size_max'];
     var font         = this._params['font'];
     var opacity      = this._params['opacity'];
-    var inputURL     = this._params['input_url'];
 
     var inputWidth   = this.inputPixmap.width;
     var inputHeight  = this.inputPixmap.height;
@@ -148,7 +147,6 @@ Textorizer[1] = new function() {
     var inputCanvas  = this._params['inputCanvas'];
     var font         = this._params['font'];
     var opacity      = this._params['opacity'];
-    var inputURL     = this._params['input_url'];
     var kerning      = this._params['kerning'];
     var lineHeight   = this._params['line_height'];
     var fontScale    = this._params['font_scale'];
