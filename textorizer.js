@@ -262,11 +262,12 @@ Textorizer[2] = new function() {
   // private
   this._wiggle = function(x) { return this._wiggleAmplitude*Math.sin(x*this._wiggleFrequency); };
   this._S2P = function(x,y) {
-    // convert x,y from "sine space" to picture space
+    // transform x,y from "sine space" to picture space
+    // rotation ('theta'), scaling (sx,sy), translation (tx, ty)
     var c=Math.cos(this._params['theta']), s=Math.sin(this._params['theta']);
     var sx=this._params['sx'], sy=this._params['sy'];
     var tx=this._params['tx'], ty=this._params['ty'];
-    return [x*sx*c - y*sy*s + sx*c*tx - sy*s*ty, x*sx*s + y*sy*c + sx*s*tx + sy*c*ty];
+    return [x*sx*c - y*sy*s + tx*sx*c - ty*sy*s, x*sx*s + y*sy*c + tx*sx*s + ty*sy*c];
   };
   this._P2S = function(x,y)
     // convert x,y from picture space to  "sine space"

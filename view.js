@@ -315,7 +315,7 @@ $(function() {
                                 }});
     $("#e_line_height_value").text(defaults[2]["theta"]);
     $("#e_sx").slider({min:0,
-                       max:10,
+                       max:2,
                        step: 0.01,
                        value:defaults[2]["sx"],
                        slide: function(event, ui) {
@@ -323,7 +323,7 @@ $(function() {
                        }});
     $("#e_sx_value").text(defaults[2]["sx"]);
     $("#e_sy").slider({min:0,
-                       max:10,
+                       max:2,
                        step: 0.01,
                        value:defaults[2]["sy"],
                        slide: function(event, ui) {
