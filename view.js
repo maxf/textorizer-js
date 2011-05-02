@@ -20,7 +20,7 @@ var defaults = [{
                 },{
                   // excoffizer
                   "opacity":30,
-                  "theta":0,
+                  "theta":30,
                   "wiggle":10,
                   "line_height":5,
                   "sx":1,
@@ -331,6 +331,12 @@ $(function() {
                          $("#e_ty_value").text(ui.value);
                        }});
     $("#e_ty_value").text(defaults[2]["ty"]);
+
+
+    // populate the fonts dropowns
+    $("#t1_font").html("<option>"+Fonts.join("</option><option>")+"</option>");
+    $("#t2_font").html("<option>"+Fonts.join("</option><option>")+"</option>");
+
 
   });
 
