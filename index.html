@@ -14,7 +14,7 @@
     <style type="text/css">
       body { font-size: 80% }
       .buttons { margin-top: 1em; text-align: center }
-      label { display: block; margin: .5em 0 .2em 0 }
+      label { display: block; margin: .5em 0 .2em 0; text-align: left }
       img { border: 1px solid gray; }
       input { width: 100% }
 
@@ -49,6 +49,9 @@
               </span>
             </div>
 
+            <label>Output Size: <span id="t1_output_width_value">500</span> x <span id="t1_output_height_value">500</span></label>
+            <div id="t1_output_height"></div>
+
             
             <label>Text:</label>
             <textarea id="t1_text" cols="38" rows="6"></textarea>
@@ -73,8 +76,6 @@
               <option>Times New Roman</option>
             </select>
             
-            <label>Output Size: <span id="t1_output_width_value">500</span> x <span id="t1_output_height_value">500</span></label>
-            <div id="t1_output_height"></div>
             
           </div>
           <canvas id="t1_output_canvas" width="500" height="500"></canvas>
@@ -97,6 +98,9 @@
               </span>
             </div>
 
+            <label>Output Size: <span id="t2_output_width_value">500</span> x <span id="t2_output_height_value">500</span></label>
+            <div id="t2_output_height"></div>
+            
             <label>Text:</label>
             <textarea id="t2_text" cols="38" rows="4"></textarea>
             
@@ -126,9 +130,6 @@
               <option>Times New Roman</option>
             </select>
             
-            <label>Output Size: <span id="t2_output_width_value">500</span> x <span id="t2_output_height_value">500</span></label>
-            <div id="t2_output_height"></div>
-            
           </div>
           <canvas id="t2_output_canvas" width="400" height="400"></canvas>
         </div>
@@ -151,10 +152,12 @@
               </span>
             </div>
 
+            <label>Output Size: <span id="e_output_width_value">500</span> x <span id="e_output_height_value">500</span></label>
+            <div id="e_output_height"></div>
+
             <label>Opacity: <span id="e_opacity_value">30</span></label>
             <div id="e_opacity"></div>
-            
-            <label>Theta: <span id="e_theta_value">0</span></label>
+            <label>Angle: <span id="e_theta_value">0</span></label>
             <div id="e_theta"></div>
             <label>Wiggle: <span id="e_wiggle_value">10</span></label>
             <div id="e_wiggle"></div>
@@ -169,8 +172,6 @@
             <label>Ty: <span id="e_ty_value">0</span></label>
             <div id="e_ty"></div>
 
-            <label>Output Size: <span id="e_output_width_value">500</span> x <span id="e_output_height_value">500</span></label>
-            <div id="e_output_height"></div>
             
           </div>
           <canvas id="e_output_canvas" width="400" height="400"></canvas>

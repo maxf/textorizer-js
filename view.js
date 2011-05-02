@@ -1,6 +1,7 @@
 var PassThroughURL = "textorizer-passthrough.php?url=";
 
-var inputURL = "http://farm1.static.flickr.com/33/59279271_fe73796ca6_m.jpg";
+//var inputURL = "http://farm1.static.flickr.com/33/59279271_fe73796ca6_m.jpg";
+var inputURL = "http://localhost/~mf/balance.png";
 
 var defaults = [{
                   // Textorizer 1
@@ -58,7 +59,7 @@ function resizeOutputCanvasHeightTo(i, height) {
 function go(i,openImageSeparately)
 {
   buttons[i].hide(); buttons_wheels[i].show();
-
+  output_canvases[i].style.display="none";
   // Put the pixels of the original image into the canvas
   var t = new Image();
   t.src = PassThroughURL+input_urls[i].val();
@@ -68,6 +69,7 @@ function go(i,openImageSeparately)
     inputCanvasCtx.drawImage(t,0,0);
     Textorizer[i].textorize(params(i),openImageSeparately);
     buttons[i].show(); buttons_wheels[i].hide();
+    output_canvases[i].style.display="block";
   };
 };
 
@@ -108,22 +110,31 @@ $(function() {
 
     // When the button is clicked, load the picture
     $("#t1_input_button").click(function(){
-                                  $("#t1_spinning_wheel").show();
-                                  $("#t1_input_thumb").hide();
-                                  $("#t1_input_thumb").attr("src", PassThroughURL+input_urls[0].val());
-                                });
+      if ($("#t1_input_thumb").attr("src")!=PassThroughURL+input_urls[0].val()) {
+        // only do something if we're loading a new input image
+        $("#t1_spinning_wheel").show();
+        $("#t1_input_thumb").hide();
+        $("#t1_input_thumb").attr("src", PassThroughURL+input_urls[0].val());
+      }
+    });
     $("#t2_input_button").click(function(){
-                                  $("#t2_spinning_wheel").show();
-                                  $("#t2_input_thumb").hide();
-                                  $("#t2_input_thumb").attr("src", PassThroughURL+input_urls[1].val());
-                                });
+      if ($("#t2_input_thumb").attr("src")!=PassThroughURL+input_urls[1].val()) {
+        // only do something if we're loading a new input image
+        $("#t2_spinning_wheel").show();
+        $("#t2_input_thumb").hide();
+        $("#t2_input_thumb").attr("src", PassThroughURL+input_urls[1].val());
+      }
+    });
     $("#e_input_button").click(function(){
-                                  $("#e_spinning_wheel").show();
-                                  $("#e_input_thumb").hide();
-                                  $("#e_input_thumb").attr("src", PassThroughURL+input_urls[2].val());
-                               });
+      if ($("#e_input_thumb").attr("src")!=PassThroughURL+input_urls[2].val()) {
+        // only do something if we're loading a new input image
+        $("#e_spinning_wheel").show();
+        $("#e_input_thumb").hide();
+        $("#e_input_thumb").attr("src", PassThroughURL+input_urls[2].val());
+      }
+    });
 
-    // only activate the buttons when the image is loaded
+    // only re activate the buttons when the image is loaded **FIXME - image could already be loaded (if we reselect the eisting URL)
     $("#t1_input_thumb").load(function(e){
                                 $("#t1_spinning_wheel").hide();
                                 $("#t1_input_thumb").show();
@@ -195,7 +206,7 @@ $(function() {
 
     for (var i=0;i<=2;i++) {
       input_urls[i].val(defaults[i]["input_url"]);
-      input_thumbs[i].attr("src",defaults[i]["input_url"]);
+      input_thumbs[i].attr("src",PassThroughURL+defaults[i]["input_url"]);
       opacity_values[i].text(defaults[i]["opacity"]);
       output_height_values[i].text(defaults[i]["output_height"]);
       preview_buttons[i].button();
@@ -280,8 +291,8 @@ $(function() {
 
     // excoffizer
     $("#e_theta").slider({min:0,
-                          max:3.14,
-                          step: .01,
+                          max:180,
+                          step: .1,
                           value:defaults[2]["theta"],
                           slide: function(event, ui) {
                             $("#e_theta_value").text(ui.value);

@@ -252,6 +252,7 @@ Textorizer[2] = new function() {
     this.inputPixmap = new Pixmap(params['inputCanvas']);
     this._wiggleFrequency = this._params['wiggle']/100.0;
     this._wiggleAmplitude = this._wiggleFrequency==0 ? 0 : .5/this._wiggleFrequency;
+    this._params['theta']*=Math.PI/180; // degrees to radians
 
     this._excoffize();
     if (openImageSeparately)
