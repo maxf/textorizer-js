@@ -39,29 +39,29 @@ var aspectRatios=[];
 function changeOutputHeightTo(i,newHeight)
 {
   resizeOutputCanvasHeightTo(i,newHeight);
-  output_height_values[i].text(newHeight);
-  output_width_values[i].text(Math.floor(newHeight*aspectRatios[i]));
+  $("#output_height_value").text(newHeight);
+  $("#output_width_value").text(Math.floor(newHeight*aspectRatios[i]));
 }
 
 function resizeOutputCanvasHeightTo(i, height) {
-  output_canvases[i].height = height;
-  output_canvases[i].width = height*aspectRatios[i];
+  output_canvas.height = height;
+  output_canvas.width = height*aspectRatios[i];
 }
 
 function go(i,openImageSeparately)
 {
-  buttons[i].hide(); buttons_wheels[i].show();
-  output_canvases[i].style.display="none";
+  $("#buttons").hide(); $("#buttons_spinning_wheel").show();
+  output_canvas.style.display="none";
   // Put the pixels of the original image into the canvas
   var t = new Image();
-  t.src = input_thumbs[i].attr("src");
+  t.src = $("#input_thumb").attr("src");
   t.onload = function() {
     inputCanvas.width=t.width;
     inputCanvas.height=t.height;
     inputCanvasCtx.drawImage(t,0,0);
     Textorizer[i].textorize(params(i),openImageSeparately);
-    buttons[i].show(); buttons_wheels[i].hide();
-    output_canvases[i].style.display="block";
+    $("#buttons").show(); $("#buttons_spinning_wheel").hide();
+    output_canvas.style.display="block";
   };
 };
 
@@ -71,26 +71,19 @@ function thumb_loaded(event,i) {
   var newImg = new Image();
   newImg.src = event.target.src;
   aspectRatios[i] = newImg.width / newImg.height;
-  output_canvases[i].height = defaults[i]["output_height"];
-  output_canvases[i].width = defaults[i]["output_height"] * aspectRatios[i];
-  output_width_values[i].text(Math.floor(defaults[i]["output_height"]*aspectRatios[i]));
-  output_height_values[i].text(Math.floor(defaults[i]["output_height"]));
+  output_canvas.height = defaults[i]["output_height"];
+  output_canvas.width = defaults[i]["output_height"] * aspectRatios[i];
+  $("#output_width_value").text(Math.floor(defaults[i]["output_height"]*aspectRatios[i]));
+  $("#output_height_value").text(Math.floor(defaults[i]["output_height"]));
 
   // and render a preview
   go(i,false);
 }
 
-var input_thumbs;
-var output_canvases;
-var output_width_values, output_height_values;
-var output_heights;
+var output_canvas;
 var opacity_values;
 var texts;
 var opacities;
-var buttons_wheels;
-var buttons;
-var preview_buttons;
-var png_buttons;
 
 $(function() {
 
@@ -98,79 +91,34 @@ $(function() {
     inputCanvasCtx = inputCanvas.getContext('2d');
     $("#tabs").tabs();
 
-    input_thumbs = [$("#t1_input_thumb"), $("#t2_input_thumb"), $("#e_input_thumb")];
-    buttons_wheels = [$("#t1_buttons_spinning_wheel"), $("#t2_buttons_spinning_wheel"), $("#e_buttons_spinning_wheel")];
-    buttons = [$("#t1_buttons"), $("#t2_buttons"), $("#e_buttons")];
-
-    $(".image_selector").change(function(e){
+    $("#file_selector").change(function(e){
                                   var fr = new FileReader();
-                                  switch(e.target) {
-                                    case document.getElementById("t1_file_selector"):
-                                      fr.onload = function() {
-                                        $("#t1_input_thumb").attr("src",fr.result);
-                                      };
-                                      break;
-                                    case document.getElementById("t2_file_selector"):
-                                      fr.onload = function() {
-                                        $("#t2_input_thumb").attr("src",fr.result);
-                                      };
-                                      break;
-                                    case document.getElementById("e_file_selector"):
-                                      fr.onload = function() {
-                                        $("#e_input_thumb").attr("src",fr.result);
-                                      };
-                                      break;
-                                    }
-                                    fr.readAsDataURL(e.target.files[0]);
-                                  });
+                                  fr.onload = function() {
+                                    $("#input_thumb").attr("src",fr.result);
+                                  };
+                                  fr.readAsDataURL(e.target.files[0]);
+                                });
 
     // only re activate the buttons when the image is loaded **FIXME - image could already be loaded (if we reselect the existing URL)
-    $("#t1_input_thumb").load(function(e){
-                                thumb_loaded(e,0);
-                                $("#t1_secondary_panel, #t1_output_canvas, #t1_input_thumb").show();
-                              });
-    $("#t2_input_thumb").load(function(e){
-                                thumb_loaded(e,1);
-                                $("#t2_secondary_panel, #t2_output_canvas, #t2_input_thumb").show();
-                              });
-    $("#e_input_thumb").load(function(e){
-                               thumb_loaded(e,2);
-                                $("#e_secondary_panel, #e_output_canvas, #e_input_thumb").show();
-                              });
+    $("#input_thumb").load(function(e){
+                             thumb_loaded(e,0);
+                             $("#secondary_panel, #output_canvas, #input_thumb").show();
+                           });
 
 
-    preview_buttons = [$("#t1_preview_button"), $("#t2_preview_button"), $("#e_preview_button")];
-    png_buttons = [$("#t1_png_button"), $("#t2_png_button"),$("#e_png_button")];
-    texts = [$("#t1_text"), $("#t2_text"),$("#e_text")];
+    texts = [$("#t1_text"), $("#t2_text")];
     opacities = [$("#t1_opacity"), $("#t2_opacity"), $("#e_opacity")];
     opacity_values = [$("#t1_opacity_value"), $("#t2_opacity_value"), $("#e_opacity_value")];
     // no jquery on line below. We need the raw node values since we're operating on the attributes directly
-    output_canvases = [document.getElementById("t1_output_canvas"), document.getElementById("t2_output_canvas"), document.getElementById("e_output_canvas")];
-    output_heights = [$("#t1_output_height"), $("#t2_output_height"), $("#e_output_height")];
-    output_width_values = [$("#t1_output_width_value"), $("#t2_output_width_value"), $("#e_output_width_value")];
-    output_height_values = [$("#t1_output_height_value"), $("#t2_output_height_value"), $("#e_output_height_value")];
+    output_canvas = document.getElementById("output_canvas");
 
-    output_heights[0].slider({min:100,
-                              max:2000,
-                              step: 1,
-                              value:defaults[0]["output_height"],
-                              slide: function(event, ui) {
-                                changeOutputHeightTo(0,ui.value);
-                              }});
-    output_heights[1].slider({min:100,
-                              max:2000,
-                              step: 1,
-                              value:defaults[1]["output_height"],
-                              slide: function(event, ui) {
-                                changeOutputHeightTo(1,ui.value);
-                              }});
-    output_heights[2].slider({min:100,
-                              max:2000,
-                              step: 1,
-                              value:defaults[2]["output_height"],
-                              slide: function(event, ui) {
-                                changeOutputHeightTo(2,ui.value);
-                              }});
+    $("#output_height").slider({min:100,
+                                max:2000,
+                                step: 1,
+                                value:defaults[0]["output_height"],
+                                slide: function(event, ui) {
+                                  changeOutputHeightTo(0,ui.value);
+                                }});
 
     opacities[0].slider({min:0,
                          max:255,
@@ -193,9 +141,9 @@ $(function() {
 
     for (var i=0;i<=2;i++) {
       opacity_values[i].text(defaults[i]["opacity"]);
-      output_height_values[i].text(defaults[i]["output_height"]);
-      preview_buttons[i].button();
-      png_buttons[i].button();
+      $("#output_height_value").text(defaults[i]["output_height"]);
+      $("#preview_button").button();
+      $("#png_button").button();
     }
 
     texts[0].val(defaults[0]["text"]);
@@ -344,8 +292,8 @@ function params(i) {
   var params={
     inputCanvas: inputCanvas,
     opacity: opacities[i].slider('value'),
-    outputHeight: output_heights[i].slider('value'),
-    outputCanvas: output_canvases[i]
+    outputHeight: $("#output_height").slider('value'),
+    outputCanvas: output_canvas
   };
   switch(i) {
   case 0:
