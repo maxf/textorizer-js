@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>textorizer-js</title>
+    <!--    <link rel="stylesheet" href="style.css"/>-->
+    <link type="text/css" href="css/ui-lightness/jquery-ui-1.8rc3.custom.css" rel="stylesheet" />	
+		<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui-1.8rc3.custom.min.js"></script>
+
+		<script type="text/javascript" src="textorizer.js"></script>
+    <script type="text/javascript" src="view.js"></script> 
+    <script type="text/javascript" src="utils.js"></script> 
+    <script type="text/javascript" src="fontList.js"></script> 
+
+    <link type="text/css" href="textorizer.css" rel="stylesheet"/>
+  </head>
+  <body>
+    <div id="main">
+          <div id="panel">
+            <h1>Textorizer</h1>
+            <p>Select a picture:</p>
+            <p style="text-align: center">
+              <img id="input_thumb" height="100px" alt="Select an image file below" src="" style="vertical-align: middle; display:none"/>
+            </p>
+
+            <input id="file_selector" type="file" accept="image/*" class="image_selector"/>
+
+            <div id="secondary_panel" style="display:none">
+              <div class="buttons">
+                <img id="buttons_spinning_wheel" src="spinning_wheel.gif" alt="spinning wheel"  style="vertical-align: middle; display: none" />
+                <span id="buttons">
+                  <button id="preview_button"  onclick="go(0,false)">Preview</button>
+                  <button id="png_button" onclick="go(0,true)">Make Image <small>(popup)</small></button>
+                </span>
+              </div>
+
+  
+              <label>Output Size: <span id="output_width_value">500</span> x <span id="output_height_value">500</span></label>
+              <div id="output_height"></div>
+  
+              
+              <label>Text:</label>
+              <textarea id="t1_text" cols="30" rows="6"></textarea>
+              
+              <label>Opacity: <span id="t1_opacity_value">30</span></label>
+              <div id="t1_opacity"></div>
+              
+              <label>Number of Strings: <span id="t1_nb_strings_value">1000</span></label>
+              <div id="t1_nb_strings"></div>
+              
+              <label>Threshold: <span id="t1_threshold_value">100</span></label>
+              <div id="t1_threshold"></div>
+              
+              <label>Font Sizes: <span id="t1_font_size_value_min">5</span> - <span id="t1_font_size_value_max">50</span></label>
+              <div id="t1_font_size"></div>
+              
+              <label>Font:</label>
+              <select id="t1_font">
+                <option>Arial Black</option>
+                <option>Impact</option>
+                <option>Helvetica</option>
+                <option>Times New Roman</option>
+              </select>
+            </div>
+          </div>
+          <canvas id="output_canvas" width="400" height="400" style="display:none"></canvas>
+        </div>
+        <canvas style="display:none" id="input_canvas" width="10" height="10"></canvas>
+  </body>
+</html>

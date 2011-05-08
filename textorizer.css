@@ -1,0 +1,8 @@
+body { font-size: 80%; font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif; }
+.buttons { margin-top: 1em; text-align: center }
+label { display: block; margin: .5em 0 .2em 0; text-align: left }
+img { border: 1px solid gray; }
+input { width: 100% }
+
+#panel { width: 250px; }
+#output_canvas { position: absolute; left: 270px; top: 0px; border: 1px solid black }
