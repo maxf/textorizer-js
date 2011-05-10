@@ -11,22 +11,8 @@ var defaults = {
 
 var inputCanvas;
 var inputCanvasCtx;
-var aspectRatios=[];
 
-
-function changeOutputHeightTo(i,newHeight)
-{
-  resizeOutputCanvasHeightTo(i,newHeight);
-  $("#output_height_value").text(newHeight);
-  $("#output_width_value").text(Math.floor(newHeight*aspectRatios[i]));
-}
-
-function resizeOutputCanvasHeightTo(i, height) {
-  output_canvas.height = height;
-  output_canvas.width = height*aspectRatios[i];
-}
-
-function go(i,openImageSeparately)
+function go(options)
 {
   $("#buttons").hide(); $("#buttons_spinning_wheel").show();
   output_canvas.style.display="none";
@@ -37,28 +23,26 @@ function go(i,openImageSeparately)
     inputCanvas.width=t.width;
     inputCanvas.height=t.height;
     inputCanvasCtx.drawImage(t,0,0);
-    Textorizer[i].textorize(params(i),openImageSeparately);
+    Textorizer[0].textorize(params(),options.newWindow);
     $("#buttons").show(); $("#buttons_spinning_wheel").hide();
     output_canvas.style.display="block";
   };
 };
 
 // a thumbnail has been loaded
-function thumb_loaded(event,i) {
+function thumb_loaded(event) {
   // prepare the output canvas
   var newImg = new Image();
   newImg.src = event.target.src;
-  aspectRatios[i] = newImg.width / newImg.height;
-  output_canvas.height = defaults["output_height"];
-  output_canvas.width = defaults["output_height"] * aspectRatios[i];
-  $("#output_width_value").text(Math.floor(defaults["output_height"]*aspectRatios[i]));
-  $("#output_height_value").text(Math.floor(defaults["output_height"]));
+  aspectRatio = newImg.width / newImg.height;
+  output_canvas.height = defaults.output_height;
+  output_canvas.width = defaults.output_height * aspectRatio;
+  $("#output_width_value").text(Math.floor(defaults.output_height*aspectRatio));
+  $("#output_height_value").text(Math.floor(defaults.output_height));
 
   // and render a preview
-  go(i,false);
+  go({openWindow:false});
 }
-
-var output_canvas;
 
 $(function() {
 
@@ -87,47 +71,47 @@ $(function() {
     $("#output_height").slider({min:100,
                                 max:2000,
                                 step: 1,
-                                value:defaults["output_height"],
+                                value:defaults.output_height,
                                 slide: function(event, ui) {
                                   changeOutputHeightTo(0,ui.value);
                                 }});
 
     $("#opacity").slider({min:0,
                          max:255,
-                         value:defaults["opacity"],
+                         value:defaults.opacity,
                          slide: function(event, ui) {
                            $("#opacity_value").text(ui.value);
                          }});
 
-    $("#opacity_value").text(defaults["opacity"]);
-    $("#output_height_value").text(defaults["output_height"]);
+    $("#opacity_value").text(defaults.opacity);
+    $("#output_height_value").text(defaults.output_height);
     $("#preview_button").button();
     $("#png_button").button();
 
 
-    $("#text").val(defaults["text"]);
+    $("#text").val(defaults.text);
 
     /* specific settings */
     $("#nb_strings").slider({min:100,
                                 max:100000,
-                                value:defaults["nb_strings"],
+                                value:defaults.nb_strings,
                                 slide: function(event, ui) {
                                   $("#nb_strings_value").text(ui.value);
                                 }});
-    $("#nb_strings_value").text(defaults["nb_strings"]);
+    $("#nb_strings_value").text(defaults.nb_strings);
     $("#threshold").slider({min:0,
                                max:200,
                                step:.1,
-                               value:defaults["threshold"],
+                               value:defaults.threshold,
                                slide: function(event, ui) {
                                  $("#threshold_value").text(ui.value);
                                }});
-    $("#threshold_value").text(defaults["threshold"]);
+    $("#threshold_value").text(defaults.threshold);
     $("#font_size").slider({range: true,
                                min: 0,
                                max: 50,
                                step: .1,
-                               values: [defaults["font_size_min"], defaults["font_size_max"]],
+                               values: [defaults.font_size_min, defaults.font_size_max],
                                slide: function(event, ui) {
                                  $("#font_size_value_min").text(ui.values[0]);
                                  $("#font_size_value_max").text(ui.values[1]);

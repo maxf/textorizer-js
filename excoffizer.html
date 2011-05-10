@@ -7,10 +7,10 @@
 		<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui-1.8rc3.custom.min.js"></script>
 
+		<script type="text/javascript" src="common.js"></script>
 		<script type="text/javascript" src="textorizer.js"></script>
-    <script type="text/javascript" src="view.js"></script> 
+    <script type="text/javascript" src="e_view.js"></script> 
     <script type="text/javascript" src="utils.js"></script> 
-    <script type="text/javascript" src="fontList.js"></script> 
 
     <link type="text/css" href="textorizer.css" rel="stylesheet"/>
   </head>
@@ -29,31 +29,31 @@
                 <div style="text-align: center">
                   <img id="buttons_spinning_wheel" src="spinning_wheel.gif" alt="spinning wheel"  style="vertical-align: middle; display: none" />
                   <span id="buttons">
-                    <button id="preview_button"  onclick="go(2,false)">Preview</button>
-                    <button id="png_button" onclick="go(2,true)">Make Image <small>(popup)</small></button>
+                    <button id="preview_button"  onclick="go({openWindow:false})">Preview</button>
+                    <button id="png_button" onclick="go({openWindow:true})">Make Image <small>(popup)</small></button>
                   </span>
                 </div>
 
                 <label>Output Size: <span id="output_width_value">500</span> x <span id="output_height_value">500</span></label>
                 <div id="output_height"></div>
 
-                <label>Opacity: <span id="e_opacity_value">30</span></label>
-                <div id="e_opacity"></div>
-                <label>Angle: <span id="e_theta_value">30</span></label>
-                <div id="e_theta"></div>
-                <label>Wiggle: <span id="e_wiggle_value">10</span></label>
-                <div id="e_wiggle"></div>
-                <label>Space between lines: <span id="e_line_height_value">5</span></label>
-                <div id="e_line_height"></div>
-                <label>Stretch X: <span id="e_sx_value">1</span></label>
-                <div id="e_sx"></div>
-                <label>Stretch Y: <span id="e_sy_value">1</span></label>
-                <div id="e_sy"></div>
+                <label>Opacity: <span id="opacity_value">30</span></label>
+                <div id="opacity"></div>
+                <label>Angle: <span id="theta_value">30</span></label>
+                <div id="theta"></div>
+                <label>Wiggle: <span id="wiggle_value">10</span></label>
+                <div id="wiggle"></div>
+                <label>Space between lines: <span id="line_height_value">5</span></label>
+                <div id="line_height"></div>
+                <label>Stretch X: <span id="sx_value">1</span></label>
+                <div id="sx"></div>
+                <label>Stretch Y: <span id="sy_value">1</span></label>
+                <div id="sy"></div>
                 <div style="display:none"> <!-- not really useful, and confusing -->
-                  <label>Tx: <span id="e_tx_value">0</span></label>
-                  <div id="e_tx"></div>
-                  <label>Ty: <span id="e_ty_value">0</span></label>
-                  <div id="e_ty"></div>
+                  <label>Tx: <span id="tx_value">0</span></label>
+                  <div id="tx"></div>
+                  <label>Ty: <span id="ty_value">0</span></label>
+                  <div id="ty"></div>
                 </div>
               </div>            
           </div>

@@ -7,8 +7,9 @@
 		<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui-1.8rc3.custom.min.js"></script>
 
+    <script type="text/javascript" src="common.js"></script> 
 		<script type="text/javascript" src="textorizer.js"></script>
-    <script type="text/javascript" src="view.js"></script> 
+    <script type="text/javascript" src="t2_view.js"></script> 
     <script type="text/javascript" src="utils.js"></script> 
     <script type="text/javascript" src="fontList.js"></script> 
 
@@ -29,8 +30,8 @@
               <div class="buttons">
                 <img id="buttons_spinning_wheel" src="spinning_wheel.gif" alt="spinning wheel"  style="vertical-align: middle; display: none" />
                 <span id="buttons">
-                  <button id="preview_button"  onclick="go(1,false)">Preview</button>
-                  <button id="png_button" onclick="go(1,true)">Make Image <small>(popup)</small></button>
+                  <button id="preview_button"  onclick="go({newWindow:false})">Preview</button>
+                  <button id="png_button" onclick="go({newWindow:true})">Make Image <small>(popup)</small></button>
                 </span>
               </div>
 
@@ -38,28 +39,28 @@
               <div id="output_height"></div>
               
               <label>Text:</label>
-              <textarea id="t2_text" cols="30" rows="4"></textarea>
+              <textarea id="text" cols="30" rows="4"></textarea>
               
-              <label>Opacity: <span id="t2_opacity_value">30</span></label>
-              <div id="t2_opacity"></div>
+              <label>Opacity: <span id="opacity_value">30</span></label>
+              <div id="opacity"></div>
               
-              <label>Text Size: <span id="t2_text_size_value">30</span></label>
-              <div id="t2_text_size"></div>
+              <label>Text Size: <span id="text_size_value">30</span></label>
+              <div id="text_size"></div>
               
-              <label>Line Height: <span id="t2_line_height_value">30</span></label>
-              <div id="t2_line_height"></div>
+              <label>Line Height: <span id="line_height_value">30</span></label>
+              <div id="line_height"></div>
               
-              <label>Saturation: <span id="t2_saturation_value">30</span></label>
-              <div id="t2_saturation"></div>
+              <label>Saturation: <span id="saturation_value">30</span></label>
+              <div id="saturation"></div>
               
-              <label>Kerning: <span id="t2_kerning_value">30</span></label>
-              <div id="t2_kerning"></div>
+              <label>Kerning: <span id="kerning_value">30</span></label>
+              <div id="kerning"></div>
               
-              <label>Font Scale: <span id="t2_font_scale_value">30</span></label>
-              <div id="t2_font_scale"></div>
+              <label>Font Scale: <span id="font_scale_value">30</span></label>
+              <div id="font_scale"></div>
               
               <label>Font:</label>
-              <select id="t2_font">
+              <select id="font">
                 <option>Arial Black</option>
                 <option>Impact</option>
                 <option>Helvetica</option>
@@ -67,7 +68,7 @@
               </select>
             </div>            
           </div>
-          <canvas id="t2_output_canvas" width="400" height="400" style="display:none"></canvas>
+          <canvas id="output_canvas" width="400" height="400" style="display:none"></canvas>
         </div>
     <canvas style="display:none" id="input_canvas" width="10" height="10"></canvas>
   </body>
