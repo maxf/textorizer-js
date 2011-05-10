@@ -150,65 +150,6 @@ $(function() {
                                 }});
     $("#font_scale_value").text(defaults[1]["font_scale"]);
 
-    // excoffizer
-    $("#e_theta").slider({min:0,
-                          max:180,
-                          step: .1,
-                          value:defaults[2]["theta"],
-                          slide: function(event, ui) {
-                            $("#e_theta_value").text(ui.value);
-                          }});
-    $("#e_theta_value").text(defaults[2]["theta"]);
-    $("#e_wiggle").slider({min:0,
-                           max:30,
-                           step: .1,
-                           value:defaults[2]["wiggle"],
-                           slide: function(event, ui) {
-                             $("#e_wiggle_value").text(ui.value);
-                           }});
-    $("#e_wiggle_value").text(defaults[2]["wiggle"]);
-    $("#e_line_height").slider({min:1,
-                                max:100,
-                                step: 1,
-                                value:defaults[2]["line_height"],
-                                slide: function(event, ui) {
-                                  $("#e_line_height_value").text(ui.value);
-                                }});
-    $("#e_line_height_value").text(defaults[2]["theta"]);
-    $("#e_sx").slider({min:0,
-                       max:2,
-                       step: 0.01,
-                       value:defaults[2]["sx"],
-                       slide: function(event, ui) {
-                         $("#e_sx_value").text(ui.value);
-                       }});
-    $("#e_sx_value").text(defaults[2]["sx"]);
-    $("#e_sy").slider({min:0,
-                       max:2,
-                       step: 0.01,
-                       value:defaults[2]["sy"],
-                       slide: function(event, ui) {
-                         $("#e_sy_value").text(ui.value);
-                       }});
-    $("#e_sy_value").text(defaults[2]["sy"]);
-    $("#e_tx").slider({min:0,
-                       max:10,
-                       step: 0.01,
-                       value:defaults[2]["tx"],
-                       slide: function(event, ui) {
-                         $("#e_tx_value").text(ui.value);
-                       }});
-    $("#e_tx_value").text(defaults[2]["tx"]);
-    $("#e_ty").slider({min:0,
-                       max:10,
-                       step: 0.01,
-                       value:defaults[2]["ty"],
-                       slide: function(event, ui) {
-                         $("#e_ty_value").text(ui.value);
-                       }});
-    $("#e_ty_value").text(defaults[2]["ty"]);
-
-
     // populate the fonts dropowns
     $("#font").html("<option>"+Fonts.join("</option><option>")+"</option>");
 
