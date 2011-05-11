@@ -4,9 +4,9 @@ var Textorizer = [];
 
 Textorizer[0] = new function() {
 
-  this.textorize = function(params, openImageSeparately) {
+  this.textorize = function(params) {
     this._params = params;
-    this.inputPixmap = new Pixmap(params['inputCanvas']);
+    this.inputPixmap = new Pixmap(params.inputCanvas);
     this._textorize();
   };
 
@@ -20,15 +20,15 @@ Textorizer[0] = new function() {
     var x,y,tx,ty;
     var dx,dy,dmag2,vnear,b,textScale,dir,r;
     var v,p;
-    var words = this._params['text'].split('\n');
+    var words = this._params.text.split('\n');
     var word;
-    var outputCanvas = this._params['outputCanvas'];
-    var nbStrokes    = this._params['nb_strings'];
-    var threshold    = this._params['threshold'];
-    var minFontScale = this._params['font_size_min'];
-    var maxFontScale = this._params['font_size_max'];
-    var font         = this._params['font'];
-    var opacity      = this._params['opacity'];
+    var outputCanvas = this._params.outputCanvas;
+    var nbStrokes    = this._params.nb_strings;
+    var threshold    = this._params.threshold;
+    var minFontScale = this._params.font_size_min;
+    var maxFontScale = this._params.font_size_max;
+    var font         = this._params.font;
+    var opacity      = this._params.opacity;
 
     var inputWidth   = this.inputPixmap.width;
     var inputHeight  = this.inputPixmap.height;
@@ -123,7 +123,7 @@ Textorizer[1] = new function() {
 
   this.textorize = function(params) {
     this._params = params;
-    this.inputPixmap = new Pixmap(params['inputCanvas']);
+    this.inputPixmap = new Pixmap(params.inputCanvas);
     this._textorize();
   };
 
@@ -132,19 +132,19 @@ Textorizer[1] = new function() {
 
   this._textorize = function() {
     var textbuffer;
-    var text = this._params['text']+" ";
+    var text = this._params.text+" ";
     var nbletters = text.length;
     var ti=0;
     var x,y;
     var rx, scale, r,g,b, c, charToPrint, pixel;
-    var outputCanvas = this._params['outputCanvas'];
-    var inputCanvas  = this._params['inputCanvas'];
-    var font         = this._params['font'];
-    var opacity      = this._params['opacity'];
-    var kerning      = this._params['kerning'];
-    var lineHeight   = this._params['line_height'];
-    var fontScale    = this._params['font_scale'];
-    var fontSize     = this._params['text_size'];
+    var outputCanvas = this._params.outputCanvas;
+    var inputCanvas  = this._params.inputCanvas;
+    var font         = this._params.font;
+    var opacity      = this._params.opacity;
+    var kerning      = this._params.kerning;
+    var lineHeight   = this._params.line_height;
+    var fontScale    = this._params.font_scale;
+    var fontSize     = this._params.text_size;
 
     var inputWidth   = inputCanvas.width;
     var inputHeight  = inputCanvas.height;
@@ -239,16 +239,14 @@ Textorizer[2] = new function() {
 
   // public
 
-  this.textorize = function(params, openImageSeparately) {
+  this.textorize = function(params) {
     this._params = params;
-    this.inputPixmap = new Pixmap(params['inputCanvas']);
-    this._wiggleFrequency = this._params['wiggle']/100.0;
+    this.inputPixmap = new Pixmap(params.inputCanvas);
+    this._wiggleFrequency = this._params.wiggle/100.0;
     this._wiggleAmplitude = this._wiggleFrequency==0 ? 0 : .5/this._wiggleFrequency;
-    this._params['theta']*=Math.PI/180; // degrees to radians
+    this._params.theta*=Math.PI/180; // degrees to radians
 
     this._excoffize();
-    if (openImageSeparately)
-      window.open(this._params['outputCanvas'].toDataURL());
   };
 
   // private
@@ -256,17 +254,17 @@ Textorizer[2] = new function() {
   this._S2P = function(x,y) {
     // transform x,y from "sine space" to picture space
     // rotation ('theta'), scaling (sx,sy), translation (tx, ty)
-    var c=Math.cos(this._params['theta']), s=Math.sin(this._params['theta']);
-    var sx=this._params['sx'], sy=this._params['sy'];
-    var tx=this._params['tx'], ty=this._params['ty'];
+    var c=Math.cos(this._params.theta), s=Math.sin(this._params.theta);
+    var sx=this._params.sx, sy=this._params.sy;
+    var tx=this._params.tx, ty=this._params.ty;
     return [x*sx*c - y*sy*s + tx*sx*c - ty*sy*s, x*sx*s + y*sy*c + tx*sx*s + ty*sy*c];
   };
   this._P2S = function(x,y)
     // convert x,y from picture space to  "sine space"
   {
-    var c=Math.cos(-this._params['theta']), s=Math.sin(-this._params['theta']);
-    var sx = 1/this._params['sx'], sy = 1/this._params['sy'];
-    var tx = -this._params['tx'], ty = -this._params['ty'];
+    var c=Math.cos(-this._params.theta), s=Math.sin(-this._params.theta);
+    var sx = 1/this._params.sx, sy = 1/this._params.sy;
+    var tx = -this._params.tx, ty = -this._params.ty;
 
     return [ x*sx*c - y*sx*s + tx, x*sy*s + y*sy*c + ty ];
   };
@@ -280,14 +278,14 @@ Textorizer[2] = new function() {
   };
 
   this._excoffize = function() {
-    var outputCanvas = this._params['outputCanvas'];
+    var outputCanvas = this._params.outputCanvas;
     var outputCtx = outputCanvas.getContext('2d');
     var inputWidth   = this.inputPixmap.width;
     var inputHeight  = this.inputPixmap.height;
     var outputWidth  = outputCanvas.width;
     var outputHeight = outputCanvas.height;
-    var opacity      = this._params['opacity'];
-    var lineHeight   = this._params['line_height'];
+    var opacity      = this._params.opacity;
+    var lineHeight   = this._params.line_height;
 
 
     // reset values
@@ -330,12 +328,12 @@ Textorizer[2] = new function() {
 
     for (y=minY-this._wiggleAmplitude ;y<maxY+this._wiggleAmplitude;y+=stepy) {
       for (x=minX;x<maxX;x+=stepx) {
-        var imageP=this._S2P(x,y+this._wiggle(x),params);
+        var imageP=this._S2P(x,y+this._wiggle(x));
         var rx=imageP[0];
         var ry=imageP[1];
 
         // rx2,ry2 is the point ahead, to which we draw a segment
-        var imageP2=this._S2P(x+stepx,y+this._wiggle(x+stepx),params);
+        var imageP2=this._S2P(x+stepx,y+this._wiggle(x+stepx));
         var rx2=imageP2[0];
         var ry2=imageP2[1];
 

@@ -1,13 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <title>textorizer</title>
 		<link type="text/css" href="/style.css" rel="stylesheet" />	
   </head>
   <body>
-    <h1>Textorizer</h1>
+    <h1 ><img style="vertical-align: middle" src="http://localhost/~mf/textorizer-js/Textorizer_48x48.png" alt="Textorizer"/>textorizer / excoffizer</h1> 
+ 
+    <p>Textorizer allows you to make pictures formed with text. It is
+    best described by the sample images below. Although there are many
+    versions around, the only one that is continuing to supported is
+    this one. Excoffizer takes a picture and produces a vector
+    rendition of the picture, made of parallel lines of varying
+    thickness. It is inspired by <a
+    href="http://en.wikipedia.org/wiki/Roger_Excoffon">Roger
+    Excoffon's pictograms for the 1968 Grenoble Winter
+    Olympics</a>.</p>
 
-    <p>Choose a version</p>
+    <p>The previous version of Textorizer came as a downloadable
+    application. It is still available on a <a
+    href="textorizer-old.html">separate page</a> but is no longer
+    maintained. The <a href="/software/excoffizer">previous version of
+    excoffizer</a> is also still available and is also
+    discontinued.</p>
+
+    <h2>Choose a mode</h2>
 
     <table>
       <tr style="vertical-align: bottom">
@@ -21,5 +38,64 @@
         <td><a href="excoffizer.html">Excoffizer</a></td>
       </tr>
     </table>
-  </body>
+
+   <h2 id="examples">examples</h2> 
+<p>Here are a few pictures produced with textorizer (click to see the text)</p> 
+ 
+<a href="goethe.png"><img src="goethe.png" width="200" alt="goethe"/></a> 
+<a href="http://lapin-bleu.net/software/excoffizer/lucille-lortel2.png"><img src="http://lapin-bleu.net/software/excoffizer/lucille-lortel2.png" width="200" alt="lortel"/></a> 
+<a href="arabiannights.png"><img src="arabiannights.png" width="200" alt="arabian nights"/></a> 
+<a href="fujisan.png"><img src="fujisan.png" width="200" alt="fujisan"/></a> 
+ 
+ 
+<p>There is even a <a href="http://flickr.com/groups/textorized/pool/">Textorized Group</a> on Flickr, with many more examples.</p> 
+ 
+ 
+   <h2 id="documentation">Documentation</h2> 
+ 
+  <p>There are 2 ways of textorizing a picture. One is with the text going across the picture (called: textorizer 2), the other is with the text scattered around (textorizer 1).</p> 
+ 
+<p>How to:</p> 
+<ul> 
+  <li>Start the program</li> 
+  <li>Click on 'change image' at the top, and select one of your own photos</li> 
+  <li>Depending on which of Textorizer 1 or Textorizer 2 you would like to use, click "Change Words" or "Change Text" and select a file containing respectively a few words, or longer text.</li> 
+  <li>Click on 'Textorize!' or 'Textorize2!'</li> 
+  <li>Wait a bit, then see the results</li> 
+  <li>Play around with the controls, to improve the result</li> 
+  <li>The result is automatically saves as an image (called 'textorizer.png') and as an SVG file (called 'textorizer.svg'</li> 
+</ul> 
+ 
+<h3>A brief description of the controls</h3>
+ 
+<p>From top to bottom</p> 
+<ul> 
+  <li><strong>"Input Image"</strong>: the file name of the picture to textorize</li> 
+  <li><strong>"OUTPUT IMAGE SIZE"</strong>: the width of the computed picture. Its height is set accordingly.</li> 
+  <li><strong>"BACKGROUND OPACITY"</strong>: the original picture can appear below the text, with varying opacity. Change this setting to change how visible it is.</li> 
+  <li><strong>"SVG Output file"</strong>: lets you change the name of the SVG output file</li> 
+  <li><strong>"Output Image"</strong>: lets you change the name of the PNG output file</li> 
+  <li><strong>"SELECT FONT"</strong>: select the font to use on the resulting image</li> 
+  <li>Textorizer 1 controls
+    <ul> 
+      <li><strong>"NUMBER OF STROKES"</strong>: the number of pieces of texts that will be drawn</li> 
+      <li><strong>"THRESHOLD"</strong>: A value which controls how the text should emphasize the image's features</li> 
+      <li><strong>"FONT RANGE"</strong>: smallest and largest font size</li> 
+      <li><strong>"Words File"</strong>: selects a new text file witht the words to use</li> 
+      <li><strong>"TEXTORIZE!"</strong>: runs the textorizer</li> 
+    </ul> 
+  </li> 
+  <li>Textorizer 2 controls
+  <ul> 
+    <li><strong>"TEXT SIZE"</strong>: height of the output text. The smaller the text, the more lines.</li> 
+    <li><strong>"LINE HEIGHT"</strong>: distance between 2 lines</li> 
+    <li><strong>"COLOUR SATURATION"</strong>: emphasizes the text colour, if the result too pale</li> 
+    <li><strong>"KERNING"</strong>: controls the distance between adjacent letters</li> 
+    <li><strong>"FONT SCALE"</strong>: controls how big the font can become in darker areas</li> 
+    <li><strong>"Text File"</strong>: selects a new text file witht the text to use</li> 
+    <li><strong>"TEXTORIZE2!"</strong>: runs the textorizer2</li> 
+  </ul> 
+</li>
+</ul>
+</body>
 </html>

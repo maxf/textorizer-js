@@ -39,7 +39,7 @@ function go(options)
                               ty: $("#ty").slider('value')
                             });
 
-    if (options.newWindow)
+    if (options.openWindow)
       window.open(output_canvas.toDataURL());
 
     $("#buttons").show(); $("#buttons_spinning_wheel").hide();
@@ -63,9 +63,6 @@ function thumb_loaded(event) {
 }
 
 var output_canvas;
-var opacity_values;
-var texts;
-var opacities;
 
 $(function() {
 
@@ -88,9 +85,6 @@ $(function() {
                            });
 
 
-    texts = [$("#t1_text"), $("#t2_text")];
-    opacities = [$("#t1_opacity"), $("#t2_opacity"), $("#opacity")];
-    opacity_values = [$("#t1_opacity_value"), $("#t2_opacity_value"), $("#opacity_value")];
     // no jquery on line below. We need the raw node values since we're operating on the attributes directly
     output_canvas = document.getElementById("output_canvas");
 
@@ -99,7 +93,7 @@ $(function() {
                                 step: 1,
                                 value:defaults.output_height,
                                 slide: function(event, ui) {
-                                  changeOutputHeightTo(0,ui.value);
+                                  changeOutputHeightTo(ui.value);
                                 }});
 
     $("#opacity").slider({min:0,

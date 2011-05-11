@@ -33,7 +33,7 @@ function go(options)
                               font_size_min: $("#font_size").slider('values',0),
                               font_size_max: $("#font_size").slider('values',1),
                               font: $('#font :selected').text()});
-    if (options.newWindow)
+    if (options.openWindow)
       window.open(output_canvas.toDataURL());
 
     $("#buttons").show(); $("#buttons_spinning_wheel").hide();
@@ -85,7 +85,7 @@ $(function() {
                                 step: 1,
                                 value:defaults.output_height,
                                 slide: function(event, ui) {
-                                  changeOutputHeightTo(0,ui.value);
+                                  changeOutputHeightTo(ui.value);
                                 }});
 
     $("#opacity").slider({min:0,

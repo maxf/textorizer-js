@@ -7,6 +7,7 @@
 		<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui-1.8rc3.custom.min.js"></script>
 
+		<script type="text/javascript" src="common.js"></script>
 		<script type="text/javascript" src="textorizer.js"></script>
     <script type="text/javascript" src="t1_view.js"></script> 
     <script type="text/javascript" src="utils.js"></script> 
@@ -17,7 +18,7 @@
   <body>
     <div id="main">
           <div id="panel">
-            <h1>Textorizer</h1>
+    <h1 ><img style="vertical-align: middle" src="http://localhost/~mf/textorizer-js/Textorizer_48x48.png" alt="Textorizer"/>Textorizer 1</h1> 
             <p>Select a picture:</p>
             <p style="text-align: center">
               <img id="input_thumb" height="100px" alt="Select an image file below" src="" style="vertical-align: middle; display:none"/>
@@ -29,8 +30,8 @@
               <div class="buttons">
                 <img id="buttons_spinning_wheel" src="spinning_wheel.gif" alt="spinning wheel"  style="vertical-align: middle; display: none" />
                 <span id="buttons">
-                  <button id="preview_button"  onclick="go(0,false)">Preview</button>
-                  <button id="png_button" onclick="go(0,true)">Make Image <small>(popup)</small></button>
+                  <button id="preview_button"  onclick="go({openWindow:false})">Preview</button>
+                  <button id="png_button" onclick="go({openWindow:true})">Make Image <small>(popup)</small></button>
                 </span>
               </div>
 
