@@ -1,187 +1,25 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>textorizer-js</title>
-<!--    <link rel="stylesheet" href="style.css"/>-->
-		<link type="text/css" href="css/ui-lightness/jquery-ui-1.8rc3.custom.css" rel="stylesheet" />	
-		<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
-		<script type="text/javascript" src="js/jquery-ui-1.8rc3.custom.min.js"></script>
-
-		<script type="text/javascript" src="textorizer.js"></script>
-    <script type="text/javascript" src="view.js"></script> 
-    <script type="text/javascript" src="utils.js"></script> 
-    <script type="text/javascript" src="fontList.js"></script> 
-
-    <style type="text/css">
-      body { font-size: 80% }
-      .buttons { margin-top: 1em; text-align: center }
-      label { display: block; margin: .5em 0 .2em 0; text-align: left }
-      img { border: 1px solid gray; }
-      input { width: 100% }
-
-      #tabs_textorizer1, #tabs_textorizer2, #tabs_excoffizer { position: relative; padding: 0 }
-      #t1_panel, #t2_panel, #e_panel { width: 250px; }
-      #t1_output_canvas, #t2_output_canvas, #e_output_canvas { position: absolute; left: 270px; top: 0px; border: 1px solid black }
-    </style>
+    <title>textorizer</title>
+		<link type="text/css" href="/style.css" rel="stylesheet" />	
   </head>
   <body>
-    <div id="main">
-      <div id="tabs">
-        <ul>
-          <li><a href="#tabs_textorizer1">Textorizer 1</a></li>
-          <li><a href="#tabs_textorizer2">Textorizer 2</a></li>
-          <li><a href="#tabs_excoffizer">Excoffizer</a></li>
-        </ul>
-        
-        <div id="tabs_textorizer1">
-          <div id="t1_panel">
-            <p>Select a picture:</p>
-            <p style="text-align: center">
-              <img id="t1_input_thumb" height="100px" alt="Select an image file below" src="" style="vertical-align: middle; display:none"/>
-            </p>
+    <h1>Textorizer</h1>
 
-            <input id="t1_file_selector" type="file" accept="image/*" class="image_selector"/>
+    <p>Choose a version</p>
 
-            <div id="t1_secondary_panel" style="display:none">
-              <div class="buttons">
-                <img id="t1_buttons_spinning_wheel" src="spinning_wheel.gif" alt="spinning wheel"  style="vertical-align: middle; display: none" />
-                <span id="t1_buttons">
-                  <button id="t1_preview_button"  onclick="go(0,false)">Preview</button>
-                  <button id="t1_png_button" onclick="go(0,true)">Make Image <small>(popup)</small></button>
-                </span>
-              </div>
-  
-              <label>Output Size: <span id="t1_output_width_value">500</span> x <span id="t1_output_height_value">500</span></label>
-              <div id="t1_output_height"></div>
-  
-              
-              <label>Text:</label>
-              <textarea id="t1_text" cols="38" rows="6"></textarea>
-              
-              <label>Opacity: <span id="t1_opacity_value">30</span></label>
-              <div id="t1_opacity"></div>
-              
-              <label>Number of Strings: <span id="t1_nb_strings_value">1000</span></label>
-              <div id="t1_nb_strings"></div>
-              
-              <label>Threshold: <span id="t1_threshold_value">100</span></label>
-              <div id="t1_threshold"></div>
-              
-              <label>Font Sizes: <span id="t1_font_size_value_min">5</span> - <span id="t1_font_size_value_max">50</span></label>
-              <div id="t1_font_size"></div>
-              
-              <label>Font:</label>
-              <select id="t1_font">
-                <option>Arial Black</option>
-                <option>Impact</option>
-                <option>Helvetica</option>
-                <option>Times New Roman</option>
-              </select>
-            </div>
-          </div>
-          <canvas id="t1_output_canvas" width="400" height="400" style="display:none"></canvas>
-        </div>
-
-        <div id="tabs_textorizer2">
-          <div id="t2_panel">
-            <p>Select a picture:</p>
-            <p style="text-align: center">
-              <img id="t2_input_thumb" height="100px" alt="Select an image file below" src="" style="vertical-align: middle; display:none"/>
-            </p>
-            <input id="t2_file_selector" type="file" accept="image/*" class="image_selector"/>
-
-            <div id="t2_secondary_panel" style="display:none">
-
-              <div class="buttons">
-                <img id="t2_buttons_spinning_wheel" src="spinning_wheel.gif" alt="spinning wheel"  style="vertical-align: middle; display: none" />
-                <span id="t2_buttons">
-                  <button id="t2_preview_button"  onclick="go(1,false)">Preview</button>
-                  <button id="t2_png_button" onclick="go(1,true)">Make Image <small>(popup)</small></button>
-                </span>
-              </div>
-
-              <label>Output Size: <span id="t2_output_width_value">500</span> x <span id="t2_output_height_value">500</span></label>
-              <div id="t2_output_height"></div>
-              
-              <label>Text:</label>
-              <textarea id="t2_text" cols="38" rows="4"></textarea>
-              
-              <label>Opacity: <span id="t2_opacity_value">30</span></label>
-              <div id="t2_opacity"></div>
-              
-              <label>Text Size: <span id="t2_text_size_value">30</span></label>
-              <div id="t2_text_size"></div>
-              
-              <label>Line Height: <span id="t2_line_height_value">30</span></label>
-              <div id="t2_line_height"></div>
-              
-              <label>Saturation: <span id="t2_saturation_value">30</span></label>
-              <div id="t2_saturation"></div>
-              
-              <label>Kerning: <span id="t2_kerning_value">30</span></label>
-              <div id="t2_kerning"></div>
-              
-              <label>Font Scale: <span id="t2_font_scale_value">30</span></label>
-              <div id="t2_font_scale"></div>
-              
-              <label>Font:</label>
-              <select id="t2_font">
-                <option>Arial Black</option>
-                <option>Impact</option>
-                <option>Helvetica</option>
-                <option>Times New Roman</option>
-              </select>
-            </div>            
-          </div>
-          <canvas id="t2_output_canvas" width="400" height="400" style="display:none"></canvas>
-        </div>
-
-        <div id="tabs_excoffizer">
-          <div id="e_panel">
-            <p>Select a picture:</p>
-            <p style="text-align: center">
-              <img id="e_input_thumb" height="100px" alt="Select an image file below" src="" style="vertical-align: middle; display:none"/>
-            </p>
-            <input id="e_file_selector" type="file" accept="image/*" class="image_selector"/>
-
-            <div id="e_secondary_panel" style="display:none">
-              <div class="buttons">
-                <div style="text-align: center">
-                  <img id="e_buttons_spinning_wheel" src="spinning_wheel.gif" alt="spinning wheel"  style="vertical-align: middle; display: none" />
-                  <span id="e_buttons">
-                    <button id="e_preview_button"  onclick="go(2,false)">Preview</button>
-                    <button id="e_png_button" onclick="go(2,true)">Make Image <small>(popup)</small></button>
-                  </span>
-                </div>
-
-                <label>Output Size: <span id="e_output_width_value">500</span> x <span id="e_output_height_value">500</span></label>
-                <div id="e_output_height"></div>
-
-                <label>Opacity: <span id="e_opacity_value">30</span></label>
-                <div id="e_opacity"></div>
-                <label>Angle: <span id="e_theta_value">30</span></label>
-                <div id="e_theta"></div>
-                <label>Wiggle: <span id="e_wiggle_value">10</span></label>
-                <div id="e_wiggle"></div>
-                <label>Space between lines: <span id="e_line_height_value">5</span></label>
-                <div id="e_line_height"></div>
-                <label>Stretch X: <span id="e_sx_value">1</span></label>
-                <div id="e_sx"></div>
-                <label>Stretch Y: <span id="e_sy_value">1</span></label>
-                <div id="e_sy"></div>
-                <div style="display:none"> <!-- not really useful, and confusing -->
-                  <label>Tx: <span id="e_tx_value">0</span></label>
-                  <div id="e_tx"></div>
-                  <label>Ty: <span id="e_ty_value">0</span></label>
-                  <div id="e_ty"></div>
-                </div>
-              </div>            
-          </div>
-          <canvas id="e_output_canvas" width="400" height="400" style="display:none"></canvas>
-        </div>
-      </div>
-    </div>
-
-    <canvas style="display:none" id="input_canvas" width="10" height="10"></canvas>
+    <table>
+      <tr style="vertical-align: bottom">
+        <td><a href="http://www.w3.org/People/maxf/textorizer/danbri2.png"><img src="http://www.w3.org/People/maxf/textorizer/danbri2.png" width="200" alt="textorizer1"/></a></td>
+        <td><a href="http://lapin-bleu.net/software/textorizer/goethe.png"><img src="http://lapin-bleu.net/software/textorizer/goethe.png" width="200" alt="textorizer2"/></a></td>
+        <td><a href="http://lapin-bleu.net/software/excoffizer/jefferson.png"><img src="http://lapin-bleu.net/software/excoffizer/jefferson.png" width="200" alt="excoffizer"/></a></td>
+      </tr>
+      <tr>
+        <td><a href="textorizer.html">Textorizer 1</a></td>
+        <td><a href="textorizer2.html">Textorizer 2</a></td>
+        <td><a href="excoffizer.html">Excoffizer</a></td>
+      </tr>
+    </table>
   </body>
 </html>
