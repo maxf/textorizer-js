@@ -8,8 +8,6 @@ Textorizer[0] = new function() {
     this._params = params;
     this.inputPixmap = new Pixmap(params['inputCanvas']);
     this._textorize();
-    if (openImageSeparately)
-      window.open(this._params['outputCanvas'].toDataURL());
   };
 
   //==== private ====
@@ -123,14 +121,10 @@ Textorizer[0] = new function() {
 
 Textorizer[1] = new function() {
 
-  this.textorize = function(params, openImageSeparately) {
+  this.textorize = function(params) {
     this._params = params;
     this.inputPixmap = new Pixmap(params['inputCanvas']);
     this._textorize();
-
-    if (openImageSeparately)
-      window.open(this._params['outputCanvas'].toDataURL());
-
   };
 
 

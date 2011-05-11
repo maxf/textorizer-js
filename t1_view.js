@@ -23,7 +23,19 @@ function go(options)
     inputCanvas.width=t.width;
     inputCanvas.height=t.height;
     inputCanvasCtx.drawImage(t,0,0);
-    Textorizer[0].textorize(params(),options.newWindow);
+    Textorizer[0].textorize({ inputCanvas: inputCanvas,
+                              opacity: $("#opacity").slider('value'),
+                              outputHeight: $("#output_height").slider('value'),
+                              outputCanvas: output_canvas,
+                              text: $("#text").val(),
+                              nb_strings: $("#nb_strings").slider('value'),
+                              threshold: $("#threshold").slider('value'),
+                              font_size_min: $("#font_size").slider('values',0),
+                              font_size_max: $("#font_size").slider('values',1),
+                              font: $('#font :selected').text()});
+    if (options.newWindow)
+      window.open(output_canvas.toDataURL());
+
     $("#buttons").show(); $("#buttons_spinning_wheel").hide();
     output_canvas.style.display="block";
   };
@@ -127,19 +139,3 @@ $(function() {
 
 
   });
-
-function params() {
-  return {
-    inputCanvas: inputCanvas,
-    opacity: $("#opacity").slider('value'),
-    outputHeight: $("#output_height").slider('value'),
-    outputCanvas: output_canvas,
-
-    text: $("#text").val(),
-    nb_strings: $("#nb_strings").slider('value'),
-    threshold: $("#threshold").slider('value'),
-    font_size_min: $("#font_size").slider('values',0),
-    font_size_max: $("#font_size").slider('values',1),
-    font: $('#font :selected').text()
-  };
-}

@@ -24,7 +24,22 @@ function go(options)
     inputCanvas.width=t.width;
     inputCanvas.height=t.height;
     inputCanvasCtx.drawImage(t,0,0);
-    Textorizer[1].textorize(params(),options.newWindow);
+    Textorizer[1].textorize({
+                              inputCanvas: inputCanvas,
+                              opacity: $("#opacity").slider('value'),
+                              outputHeight: $("#output_height").slider('value'),
+                              outputCanvas: output_canvas,
+                              text: $("#text").val(),
+                              text_size: $("#text_size").slider('value'),
+                              line_height: $("#line_height").slider('value'),
+                              saturation: $("#saturation").slider('value'),
+                              kerning: $("#kerning").slider('value'),
+                              font_scale: $("#font_scale").slider('value'),
+                              font: $('#font :selected').text()
+                            });
+    if (options.newWindow)
+      window.open(output_canvas.toDataURL());
+
     $("#buttons").show(); $("#buttons_spinning_wheel").hide();
     output_canvas.style.display="block";
   };
@@ -140,19 +155,3 @@ $(function() {
 
 
   });
-
-function params() {
-  return {
-    inputCanvas: inputCanvas,
-    opacity: $("#opacity").slider('value'),
-    outputHeight: $("#output_height").slider('value'),
-    outputCanvas: output_canvas,
-    text: $("#text").val(),
-    text_size: $("#text_size").slider('value'),
-    line_height: $("#line_height").slider('value'),
-    saturation: $("#saturation").slider('value'),
-    kerning: $("#kerning").slider('value'),
-    font_scale: $("#font_scale").slider('value'),
-    font: $('#font :selected').text()
-  };
-}
