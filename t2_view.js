@@ -37,7 +37,7 @@ function go(options)
                               font_scale: $("#font_scale").slider('value'),
                               font: $('#font :selected').text()
                             });
-    if (options.openWindow)
+    if (options.newWindow)
       window.open(output_canvas.toDataURL());
 
     $("#buttons").show(); $("#buttons_spinning_wheel").hide();
