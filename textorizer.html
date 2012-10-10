@@ -20,12 +20,28 @@
           <div id="panel">
             <h1><img style="vertical-align: middle" src="Textorizer_48x48.png" alt="Textorizer"/>Textorizer 1</h1> 
             <p><small><a href=".">What's this?</a> <a href=".#documentation">Help!</a> <a href=".#support">Bugs</a></small></p>
-            <h2>Select a picture:</h2>
+            <h2>Select a picture on your computer:</h2>
             <p style="text-align: center">
               <img id="input_thumb" height="100px" alt="Select an image file below" src="" style="vertical-align: middle; display:none"/>
             </p>
 
             <input id="file_selector" type="file" accept="image/*;capture=camera" class="image_selector"/>
+            <small><a href="#" id="privacy">(privacy concerns?)</a></small>
+
+            <div id="privacy_popup" title="Privacy" style="display:none">
+              The image never leaves your computer: we don't upload it anywhere. The whole process happens in your browser.
+            </div>
+
+            <h2>Or try with a sample picture:</h2>
+            <input style="width:4em" id="url_go" type="button" style="width:20%" value="Go!"/><input id="input_url" type="text" value="http://lapin-bleu.net/images/exit-621x377.png" style="width:80%"/>
+            <small><a href="#" id="cors">(why doesn't it work with another URL?)</a></small>
+
+            <div id="cors_popup" title="Privacy" style="display:none">
+<p>              The only images that can be accessed through their URL are ones that reside on this server. </p>
+<p>If you'd like to use images from other sites, just save them locally and select them on this page.</p>
+
+<p>This restriction is due to security concerns (although I'm not sure why it applies in this case). See <a target="_blank" href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">wikipedia's CORS entry</a> to find out  more.</p>
+            </div>
 
             <div id="secondary_panel" style="display:none">
               <div class="buttons">

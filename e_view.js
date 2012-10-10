@@ -68,7 +68,13 @@ $(function() {
 
     inputCanvas = document.getElementById("input_canvas");
     inputCanvasCtx = inputCanvas.getContext('2d');
-    $("#tabs").tabs();
+
+  $("#privacy").click(function (e) {
+    $("#privacy_popup").dialog();
+  });
+  $("#cors").click(function (e) {
+    $("#cors_popup").dialog();
+  });
 
     $("#file_selector").change(function(e){
                                   var fr = new FileReader();
