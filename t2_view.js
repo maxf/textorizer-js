@@ -97,7 +97,7 @@ $(function() {
                          max:255,
                          value:defaults.opacity,
                          slide: function(event, ui) {
-                           opacity_values.text(ui.value);
+                           $("#opacity_value").text(ui.value);
                          }});
 
     $("#opacity_value").text(defaults.opacity);
