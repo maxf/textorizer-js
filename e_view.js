@@ -84,6 +84,10 @@ $(function() {
                                   fr.readAsDataURL(e.target.files[0]);
                                 });
 
+  $("#url_go").click(function (e) {
+    $("#input_thumb").attr("src", $("#input_url").val());
+  });
+
     // only re activate the buttons when the image is loaded **FIXME - image could already be loaded (if we reselect the existing URL)
     $("#input_thumb").load(function(e){
                              thumb_loaded(e,0);
