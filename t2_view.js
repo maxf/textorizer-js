@@ -1,49 +1,55 @@
+/*jslint devel: true, browser: true, maxerr: 50, indent: 2 */
+
+var $, output_canvas, Textorizer;
+
 var defaults = {
-    "text":"She knows, now, absolutely, hearing the white noise that is London, that Damien's theory of jet lag is correct: that her mortal soul is leagues behind her, being reeled in on some ghostly umbilical down the vanished wake of the plane that brought her here, hundreds of thousands of feet above the Atlantic. Souls can't move that quickly, and are left behind, and must be awaited, upon arrival, like lost luggage.", // http://www.williamgibsonbooks.com/books/pattern.asp#excerpt
-  "opacity":150,
-  "text_size":12,
-  "line_height":1,
-  "saturation":0,
-  "kerning":0,
-  "font_scale":1.5,
-  "output_height":450
-                };
+    "text": "She knows, now, absolutely, hearing the white noise that is London, that Damien's theory of jet lag is correct: that her mortal soul is leagues behind her, being reeled in on some ghostly umbilical down the vanished wake of the plane that brought her here, hundreds of thousands of feet above the Atlantic. Souls can't move that quickly, and are left behind, and must be awaited, upon arrival, like lost luggage.", // http://www.williamgibsonbooks.com/books/pattern.asp#excerpt
+    "opacity": 150,
+    "text_size": 12,
+    "line_height": 1,
+    "saturation": 0,
+    "kerning": 0,
+    "font_scale": 1.5,
+    "output_height": 450
+  };
 
 var inputCanvas;
 var inputCanvasCtx;
 
 
-function go(options)
-{
-  $("#buttons").hide(); $("#buttons_spinning_wheel").show();
-  output_canvas.style.display="none";
+function go(options) {
+  "use strict";
+  $("#buttons").hide();
+  $("#buttons_spinning_wheel").show();
+  output_canvas.style.display = "none";
   // Put the pixels of the original image into the canvas
   var t = new Image();
   t.src = $("#input_thumb").attr("src");
-  t.onload = function() {
-    inputCanvas.width=t.width;
-    inputCanvas.height=t.height;
-    inputCanvasCtx.drawImage(t,0,0);
+  t.onload = function () {
+    inputCanvas.width = t.width;
+    inputCanvas.height = t.height;
+    inputCanvasCtx.drawImage(t, 0, 0);
     Textorizer[1].textorize({
-                              inputCanvas: inputCanvas,
-                              opacity: $("#opacity").slider('value'),
-                              outputHeight: $("#output_height").slider('value'),
-                              outputCanvas: output_canvas,
-                              text: $("#text").val(),
-                              text_size: $("#text_size").slider('value'),
-                              line_height: $("#line_height").slider('value'),
-                              saturation: $("#saturation").slider('value'),
-                              kerning: $("#kerning").slider('value'),
-                              font_scale: $("#font_scale").slider('value'),
-                              font: $('#font :selected').text()
-                            });
-    if (options.newWindow)
+      inputCanvas: inputCanvas,
+      opacity: $("#opacity").slider('value'),
+      outputHeight: $("#output_height").slider('value'),
+      outputCanvas: output_canvas,
+      text: $("#text").val(),
+      text_size: $("#text_size").slider('value'),
+      line_height: $("#line_height").slider('value'),
+      saturation: $("#saturation").slider('value'),
+      kerning: $("#kerning").slider('value'),
+      font_scale: $("#font_scale").slider('value'),
+      font: $('#font :selected').text()
+    });
+    if (options.newWindow) {
       window.open(output_canvas.toDataURL());
-
-    $("#buttons").show(); $("#buttons_spinning_wheel").hide();
-    output_canvas.style.display="block";
+    }
+    $("#buttons").show();
+    $("#buttons_spinning_wheel").hide();
+    output_canvas.style.display = "block";
   };
-};
+}
 
 // a thumbnail has been loaded
 function thumb_loaded(event) {
