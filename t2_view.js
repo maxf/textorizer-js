@@ -15,7 +15,7 @@ var defaults = {
 
 var inputCanvas;
 var inputCanvasCtx;
-
+var aspectRatio;
 
 function go(options) {
   "use strict";
@@ -54,12 +54,15 @@ function go(options) {
 // a thumbnail has been loaded
 function thumb_loaded(event) {
   "use strict";
+  console.log("thumb_loaded");
   // prepare the output canvas
-  var newImg = new Image(), aspectRatio;
+  var newImg = new Image();
   newImg.src = event.target.src;
+
   aspectRatio = newImg.width / newImg.height;
   output_canvas.height = defaults.output_height;
   output_canvas.width = defaults.output_height * aspectRatio;
+
   $("#output_width_value").text(Math.floor(defaults.output_height * aspectRatio));
   $("#output_height_value").text(Math.floor(defaults.output_height));
 

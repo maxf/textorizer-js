@@ -13,6 +13,7 @@ var defaults = {
 
 var inputCanvas;
 var inputCanvasCtx;
+var aspectRatio;
 
 function go(options)
 {
