@@ -34,8 +34,6 @@ function go(options)
                               font_size_min: $("#font_size").slider('values',0),
                               font_size_max: $("#font_size").slider('values',1),
                               font: $('#font :selected').text()});
-    if (options.openWindow)
-      window.open(output_canvas.toDataURL());
 
     $("#buttons").show(); $("#buttons_spinning_wheel").hide();
     output_canvas.style.display="block";
@@ -54,7 +52,7 @@ function thumb_loaded(event) {
   $("#output_height_value").text(Math.floor(defaults.output_height));
 
   // and render a preview
-  go({openWindow:false});
+  go();
 }
 
 $(function() {
@@ -92,7 +90,7 @@ $(function() {
     output_canvas = document.getElementById("output_canvas");
 
     $("#output_height").slider({min:100,
-                                max:2000,
+                                max:700,
                                 step: 1,
                                 value:defaults.output_height,
                                 slide: function(event, ui) {
@@ -109,7 +107,6 @@ $(function() {
     $("#opacity_value").text(defaults.opacity);
     $("#output_height_value").text(defaults.output_height);
     $("#preview_button").button();
-    $("#png_button").button();
 
 
     $("#text").val(defaults.text);

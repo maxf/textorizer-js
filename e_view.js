@@ -40,9 +40,6 @@ function go(options)
                               ty: $("#ty").slider('value')
                             });
 
-    if (options.openWindow)
-      window.open(output_canvas.toDataURL());
-
     $("#buttons").show(); $("#buttons_spinning_wheel").hide();
     output_canvas.style.display="block";
   };
@@ -100,7 +97,7 @@ $(function() {
     output_canvas = document.getElementById("output_canvas");
 
     $("#output_height").slider({min:100,
-                                max:2000,
+                                max:700,
                                 step: 1,
                                 value:defaults.output_height,
                                 slide: function(event, ui) {
@@ -117,7 +114,6 @@ $(function() {
     $("#opacity_value").text(defaults.opacity);
     $("#output_height_value").text(defaults.output_height);
     $("#preview_button").button();
-    $("#png_button").button();
 
 
     $("#theta").slider({min:0,
