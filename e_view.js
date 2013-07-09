@@ -102,6 +102,9 @@ $(function() {
                                 value:defaults.output_height,
                                 slide: function(event, ui) {
                                   changeOutputHeightTo(ui.value);
+                                },
+                                change: function (event, ui) {
+                                  go();
                                 }});
 
     $("#opacity").slider({min:0,
@@ -109,6 +112,9 @@ $(function() {
                          value:defaults.opacity,
                          slide: function(event, ui) {
                            $("#opacity_value").text(ui.value);
+                         },
+                         change: function (event, ui) {
+                           go();
                          }});
 
     $("#opacity_value").text(defaults.opacity);
@@ -122,6 +128,9 @@ $(function() {
                           value:defaults.theta,
                           slide: function(event, ui) {
                             $("#theta_value").text(ui.value);
+                          },
+                          change: function (event, ui) {
+                            go();
                           }});
     $("#theta_value").text(defaults.theta);
     $("#wiggle").slider({min:0,
@@ -130,6 +139,9 @@ $(function() {
                            value:defaults.wiggle,
                            slide: function(event, ui) {
                              $("#wiggle_value").text(ui.value);
+                           },
+                           change: function (event, ui) {
+                             go();
                            }});
     $("#wiggle_value").text(defaults.wiggle);
     $("#line_height").slider({min:1,
@@ -138,6 +150,9 @@ $(function() {
                                 value:defaults.line_height,
                                 slide: function(event, ui) {
                                   $("#line_height_value").text(ui.value);
+                                },
+                                change: function (event, ui) {
+                                  go();
                                 }});
     $("#line_height_value").text(defaults.theta);
     $("#sx").slider({min:0,
@@ -146,6 +161,9 @@ $(function() {
                        value:defaults.sx,
                        slide: function(event, ui) {
                          $("#sx_value").text(ui.value);
+                       },
+                       change: function (event, ui) {
+                         go();
                        }});
     $("#sx_value").text(defaults.sx);
     $("#sy").slider({min:0,
@@ -154,6 +172,9 @@ $(function() {
                        value:defaults.sy,
                        slide: function(event, ui) {
                          $("#sy_value").text(ui.value);
+                       },
+                       change: function (event, ui) {
+                         go();
                        }});
     $("#sy_value").text(defaults.sy);
     $("#tx").slider({min:0,
@@ -162,6 +183,9 @@ $(function() {
                        value:defaults.tx,
                        slide: function(event, ui) {
                          $("#tx_value").text(ui.value);
+                       },
+                       change: function (event, ui) {
+                         go();
                        }});
     $("#tx_value").text(defaults.tx);
     $("#ty").slider({min:0,
@@ -170,6 +194,9 @@ $(function() {
                        value:defaults.ty,
                        slide: function(event, ui) {
                          $("#ty_value").text(ui.value);
+                       },
+                       change: function (event, ui) {
+                         go();
                        }});
     $("#ty_value").text(defaults.ty);
 

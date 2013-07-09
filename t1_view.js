@@ -95,6 +95,9 @@ $(function() {
                                 value:defaults.output_height,
                                 slide: function(event, ui) {
                                   changeOutputHeightTo(ui.value);
+                                },
+                                change: function (event, ui) {
+                                  go();
                                 }});
 
     $("#opacity").slider({min:0,
@@ -102,6 +105,9 @@ $(function() {
                          value:defaults.opacity,
                          slide: function(event, ui) {
                            $("#opacity_value").text(ui.value);
+                         },
+                         change: function (event, ui) {
+                           go();
                          }});
 
     $("#opacity_value").text(defaults.opacity);
@@ -117,6 +123,9 @@ $(function() {
                                 value:defaults.nb_strings,
                                 slide: function(event, ui) {
                                   $("#nb_strings_value").text(ui.value);
+                                },
+                                change: function (event, ui) {
+                                  go();
                                 }});
     $("#nb_strings_value").text(defaults.nb_strings);
     $("#threshold").slider({min:0,
@@ -125,6 +134,9 @@ $(function() {
                                value:defaults.threshold,
                                slide: function(event, ui) {
                                  $("#threshold_value").text(ui.value);
+                               },
+                               change: function (event, ui) {
+                                 go();
                                }});
     $("#threshold_value").text(defaults.threshold);
     $("#font_size").slider({range: true,
@@ -135,6 +147,9 @@ $(function() {
                                slide: function(event, ui) {
                                  $("#font_size_value_min").text(ui.values[0]);
                                  $("#font_size_value_max").text(ui.values[1]);
+                               },
+                               change: function (event, ui) {
+                                 go();
                                }});
     $("#font_size_value_min").text($("#font_size").slider("values", 0));
     $("#font_size_value_max").text($("#font_size").slider("values", 1));
@@ -144,6 +159,5 @@ $(function() {
 
     // populate the fonts dropowns
     $("#font").html("<option>"+Fonts.join("</option><option>")+"</option>");
-
-
+    $("#font").change(function() { go(); });
   });

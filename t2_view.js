@@ -110,6 +110,9 @@ $(function () {
     value: defaults.output_height,
     slide: function (event, ui) {
       changeOutputHeightTo(ui.value);
+    },
+    change: function (event, ui) {
+      go();
     }
   });
 
@@ -118,7 +121,10 @@ $(function () {
     max: 255,
     value: defaults.opacity,
     slide: function (event, ui) {
-      $("#opacity_value").text(ui.value);
+      $("#opacity_value").text(ui.value);      
+    },
+    change: function (event, ui) {
+      go();
     }
   });
 
@@ -133,7 +139,10 @@ $(function () {
     step: 0.1,
     value: defaults.text_size,
     slide: function (event, ui) {
-      $("#text_size_value").text(ui.value);
+      $("#text_size_value").text(ui.value);      
+    },
+    change: function (event, ui) {
+      go();
     }
   });
   $("#text_size_value").text(defaults.text_size);
@@ -145,6 +154,9 @@ $(function () {
     value: defaults.line_height,
     slide: function (event, ui) {
       $("#line_height_value").text(ui.value);
+    },
+    change: function (event, ui) {
+      go();
     }
   });
 
@@ -156,6 +168,9 @@ $(function () {
     value: defaults.saturation,
     slide: function (event, ui) {
       $("#saturation_value").text(ui.value);
+    },
+    change: function (event, ui) {
+      go();
     }
   });
 
@@ -168,6 +183,9 @@ $(function () {
     value: defaults.kerning,
     slide: function (event, ui) {
       $("#kerning_value").text(ui.value);
+    },
+    change: function (event, ui) {
+      go();
     }
   });
 
@@ -180,6 +198,9 @@ $(function () {
     value: defaults.font_scale,
     slide: function (event, ui) {
       $("#font_scale_value").text(ui.value);
+    },
+    change: function (event, ui) {
+      go();
     }
   });
 
@@ -187,5 +208,6 @@ $(function () {
 
   // populate the fonts dropowns
   $("#font").html("<option>" + Fonts.join("</option><option>") + "</option>");
+  $("#font").change(function() { go(); });
 
 });
