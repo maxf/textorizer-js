@@ -32,7 +32,7 @@ function go(options) {
     Textorizer[1].textorize({
       inputCanvas: inputCanvas,
       opacity: $("#opacity").slider('value'),
-      outputHeight: $("#output_height").slider('value'),
+      outputHeight: defaults.output_height,
       outputCanvas: output_canvas,
       text: $("#text").val(),
       text_size: $("#text_size").slider('value'),
@@ -59,9 +59,6 @@ function thumb_loaded(event) {
   aspectRatio = newImg.width / newImg.height;
   output_canvas.height = defaults.output_height;
   output_canvas.width = defaults.output_height * aspectRatio;
-
-  $("#output_width_value").text(Math.floor(defaults.output_height * aspectRatio));
-  $("#output_height_value").text(Math.floor(defaults.output_height));
 
   // and render a preview
   go();
@@ -103,19 +100,6 @@ $(function () {
     // no jquery on line below. We need the raw node values since we're operating on the attributes directly
   output_canvas = document.getElementById("output_canvas");
 
-  $("#output_height").slider({
-    min: 100,
-    max: 700,
-    step: 1,
-    value: defaults.output_height,
-    slide: function (event, ui) {
-      changeOutputHeightTo(ui.value);
-    },
-    change: function (event, ui) {
-      go();
-    }
-  });
-
   $("#opacity").slider({
     min: 0,
     max: 255,
@@ -129,7 +113,6 @@ $(function () {
   });
 
   $("#opacity_value").text(defaults.opacity);
-  $("#output_height_value").text(defaults.output_height);
   $("#preview_button").button();
   $("#text").val(defaults.text);
 
