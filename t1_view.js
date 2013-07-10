@@ -100,7 +100,6 @@ $(function() {
                          }});
 
     $("#opacity_value").text(defaults.opacity);
-    $("#preview_button").button();
 
 
     $("#text").val(defaults.text);
@@ -148,4 +147,12 @@ $(function() {
     // populate the fonts dropowns
     $("#font").html("<option>"+Fonts.join("</option><option>")+"</option>");
     $("#font").change(function() { go(); });
+
+    $("#input_thumb").attr("src", $("#input_url").val());
+
+
+    $("#picture_select").dialog({autoOpen: false, width: 800, height: 500});
+    $("#select_picture_button").click(function () { $("#picture_select").dialog("open"); });
+    
+
   });
