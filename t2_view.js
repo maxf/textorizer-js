@@ -10,7 +10,7 @@ var defaults = {
     "saturation": 0,
     "kerning": 0,
     "font_scale": 1.5,
-    "output_height": 450
+    "output_height": 600
   };
 
 var inputCanvas;
