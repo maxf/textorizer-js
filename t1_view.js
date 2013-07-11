@@ -5,7 +5,8 @@ var defaults = {
   "threshold":100,
   "font_size_min":10,
   "font_size_max":30,
-  "output_height":600
+  "output_height":600,
+  "image_file": "dali.png"
 };
 
 
@@ -144,6 +145,6 @@ $(function() {
     $("#font").html("<option>"+Fonts.join("</option><option>")+"</option>");
     $("#font").change(function() { go(); });
 
-    $("#input_thumb").attr("src", "dali.png");
+    $("#input_thumb").attr("src", defaults.image_file);
 
   });

@@ -4,13 +4,14 @@ var $, output_canvas, Textorizer, FileReader, Fonts, changeOutputHeightTo;
 
 var defaults = {
     "text": "She knows, now, absolutely, hearing the white noise that is London, that Damien's theory of jet lag is correct: that her mortal soul is leagues behind her, being reeled in on some ghostly umbilical down the vanished wake of the plane that brought her here, hundreds of thousands of feet above the Atlantic. Souls can't move that quickly, and are left behind, and must be awaited, upon arrival, like lost luggage.", // http://www.williamgibsonbooks.com/books/pattern.asp#excerpt
-    "opacity": 150,
-    "text_size": 12,
+    "opacity": 120,
+    "text_size": 20,
     "line_height": 1,
     "saturation": 0,
     "kerning": 0,
     "font_scale": 1.5,
-    "output_height": 600
+    "output_height": 600,
+    "image_file": "jetlag.jpg"
   };
 
 var inputCanvas;
@@ -60,7 +61,7 @@ function thumb_loaded(event) {
   output_canvas.height = defaults.output_height;
   output_canvas.width = defaults.output_height * aspectRatio;
 
-  // and render a preview
+  // and render 
   go();
 }
 
@@ -86,9 +87,6 @@ $(function () {
     fr.readAsDataURL(e.target.files[0]);
   });
 
-  $("#url_go").click(function (e) {
-    $("#input_thumb").attr("src", $("#input_url").val());
-  });
 
   // only re activate the buttons when the image is loaded **FIXME - image could already be loaded (if we reselect the existing URL)
   $("#input_thumb").load(function (e) {
@@ -113,7 +111,6 @@ $(function () {
   });
 
   $("#opacity_value").text(defaults.opacity);
-  $("#preview_button").button();
   $("#text").val(defaults.text);
 
   $("#text_size").slider({
@@ -192,5 +189,7 @@ $(function () {
   // populate the fonts dropowns
   $("#font").html("<option>" + Fonts.join("</option><option>") + "</option>");
   $("#font").change(function() { go(); });
+
+  $("#input_thumb").attr("src", defaults.image_file);
 
 });

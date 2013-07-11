@@ -7,7 +7,8 @@ var defaults = {
   "sy":1,
   "tx":0,
   "ty":0,
-  "output_height":600
+  "output_height":600,
+  "image_file": "dali.png"
 };
 
 
@@ -54,8 +55,8 @@ function thumb_loaded(event) {
   output_canvas.height = defaults.output_height;
   output_canvas.width = defaults.output_height * aspectRatio;
 
-  // and render a preview
-  go({newWindow:false});
+  // and render
+  go();
 }
 
 var output_canvas;
@@ -80,10 +81,6 @@ $(function() {
                                   fr.readAsDataURL(e.target.files[0]);
                                 });
 
-  $("#url_go").click(function (e) {
-    $("#input_thumb").attr("src", $("#input_url").val());
-  });
-
     // only re activate the buttons when the image is loaded **FIXME - image could already be loaded (if we reselect the existing URL)
     $("#input_thumb").load(function(e){
                              thumb_loaded(e,0);
@@ -105,7 +102,6 @@ $(function() {
                          }});
 
     $("#opacity_value").text(defaults.opacity);
-    $("#preview_button").button();
 
 
     $("#theta").slider({min:0,
@@ -186,5 +182,6 @@ $(function() {
                        }});
     $("#ty_value").text(defaults.ty);
 
+    $("#input_thumb").attr("src", defaults.image_file);
 
   });
