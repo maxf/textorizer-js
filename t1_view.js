@@ -73,10 +73,6 @@ $(function() {
                                   fr.readAsDataURL(e.target.files[0]);
                                 });
 
-  $("#url_go").click(function (e) {
-    $("#input_thumb").attr("src", $("#input_url").val());
-  });
-
 
     // only re activate the buttons when the image is loaded **FIXME - image could already be loaded (if we reselect the existing URL)
     $("#input_thumb").load(function(e){
@@ -148,11 +144,6 @@ $(function() {
     $("#font").html("<option>"+Fonts.join("</option><option>")+"</option>");
     $("#font").change(function() { go(); });
 
-    $("#input_thumb").attr("src", $("#input_url").val());
-
-
-    $("#picture_select").dialog({autoOpen: false, width: 800, height: 500});
-    $("#select_picture_button").click(function () { $("#picture_select").dialog("open"); });
-    
+    $("#input_thumb").attr("src", "dali.png");
 
   });
