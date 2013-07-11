@@ -1,7 +1,7 @@
 var defaults = {
   "opacity":30,
   "theta":30,
-  "wiggle":10,
+  "waviness":10,
   "line_height":5,
   "sx":1,
   "sy":1,
@@ -33,7 +33,7 @@ function go(options)
                               outputHeight: defaults.output_height,
                               outputCanvas: output_canvas,
                               theta: $("#theta").slider('value'),
-                              wiggle: $("#wiggle").slider('value'),
+                              waviness: $("#waviness").slider('value'),
                               line_height: $("#line_height").slider('value'),
                               sx: $("#sx").slider('value'),
                               sy: $("#sy").slider('value'),
@@ -94,93 +94,66 @@ $(function() {
     $("#opacity").slider({min:0,
                          max:255,
                          value:defaults.opacity,
-                         slide: function(event, ui) {
-                           $("#opacity_value").text(ui.value);
-                         },
                          change: function (event, ui) {
                            go();
                          }});
-
-    $("#opacity_value").text(defaults.opacity);
 
 
     $("#theta").slider({min:0,
                           max:180,
                           step: .1,
                           value:defaults.theta,
-                          slide: function(event, ui) {
-                            $("#theta_value").text(ui.value);
-                          },
                           change: function (event, ui) {
                             go();
                           }});
-    $("#theta_value").text(defaults.theta);
-    $("#wiggle").slider({min:0,
+
+    $("#waviness").slider({min:0,
                            max:30,
                            step: .1,
-                           value:defaults.wiggle,
-                           slide: function(event, ui) {
-                             $("#wiggle_value").text(ui.value);
-                           },
+                           value:defaults.waviness,
                            change: function (event, ui) {
                              go();
                            }});
-    $("#wiggle_value").text(defaults.wiggle);
+
     $("#line_height").slider({min:1,
                                 max:100,
                                 step: 1,
                                 value:defaults.line_height,
-                                slide: function(event, ui) {
-                                  $("#line_height_value").text(ui.value);
-                                },
                                 change: function (event, ui) {
                                   go();
                                 }});
-    $("#line_height_value").text(defaults.theta);
+
     $("#sx").slider({min:0,
                        max:2,
                        step: 0.01,
                        value:defaults.sx,
-                       slide: function(event, ui) {
-                         $("#sx_value").text(ui.value);
-                       },
                        change: function (event, ui) {
                          go();
                        }});
-    $("#sx_value").text(defaults.sx);
+
     $("#sy").slider({min:0,
                        max:2,
                        step: 0.01,
                        value:defaults.sy,
-                       slide: function(event, ui) {
-                         $("#sy_value").text(ui.value);
-                       },
                        change: function (event, ui) {
                          go();
                        }});
-    $("#sy_value").text(defaults.sy);
+
     $("#tx").slider({min:0,
                        max:10,
                        step: 0.01,
                        value:defaults.tx,
-                       slide: function(event, ui) {
-                         $("#tx_value").text(ui.value);
-                       },
                        change: function (event, ui) {
                          go();
                        }});
-    $("#tx_value").text(defaults.tx);
+
     $("#ty").slider({min:0,
                        max:10,
                        step: 0.01,
                        value:defaults.ty,
-                       slide: function(event, ui) {
-                         $("#ty_value").text(ui.value);
-                       },
                        change: function (event, ui) {
                          go();
                        }});
-    $("#ty_value").text(defaults.ty);
 
     $("#input_thumb").attr("src", defaults.image_file);
 

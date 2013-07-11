@@ -89,14 +89,9 @@ $(function() {
     $("#opacity").slider({min:0,
                          max:255,
                          value:defaults.opacity,
-                         slide: function(event, ui) {
-                           $("#opacity_value").text(ui.value);
-                         },
                          change: function (event, ui) {
                            go();
                          }});
-
-    $("#opacity_value").text(defaults.opacity);
 
 
     $("#text").val(defaults.text);
@@ -105,38 +100,24 @@ $(function() {
     $("#nb_strings").slider({min:100,
                                 max:100000,
                                 value:defaults.nb_strings,
-                                slide: function(event, ui) {
-                                  $("#nb_strings_value").text(ui.value);
-                                },
                                 change: function (event, ui) {
                                   go();
                                 }});
-    $("#nb_strings_value").text(defaults.nb_strings);
     $("#threshold").slider({min:0,
                                max:200,
                                step:.1,
                                value:defaults.threshold,
-                               slide: function(event, ui) {
-                                 $("#threshold_value").text(ui.value);
-                               },
                                change: function (event, ui) {
                                  go();
                                }});
-    $("#threshold_value").text(defaults.threshold);
     $("#font_size").slider({range: true,
                                min: 0,
                                max: 50,
                                step: .1,
                                values: [defaults.font_size_min, defaults.font_size_max],
-                               slide: function(event, ui) {
-                                 $("#font_size_value_min").text(ui.values[0]);
-                                 $("#font_size_value_max").text(ui.values[1]);
-                               },
                                change: function (event, ui) {
                                  go();
                                }});
-    $("#font_size_value_min").text($("#font_size").slider("values", 0));
-    $("#font_size_value_max").text($("#font_size").slider("values", 1));
 
 
 

@@ -102,15 +102,11 @@ $(function () {
     min: 0,
     max: 255,
     value: defaults.opacity,
-    slide: function (event, ui) {
-      $("#opacity_value").text(ui.value);      
-    },
     change: function (event, ui) {
       go();
     }
   });
 
-  $("#opacity_value").text(defaults.opacity);
   $("#text").val(defaults.text);
 
   $("#text_size").slider({
@@ -118,73 +114,50 @@ $(function () {
     max: 50,
     step: 0.1,
     value: defaults.text_size,
-    slide: function (event, ui) {
-      $("#text_size_value").text(ui.value);      
-    },
     change: function (event, ui) {
       go();
     }
   });
-  $("#text_size_value").text(defaults.text_size);
 
   $("#line_height").slider({
     min: 0.5,
     max: 3,
     step: 0.05,
     value: defaults.line_height,
-    slide: function (event, ui) {
-      $("#line_height_value").text(ui.value);
-    },
     change: function (event, ui) {
       go();
     }
   });
 
-  $("#line_height_value").text(defaults.line_height);
 
   $("#saturation").slider({
     min: 0,
     max: 255,
     value: defaults.saturation,
-    slide: function (event, ui) {
-      $("#saturation_value").text(ui.value);
-    },
     change: function (event, ui) {
       go();
     }
   });
-
-  $("#saturation_value").text(defaults.saturation);
 
   $("#kerning").slider({
     min: -0.5,
     max: 0.5,
     step: 0.05,
     value: defaults.kerning,
-    slide: function (event, ui) {
-      $("#kerning_value").text(ui.value);
-    },
     change: function (event, ui) {
       go();
     }
   });
-
-  $("#kerning_value").text(defaults.kerning);
 
   $("#font_scale").slider({
     min: 0,
     max: 5,
     step: 0.05,
     value: defaults.font_scale,
-    slide: function (event, ui) {
-      $("#font_scale_value").text(ui.value);
-    },
     change: function (event, ui) {
       go();
     }
   });
-
-  $("#font_scale_value").text(defaults.font_scale);
 
   // populate the fonts dropowns
   $("#font").html("<option>" + Fonts.join("</option><option>") + "</option>");
