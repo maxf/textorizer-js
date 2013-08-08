@@ -2,7 +2,7 @@ var Textorizer = [];
 
 
 
-Textorizer[0] = function() {
+Textorizer[0] = new function() {
 
   this.textorize = function(params) {
     this._params = params;
@@ -119,7 +119,7 @@ Textorizer[0] = function() {
 
 //#################################################################
 
-Textorizer[1] = function() {
+Textorizer[1] = new function() {
 
   this.textorize = function(params) {
     this._params = params;
@@ -235,7 +235,7 @@ Textorizer[1] = function() {
 };
 
 //################################################################################
-Textorizer[2] = function() {
+Textorizer[2] = new function() {
 
   // public
 
