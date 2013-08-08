@@ -2,7 +2,7 @@ var Textorizer = [];
 
 
 
-Textorizer[0] = new function() {
+Textorizer[0] = function() {
 
   this.textorize = function(params) {
     this._params = params;
@@ -79,14 +79,14 @@ Textorizer[0] = new function() {
       if (dmag2 > threshold) {
         b = 2*(inputWidth + inputHeight) / 5000.0;
         textScale=minFontScale+Math.sqrt(dmag2)*maxFontScale/80;
-        if (dx==0) {
+        if (dx===0) {
           dir=Math.PI/2;
         }
         else if (dx > 0) {
           dir=Math.atan2(dy,dx);
         }
         else {
-          if (dy==0)
+          if (dy===0)
             dir=0;
           else if (dy > 0)
           dir=Math.atan2(-dx,dy)+Math.PI/2;
@@ -119,7 +119,7 @@ Textorizer[0] = new function() {
 
 //#################################################################
 
-Textorizer[1] = new function() {
+Textorizer[1] = function() {
 
   this.textorize = function(params) {
     this._params = params;
@@ -235,7 +235,7 @@ Textorizer[1] = new function() {
 };
 
 //################################################################################
-Textorizer[2] = new function() {
+Textorizer[2] = function() {
 
   // public
 
@@ -243,7 +243,7 @@ Textorizer[2] = new function() {
     this._params = params;
     this.inputPixmap = new Pixmap(params.inputCanvas);
     this._wiggleFrequency = this._params.waviness/100.0;
-    this._wiggleAmplitude = this._wiggleFrequency==0 ? 0 : .5/this._wiggleFrequency;
+    this._wiggleAmplitude = this._wiggleFrequency===0 ? 0 : 0.5/this._wiggleFrequency;
     this._params.theta*=Math.PI/180; // degrees to radians
 
     this._excoffize();
