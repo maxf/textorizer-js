@@ -60,8 +60,8 @@ Textorizer[0] = {
     outputCtx.shadowBlur=1;
 
     for (h=nbStrokes-1;h>=0; h--) {
-      x=Math.floor(2+Math.random()*(inputWidth-1));
-      y=Math.floor(2+Math.random()*(inputHeight-1));
+      x=Math.floor(2+Math.random()*(inputWidth-4));
+      y=Math.floor(2+Math.random()*(inputHeight-4));
 
       dx=dy=0;
 
