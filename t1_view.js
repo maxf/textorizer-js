@@ -1,3 +1,5 @@
+var $, output_canvas, Image, Textorizer,document, FileReader, Fonts;
+
 var defaults = {
   "text":"letters\nfonts\nwords\ntext\nkerning",
   "opacity":30,
@@ -15,9 +17,11 @@ var inputCanvasCtx;
 
 var aspectRatio;
 
-function go(options)
+function go()
 {
-  $("#buttons").hide(); $("#buttons_spinning_wheel").show();
+  "use strict";
+  $("#buttons").hide();
+  $("#buttons_spinning_wheel").show();
   output_canvas.style.display="none";
   // Put the pixels of the original image into the canvas
   var t = new Image();
@@ -37,13 +41,15 @@ function go(options)
                               font_size_max: $("#font_size").slider('values',1),
                               font: $('#font :selected').text()});
 
-    $("#buttons").show(); $("#buttons_spinning_wheel").hide();
+    $("#buttons").show();
+    $("#buttons_spinning_wheel").hide();
     output_canvas.style.display="block";
   };
-};
+}
 
 // a thumbnail has been loaded
 function thumb_loaded(event) {
+  "use strict";
   // prepare the output canvas
   var newImg = new Image();
   newImg.src = event.target.src;
@@ -59,14 +65,14 @@ $(function() {
   "use strict";
   inputCanvas = document.getElementById("input_canvas");
   inputCanvasCtx = inputCanvas.getContext('2d');
-  $("#privacy").click(function (e) {
+  $("#privacy").click(function () {
     $("#privacy_popup").dialog();
   });
-  $("#cors").click(function (e) {
+  $("#cors").click(function () {
     $("#cors_popup").dialog();
   });
 
-    $("#file_selector").change(function(e){
+  $("#file_selector").change(function(e){
                                   var fr = new FileReader();
                                   fr.onload = function() {
                                     $("#input_thumb").attr("src",fr.result);
@@ -75,57 +81,55 @@ $(function() {
                                 });
 
 
-    // only re activate the buttons when the image is loaded **FIXME - image could already be loaded (if we reselect the existing URL)
-    $("#input_thumb").load(function(e){
-                             thumb_loaded(e,0);
-                             $("#secondary_panel, #output_canvas, #input_thumb").show();
-                           });
+  // only re activate the buttons when the image is loaded **FIXME - image could already be loaded (if we reselect the existing URL)
+  $("#input_thumb").load(function(e){
+                              thumb_loaded(e,0);
+                              $("#secondary_panel, #output_canvas, #input_thumb").show();
+                            });
 
 
-    // no jquery on line below. We need the raw node values since we're operating on the attributes directly
-    output_canvas = document.getElementById("output_canvas");
+  // no jquery on line below. We need the raw node values since we're operating on the attributes directly
+  output_canvas = document.getElementById("output_canvas");
 
 
-    $("#opacity").slider({min:0,
-                         max:255,
-                         value:defaults.opacity,
-                         change: function (event, ui) {
-                           go();
-                         }});
+  $("#opacity").slider({min:0,
+                        max:255,
+                        value:defaults.opacity,
+                        change: function () {
+                          go();
+                        }});
 
+  $("#text").val(defaults.text);
 
-    $("#text").val(defaults.text);
-
-    /* specific settings */
-    $("#nb_strings").slider({min:100,
-                                max:100000,
-                                value:defaults.nb_strings,
-                                change: function (event, ui) {
+  /* specific settings */
+  $("#nb_strings").slider({min:100,
+                           max:100000,
+                           value:defaults.nb_strings,
+                           change: function () {
+                              go();
+                            }});
+  $("#threshold").slider({min:0,
+                          max:200,
+                         step:0.1,
+                        value:defaults.threshold,
+                       change: function () {
                                   go();
                                 }});
-    $("#threshold").slider({min:0,
-                               max:200,
-                               step:.1,
-                               value:defaults.threshold,
-                               change: function (event, ui) {
-                                 go();
-                               }});
-    $("#font_size").slider({range: true,
+  $("#font_size").slider({range: true,
                                min: 0,
                                max: 50,
-                               step: .1,
+                               step: 0.1,
                                values: [defaults.font_size_min, defaults.font_size_max],
-                               change: function (event, ui) {
-                                 go();
-                               }});
+                               change: function () {
+                                  go();
+                                }});
 
 
 
 
-    // populate the fonts dropowns
-    $("#font").html("<option>"+Fonts.join("</option><option>")+"</option>");
-    $("#font").change(function() { go(); });
+  // populate the fonts dropowns
+  $("#font").html("<option>"+Fonts.join("</option><option>")+"</option>");
+  $("#font").change(function() { go(); });
+  $("#input_thumb").attr("src", defaults.image_file);
 
-    $("#input_thumb").attr("src", defaults.image_file);
-
-  });
+});
