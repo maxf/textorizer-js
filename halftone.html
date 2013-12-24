@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Half-tone</title>
+<!--    <link rel="stylesheet" href="style.css"/>-->
+		<link type="text/css" href="css/ui-lightness/jquery-ui-1.8rc3.custom.css" rel="stylesheet" />	
+		<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui-1.8rc3.custom.min.js"></script>
+
+		<script type="text/javascript" src="common.js"></script>
+		<script type="text/javascript" src="halftone.js"></script>
+    <script type="text/javascript" src="halftone_view.js"></script> 
+    <script type="text/javascript" src="utils.js"></script>
+    <script type="text/javascript" src="fontList.js"></script> 
+
+
+    <link type="text/css" href="textorizer.css" rel="stylesheet"/>
+  </head>
+  <body>
+    <div id="main">
+          <div id="panel">
+            <h1 ><img style="vertical-align: middle" src="Textorizer_48x48.png" alt="Textorizer"/>Half-Tone</h1>
+            <p><small><a href=".">What's this?</a> <a href=".#documentation">Help!</a> <a href="#" id="privacy">privacy concerns?</a></small></p>
+            <p style="text-align: center">
+              <img id="input_thumb" height="100px" alt="Select an image file below" src="" style="vertical-align: middle; display:none"/>
+            </p>
+            <input id="file_selector" type="file" accept="image/*;capture=camera" class="image_selector"/>
+
+            <div id="privacy_popup" title="Privacy" style="display:none">
+              The image never leaves your computer: we don't upload it anywhere. The whole process happens in your browser.
+            </div>
+
+            <div id="secondary_panel">
+              <div class="buttons">
+                <div style="text-align: center">
+                  <img id="buttons_spinning_wheel" src="spinning_wheel.gif" alt="spinning wheel"  style="vertical-align: middle" />
+                </div>
+
+                <label>Text:</label>
+                <textarea id="text" cols="20" rows="4"></textarea>
+                <button id="preview_button"  onclick="go()">Render</button>
+                <label>Opacity:</label>
+                <div id="opacity"></div>
+                <label>Text Size:</label>
+                <div id="text_size"></div>
+                <label>Line Height:</label>
+                <div id="line_height"></div>
+                <label>Saturation:</label>
+                <div id="saturation"></div>
+                <label>Kerning:</label>
+                <div id="kerning"></div>
+                <label>Font Scale:</label>
+                <div id="font_scale"></div>
+                <label>Font:</label>
+                <select id="font">
+                  <option>Arial Black</option>
+                  <option>Impact</option>
+                  <option>Helvetica</option>
+                  <option>Times New Roman</option>
+                </select>
+
+              </div>            
+          </div>
+          <canvas id="output_canvas" width="400" height="400" style="display:none"></canvas>
+        </div>
+      </div>
+
+    <canvas style="display:none" id="input_canvas" width="10" height="10"></canvas>
+<script type="text/javascript"> 
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script> 
+<script type="text/javascript"> 
+var pageTracker = _gat._getTracker("UA-3434078-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script> 
+  </body>
+</html>
