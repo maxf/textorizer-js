@@ -29,16 +29,14 @@ Textorizer[0] = {
         maxFontScale = this._params.font_size_max,
         font         = this._params.font,
         opacity      = this._params.opacity,
-
         inputWidth   = this.inputPixmap.width,
         inputHeight  = this.inputPixmap.height,
-
         outputWidth  = outputCanvas.width,
         outputHeight = outputCanvas.height,
         outputCtx    = outputCanvas.getContext('2d');
 
     // reset the context shadow
-    outputCtx.shadowColor="black";
+    outputCtx.shadowColour="black";
     outputCtx.shadowOffsetX=0;
     outputCtx.shadowOffsetY=0;
     outputCtx.shadowBlur=0;
@@ -54,7 +52,7 @@ Textorizer[0] = {
     outputCtx.globalAlpha = 1;
 
     // set the text shadow
-    outputCtx.shadowColor="black";
+    outputCtx.shadowColour="black";
     outputCtx.shadowOffsetX=1;
     outputCtx.shadowOffsetY=1;
     outputCtx.shadowBlur=1;
@@ -67,7 +65,7 @@ Textorizer[0] = {
 
       for (i=0; i<3; i++) {
         for (j=0; j<3; j++) {
-          vnear = this.inputPixmap.colorAt(x+i-1,y+j-1).brightness();
+          vnear = this.inputPixmap.colourAt(x+i-1,y+j-1).brightness();
           dx += this.Sx[j][i] * vnear;
           dy += this.Sy[j][i] * vnear;
         }
@@ -109,7 +107,7 @@ Textorizer[0] = {
 
         outputCtx.translate(tx,ty);
         outputCtx.rotate(r);
-        outputCtx.fillStyle = this.inputPixmap.colorAt(x,y).toString();
+        outputCtx.fillStyle = this.inputPixmap.colourAt(x,y).toString();
         outputCtx.fillText(word, 0,0);
 
         outputCtx.restore();
@@ -158,7 +156,7 @@ Textorizer[1] = {
 
 
     // reset values
-    outputCtx.shadowColor="black";
+    outputCtx.shadowColour="black";
     outputCtx.shadowOffsetX=0;
     outputCtx.shadowOffsetY=0;
     outputCtx.shadowBlur=0;
@@ -174,7 +172,7 @@ Textorizer[1] = {
     outputCtx.globalAlpha = 1;
 
     // text shadow
-    outputCtx.shadowColor="black";
+    outputCtx.shadowColour="black";
     outputCtx.shadowOffsetX=1;
     outputCtx.shadowOffsetY=1;
     outputCtx.shadowBlur=1;
@@ -191,7 +189,7 @@ Textorizer[1] = {
 
         x=Math.floor(rx)-1;
 
-        pixel = this.inputPixmap.colorAverageAt(Math.floor(x*imgScaleFactorX),
+        pixel = this.inputPixmap.colourAverageAt(Math.floor(x*imgScaleFactorX),
                                                 Math.floor(y*imgScaleFactorY),
                                                 Math.floor(fontSize*fontScale/6));
 //                                                1);
@@ -204,13 +202,13 @@ Textorizer[1] = {
           scale = 2 - pixel.brightness()/255.0;
 
           /*
-           if (T2ColorAdjustment>0) {
+           if (T2ColourAdjustment>0) {
            var saturation = saturation(pixel);
-           var newSaturation = (saturation+T2ColorAdjustment)>255?255:(saturation+T2ColorAdjustment);
-           colorMode(HSB,255);
-           pixel = color(hue(charColor), newSaturation, brightness(charColor));
+           var newSaturation = (saturation+T2ColourAdjustment)>255?255:(saturation+T2ColourAdjustment);
+           colourMode(HSB,255);
+           pixel = colour(hue(charColour), newSaturation, brightness(charColour));
            fill(pixel);
-           colorMode(RGB,255);
+           colourMode(RGB,255);
            } else */
 
           outputCtx.fillStyle = pixel.toString();
@@ -305,7 +303,7 @@ Textorizer[2] = {
 
 
     // reset values
-    outputCtx.shadowColor="black";
+    outputCtx.shadowColour="black";
     outputCtx.shadowOffsetX=0;
     outputCtx.shadowOffsetY=0;
     outputCtx.shadowBlur=0;
@@ -382,3 +380,6 @@ Textorizer[2] = {
     }
   }
 };
+
+//#################################################################
+

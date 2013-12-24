@@ -1,4 +1,5 @@
 var Fonts = [
+"Impact",
 "Abadi MT Condensed Extra Bold",
 //"Abadi MT Condensed Light",
 "Al Bayan",
@@ -109,7 +110,6 @@ var Fonts = [
 "Hiragino Mincho ProN",
 "Hiragino Sans GB",
 "Hoefler Text",
-"Impact",
 "Imprint MT Shadow",
 "InaiMathi",
 "Kai",
