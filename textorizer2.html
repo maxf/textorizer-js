@@ -12,7 +12,7 @@
     <script type="text/javascript" src="t2_view.js"></script> 
     <script type="text/javascript" src="utils.js"></script> 
     <script type="text/javascript" src="fontList.js"></script> 
-
+    
     <link type="text/css" href="textorizer.css" rel="stylesheet"/>
   </head>
   <body>
@@ -30,6 +30,11 @@
             <div id="privacy_popup" title="Privacy" style="display:none">
               The image never leaves your computer: we don't upload it anywhere. The whole process happens in your browser.
             </div>
+
+            <div id="large_formats_popup" title="Large Formats" style="display:none">
+              To make larger pictures, copy the text below and email it to max@lapin-bleu.net. Also attach your original picture.<br/><div id="params"></div>
+            </div>
+
 
             <div id="secondary_panel" style="display:none">
 
@@ -66,6 +71,7 @@
                 <option>Helvetica</option>
                 <option>Times New Roman</option>
               </select>
+              <button id="large_formats_button">Larger Format</button>
             </div>            
           </div>
           <canvas id="output_canvas" width="400" height="400" style="display:none"></canvas>

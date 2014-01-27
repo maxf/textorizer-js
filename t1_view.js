@@ -14,7 +14,6 @@ var defaults = {
 
 var inputCanvas;
 var inputCanvasCtx;
-
 var aspectRatio;
 
 function go()
@@ -30,16 +29,19 @@ function go()
     inputCanvas.width=t.width;
     inputCanvas.height=t.height;
     inputCanvasCtx.drawImage(t,0,0);
-    Textorizer[0].textorize({ inputCanvas: inputCanvas,
-                              opacity: $("#opacity").slider('value'),
-                              outputHeight: defaults.output_height,
-                              outputCanvas: output_canvas,
-                              text: $("#text").val(),
-                              nb_strings: $("#nb_strings").slider('value'),
-                              threshold: $("#threshold").slider('value'),
-                              font_size_min: $("#font_size").slider('values',0),
-                              font_size_max: $("#font_size").slider('values',1),
-                              font: $('#font :selected').text()});
+    defaults = { inputCanvas: inputCanvas,
+                 opacity: $("#opacity").slider('value'),
+                 outputHeight: defaults.output_height,
+                 outputCanvas: output_canvas,
+                 text: $("#text").val(),
+                 seed: Date.now(),
+                 nb_strings: $("#nb_strings").slider('value'),
+                 threshold: $("#threshold").slider('value'),
+                 font_size_min: $("#font_size").slider('values',0),
+                 font_size_max: $("#font_size").slider('values',1),
+                 font: $('#font :selected').text()
+               };
+    Textorizer[0].textorize(defaults);
 
     $("#buttons").show();
     $("#buttons_spinning_wheel").hide();
@@ -70,6 +72,18 @@ $(function() {
   });
   $("#cors").click(function () {
     $("#cors_popup").dialog();
+  });
+  $("#large_formats_button").click(function () {
+    $("#params").html("opacity: "+defaults.opacity+"<br/>"+
+                      "text: '"+defaults.text+"'<br/>"+
+                      "seed: "+defaults.seed+"<br/>"+
+                      "nb_strings: "+defaults.nb_strings+"<br/>"+
+                      "threshold: "+defaults.threshold+"<br/>"+
+                      "font_size_min: "+defaults.font_size_min+"<br/>"+
+                      "font_size_max: "+defaults.font_size_max+"<br/>"+
+                      "font: "+defaults.font);
+
+    $("#large_formats_popup").dialog();
   });
 
   $("#file_selector").change(function(e){

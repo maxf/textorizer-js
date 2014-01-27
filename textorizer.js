@@ -59,6 +59,8 @@ Textorizer[0] = {
     outputCtx.shadowOffsetY=1;
     outputCtx.shadowBlur=1;
 
+    Math.seedrandom(this._params.seed);
+
     for (h=nbStrokes-1;h>=0; h--) {
       x=Math.floor(2+Math.random()*(inputWidth-4));
       y=Math.floor(2+Math.random()*(inputHeight-4));

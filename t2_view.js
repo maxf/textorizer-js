@@ -30,7 +30,7 @@ function go() {
     inputCanvas.width = t.width;
     inputCanvas.height = t.height;
     inputCanvasCtx.drawImage(t, 0, 0);
-    Textorizer[1].textorize({
+    defaults = {
       inputCanvas: inputCanvas,
       opacity: $("#opacity").slider('value'),
       outputHeight: defaults.output_height,
@@ -42,7 +42,8 @@ function go() {
       kerning: $("#kerning").slider('value'),
       font_scale: $("#font_scale").slider('value'),
       font: $('#font :selected').text()
-    });
+    };
+    Textorizer[1].textorize(defaults);
     $("#buttons").show();
     $("#buttons_spinning_wheel").hide();
     output_canvas.style.display = "block";
@@ -76,6 +77,17 @@ $(function () {
   });
   $("#cors").click(function () {
     $("#cors_popup").dialog();
+  });
+  $("#large_formats_button").click(function () {
+    $("#params").html("opacity: "+defaults.opacity+"<br/>"+
+                      "text: '"+defaults.text+"'<br/>"+
+                      "text_size: "+defaults.text_size+"<br/>"+
+                      "line_height: "+defaults.line_height+"<br/>"+
+                      "saturation: "+defaults.saturation+"<br/>"+
+                      "kerning: "+defaults.kerning+"<br/>"+
+                      "font_scale: "+defaults.font_scale+"<br/>");
+
+    $("#large_formats_popup").dialog();
   });
 
 

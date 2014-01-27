@@ -32,19 +32,19 @@ function go()
     inputCanvas.width=t.width;
     inputCanvas.height=t.height;
     inputCanvasCtx.drawImage(t,0,0);
-    Textorizer[2].textorize({ inputCanvas: inputCanvas,
-                              opacity: $("#opacity").slider('value'),
-                              outputHeight: defaults.output_height,
-                              outputCanvas: output_canvas,
-                              theta: $("#theta").slider('value'),
-                              waviness: $("#waviness").slider('value'),
-                              line_height: $("#line_height").slider('value'),
-                              sx: $("#sx").slider('value'),
-                              sy: $("#sy").slider('value'),
-                              tx: $("#tx").slider('value'),
-                              ty: $("#ty").slider('value')
-                            });
-
+    defaults = { inputCanvas: inputCanvas,
+                 opacity: $("#opacity").slider('value'),
+                 outputHeight: defaults.output_height,
+                 outputCanvas: output_canvas,
+                 theta: $("#theta").slider('value'),
+                 waviness: $("#waviness").slider('value'),
+                 line_height: $("#line_height").slider('value'),
+                 sx: $("#sx").slider('value'),
+                 sy: $("#sy").slider('value'),
+                 tx: $("#tx").slider('value'),
+                 ty: $("#ty").slider('value')
+               };
+    Textorizer[2].textorize(defaults);
     $("#buttons").show();
     $("#buttons_spinning_wheel").hide();
     output_canvas.style.display="block";
@@ -76,6 +76,19 @@ $(function() {
   });
   $("#cors").click(function () {
     $("#cors_popup").dialog();
+  });
+  $("#large_formats_button").click(function () {
+    $("#params").html("opacity: "+defaults.opacity+"<br/>"+
+                      "theta: '"+defaults.theta+"'<br/>"+
+                      "waviness: "+defaults.waviness+"<br/>"+
+                      "line_height: "+defaults.line_height+"<br/>"+
+                      "sx: "+defaults.sx+"<br/>"+
+                      "sy: "+defaults.sy+"<br/>"+
+                      "tx: "+defaults.tx+"<br/>"+
+                      "ty: "+defaults.ty+"<br/>"+
+                      "output_height: "+defaults.font_size_min+"<br/>");
+
+    $("#large_formats_popup").dialog();
   });
 
   $("#file_selector").change(function(e){

@@ -12,14 +12,15 @@
     <script type="text/javascript" src="t1_view.js"></script> 
     <script type="text/javascript" src="utils.js"></script> 
     <script type="text/javascript" src="fontList.js"></script> 
-
+    <script type="text/javascript" src="seedrandom.js"></script>
+    
     <link type="text/css" href="textorizer.css" rel="stylesheet"/>
   </head>
   <body>
     <div id="main">
           <div id="panel">
             <h1><img style="vertical-align: middle" src="Textorizer_48x48.png" alt="Textorizer"/>Textorizer 1</h1> 
-            <p><small><a href=".">What's this?</a> <a href=".#documentation">Help!</a><a href="#" id="privacy">privacy concerns?</a></small></p>
+            <p><small><a href=".">What's this?</a> <a href=".#documentation">Help!</a> <a href="#" id="privacy">privacy concerns?</a></small></p>
             <p style="text-align: center">
               <img id="input_thumb" height="100px" alt="Select an image file below" src="" style="vertical-align: middle; display:none"/><br/>
             </p>
@@ -31,7 +32,13 @@
               <div id="privacy_popup" title="Privacy" style="display:none">
                 The image never leaves your computer: we don't upload it anywhere. The whole process happens in your browser.
               </div>
-  
+
+              <div id="large_formats_popup" title="Large Formats" style="display:none">
+                To make larger pictures, copy the text below and email it to max@lapin-bleu.net. Also attach your original picture.<br/><div id="params"></div>
+              </div>
+
+
+              
             </div>
             <hr/>
             <div id="secondary_panel">
@@ -66,6 +73,9 @@
                 <option>Helvetica</option>
                 <option>Times New Roman</option>
               </select>
+
+              <button id="large_formats_button">Larger Format</button>
+              
             </div>
           </div>
           <canvas id="output_canvas" width="400" height="400" style="display:none"></canvas>
