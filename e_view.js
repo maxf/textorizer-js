@@ -1,3 +1,5 @@
+var $, Image, Textorizer, document, FileReader;
+
 var defaults = {
   "opacity":30,
   "theta":30,
@@ -15,10 +17,13 @@ var defaults = {
 var inputCanvas;
 var inputCanvasCtx;
 var aspectRatio;
+var output_canvas;
 
-function go(options)
+function go()
 {
-  $("#buttons").hide(); $("#buttons_spinning_wheel").show();
+  "use strict";
+  $("#buttons").hide();
+  $("#buttons_spinning_wheel").show();
   output_canvas.style.display="none";
   // Put the pixels of the original image into the canvas
   var t = new Image();
@@ -27,8 +32,7 @@ function go(options)
     inputCanvas.width=t.width;
     inputCanvas.height=t.height;
     inputCanvasCtx.drawImage(t,0,0);
-    Textorizer[2].textorize({
-                              inputCanvas: inputCanvas,
+    Textorizer[2].textorize({ inputCanvas: inputCanvas,
                               opacity: $("#opacity").slider('value'),
                               outputHeight: defaults.output_height,
                               outputCanvas: output_canvas,
@@ -41,13 +45,15 @@ function go(options)
                               ty: $("#ty").slider('value')
                             });
 
-    $("#buttons").show(); $("#buttons_spinning_wheel").hide();
+    $("#buttons").show();
+    $("#buttons_spinning_wheel").hide();
     output_canvas.style.display="block";
   };
-};
+}
 
 // a thumbnail has been loaded
 function thumb_loaded(event) {
+  "use strict";
   // prepare the output canvas
   var newImg = new Image();
   newImg.src = event.target.src;
@@ -59,102 +65,100 @@ function thumb_loaded(event) {
   go();
 }
 
-var output_canvas;
 
 $(function() {
+  "use strict";
+  inputCanvas = document.getElementById("input_canvas");
+  inputCanvasCtx = inputCanvas.getContext('2d');
 
-    inputCanvas = document.getElementById("input_canvas");
-    inputCanvasCtx = inputCanvas.getContext('2d');
-
-  $("#privacy").click(function (e) {
+  $("#privacy").click(function () {
     $("#privacy_popup").dialog();
   });
-  $("#cors").click(function (e) {
+  $("#cors").click(function () {
     $("#cors_popup").dialog();
   });
 
-    $("#file_selector").change(function(e){
-                                  var fr = new FileReader();
-                                  fr.onload = function() {
-                                    $("#input_thumb").attr("src",fr.result);
-                                  };
-                                  fr.readAsDataURL(e.target.files[0]);
-                                });
+  $("#file_selector").change(function(e){
+                                var fr = new FileReader();
+                                fr.onload = function() {
+                                  $("#input_thumb").attr("src",fr.result);
+                                };
+                                fr.readAsDataURL(e.target.files[0]);
+                              });
 
-    // only re activate the buttons when the image is loaded **FIXME - image could already be loaded (if we reselect the existing URL)
-    $("#input_thumb").load(function(e){
-                             thumb_loaded(e,0);
-                             $("#secondary_panel, #output_canvas, #input_thumb").show();
-                           });
+  // only re activate the buttons when the image is loaded **FIXME - image could already be loaded (if we reselect the existing URL)
+  $("#input_thumb").load(function(e){
+                            thumb_loaded(e,0);
+                            $("#secondary_panel, #output_canvas, #input_thumb").show();
+                          });
+
+  // no jquery on line below. We need the raw node values since we're operating on the attributes directly
+  output_canvas = document.getElementById("output_canvas");
+
+  $("#opacity").slider({min:0,
+                        max:255,
+                        value:defaults.opacity,
+                        change: function () {
+                          go();
+                        }});
 
 
-    // no jquery on line below. We need the raw node values since we're operating on the attributes directly
-    output_canvas = document.getElementById("output_canvas");
+  $("#theta").slider({min:0,
+                      max:180,
+                      step: 0.1,
+                      value:defaults.theta,
+                      change: function () {
+                        go();
+                      }});
 
-    $("#opacity").slider({min:0,
-                         max:255,
-                         value:defaults.opacity,
-                         change: function (event, ui) {
-                           go();
-                         }});
-
-
-    $("#theta").slider({min:0,
-                          max:180,
-                          step: .1,
-                          value:defaults.theta,
-                          change: function (event, ui) {
+  $("#waviness").slider({min:0,
+                         max:30,
+                         step: 0.1,
+                         value:defaults.waviness,
+                         change: function () {
                             go();
                           }});
 
-    $("#waviness").slider({min:0,
-                           max:30,
-                           step: .1,
-                           value:defaults.waviness,
-                           change: function (event, ui) {
-                             go();
-                           }});
+  $("#line_height").slider({min:1,
+                              max:100,
+                              step: 1,
+                              value:defaults.line_height,
+                              change: function () {
+                                go();
+                              }});
 
-    $("#line_height").slider({min:1,
-                                max:100,
-                                step: 1,
-                                value:defaults.line_height,
-                                change: function (event, ui) {
-                                  go();
-                                }});
+  $("#sx").slider({min:0,
+                     max:2,
+                     step: 0.01,
+                     value:defaults.sx,
+                     change: function () {
+                        go();
+                      }});
 
-    $("#sx").slider({min:0,
-                       max:2,
-                       step: 0.01,
-                       value:defaults.sx,
-                       change: function (event, ui) {
-                         go();
-                       }});
+  $("#sy").slider({min:0,
+                     max:2,
+                     step: 0.01,
+                     value:defaults.sy,
+                     change: function () {
+                        go();
+                      }});
 
-    $("#sy").slider({min:0,
-                       max:2,
-                       step: 0.01,
-                       value:defaults.sy,
-                       change: function (event, ui) {
-                         go();
-                       }});
+  $("#tx").slider({min:0,
+                     max:10,
+                     step: 0.01,
+                     value:defaults.tx,
+                     change: function () {
+                        go();
+                      }});
 
-    $("#tx").slider({min:0,
-                       max:10,
-                       step: 0.01,
-                       value:defaults.tx,
-                       change: function (event, ui) {
-                         go();
-                       }});
+  $("#ty").slider({min:0,
+                     max:10,
+                     step: 0.01,
+                     value:defaults.ty,
+                     change: function () {
+                        go();
+                      }});
 
-    $("#ty").slider({min:0,
-                       max:10,
-                       step: 0.01,
-                       value:defaults.ty,
-                       change: function (event, ui) {
-                         go();
-                       }});
+  $("#input_thumb").attr("src", defaults.image_file);
 
-    $("#input_thumb").attr("src", defaults.image_file);
-
-  });
+});
