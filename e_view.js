@@ -85,8 +85,7 @@ $(function() {
                       "sx: "+defaults.sx+"<br/>"+
                       "sy: "+defaults.sy+"<br/>"+
                       "tx: "+defaults.tx+"<br/>"+
-                      "ty: "+defaults.ty+"<br/>"+
-                      "output_height: "+defaults.font_size_min+"<br/>");
+                      "ty: "+defaults.ty+"<br/>");
 
     $("#large_formats_popup").dialog();
   });

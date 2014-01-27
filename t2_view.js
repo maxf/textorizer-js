@@ -11,7 +11,8 @@ var defaults = {
     "kerning": 0,
     "font_scale": 1.5,
     "output_height": 600,
-    "image_file": "jetlag.jpg"
+    "image_file": "jetlag.jpg",
+    "font": null
   };
 
 var inputCanvas;
@@ -79,13 +80,14 @@ $(function () {
     $("#cors_popup").dialog();
   });
   $("#large_formats_button").click(function () {
-    $("#params").html("opacity: "+defaults.opacity+"<br/>"+
-                      "text: '"+defaults.text+"'<br/>"+
+    $("#params").html("text: '"+defaults.text+"'<br/>"+
+                      "opacity: "+defaults.opacity+"<br/>"+
                       "text_size: "+defaults.text_size+"<br/>"+
                       "line_height: "+defaults.line_height+"<br/>"+
                       "saturation: "+defaults.saturation+"<br/>"+
                       "kerning: "+defaults.kerning+"<br/>"+
-                      "font_scale: "+defaults.font_scale+"<br/>");
+                      "font_scale: "+defaults.font_scale+"<br/>"+
+                      "font: "+defaults.font);
 
     $("#large_formats_popup").dialog();
   });
