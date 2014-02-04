@@ -28,10 +28,11 @@ function go() {
   var t = new Image();
   t.src = $("#input_thumb").attr("src");
   t.onload = function () {
+    var params;
     inputCanvas.width = t.width;
     inputCanvas.height = t.height;
     inputCanvasCtx.drawImage(t, 0, 0);
-    defaults = {
+    params = {
       inputCanvas: inputCanvas,
       opacity: $("#opacity").slider('value'),
       outputHeight: defaults.output_height,
@@ -44,7 +45,7 @@ function go() {
       font_scale: $("#font_scale").slider('value'),
       font: $('#font :selected').text()
     };
-    Textorizer[1].textorize(defaults);
+    Textorizer[1].textorize(params);
     $("#buttons").show();
     $("#buttons_spinning_wheel").hide();
     output_canvas.style.display = "block";

@@ -29,22 +29,24 @@ function go()
   var t = new Image();
   t.src = $("#input_thumb").attr("src");
   t.onload = function() {
+    var params;
     inputCanvas.width=t.width;
     inputCanvas.height=t.height;
     inputCanvasCtx.drawImage(t,0,0);
-    defaults = { inputCanvas: inputCanvas,
-                 opacity: $("#opacity").slider('value'),
-                 outputHeight: defaults.output_height,
-                 outputCanvas: output_canvas,
-                 theta: $("#theta").slider('value'),
-                 waviness: $("#waviness").slider('value'),
-                 line_height: $("#line_height").slider('value'),
-                 sx: $("#sx").slider('value'),
-                 sy: $("#sy").slider('value'),
-                 tx: $("#tx").slider('value'),
-                 ty: $("#ty").slider('value')
-               };
-    Textorizer[2].textorize(defaults);
+    params = {
+      inputCanvas: inputCanvas,
+      opacity: $("#opacity").slider('value'),
+      outputHeight: defaults.output_height,
+      outputCanvas: output_canvas,
+      theta: $("#theta").slider('value'),
+      waviness: $("#waviness").slider('value'),
+      line_height: $("#line_height").slider('value'),
+      sx: $("#sx").slider('value'),
+      sy: $("#sy").slider('value'),
+      tx: $("#tx").slider('value'),
+      ty: $("#ty").slider('value')
+    };
+    Textorizer[2].textorize(params);
     $("#buttons").show();
     $("#buttons_spinning_wheel").hide();
     output_canvas.style.display="block";
