@@ -81,14 +81,16 @@ $(function () {
     $("#cors_popup").dialog();
   });
   $("#large_formats_button").click(function () {
-    $("#params").html("text: '"+defaults.text+"'<br/>"+
-                      "opacity: "+defaults.opacity+"<br/>"+
-                      "text_size: "+defaults.text_size+"<br/>"+
-                      "line_height: "+defaults.line_height+"<br/>"+
-                      "saturation: "+defaults.saturation+"<br/>"+
-                      "kerning: "+defaults.kerning+"<br/>"+
-                      "font_scale: "+defaults.font_scale+"<br/>"+
-                      "font: "+defaults.font);
+    $("#params").html(
+      "version: textorizer 2<br/>"+
+      "text: '"+defaults.text+"'<br/>"+
+      "opacity: "+defaults.opacity+"<br/>"+
+      "text_size: "+defaults.text_size+"<br/>"+
+      "line_height: "+defaults.line_height+"<br/>"+
+      "saturation: "+defaults.saturation+"<br/>"+
+      "kerning: "+defaults.kerning+"<br/>"+
+      "font_scale: "+defaults.font_scale+"<br/>"+
+      "font: "+defaults.font);
 
     $("#large_formats_popup").dialog();
   });
