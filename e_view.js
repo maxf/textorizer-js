@@ -18,6 +18,7 @@ var inputCanvas;
 var inputCanvasCtx;
 var aspectRatio;
 var output_canvas;
+var params;
 
 function go()
 {
@@ -29,7 +30,6 @@ function go()
   var t = new Image();
   t.src = $("#input_thumb").attr("src");
   t.onload = function() {
-    var params;
     inputCanvas.width=t.width;
     inputCanvas.height=t.height;
     inputCanvasCtx.drawImage(t,0,0);
@@ -82,14 +82,14 @@ $(function() {
   $("#large_formats_button").click(function () {
     $("#params").html(
       "version: excoffizer<br/>"+
-      "opacity: "+defaults.opacity+"<br/>"+
-      "theta: '"+defaults.theta+"'<br/>"+
-      "waviness: "+defaults.waviness+"<br/>"+
-      "line_height: "+defaults.line_height+"<br/>"+
-      "sx: "+defaults.sx+"<br/>"+
-      "sy: "+defaults.sy+"<br/>"+
-      "tx: "+defaults.tx+"<br/>"+
-      "ty: "+defaults.ty+"<br/>");
+      "opacity: "+params.opacity+"<br/>"+
+      "theta: '"+params.theta+"'<br/>"+
+      "waviness: "+params.waviness+"<br/>"+
+      "line_height: "+params.line_height+"<br/>"+
+      "sx: "+params.sx+"<br/>"+
+      "sy: "+params.sy+"<br/>"+
+      "tx: "+params.tx+"<br/>"+
+      "ty: "+params.ty+"<br/>");
 
     $("#large_formats_popup").dialog();
   });

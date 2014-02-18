@@ -15,6 +15,7 @@ var defaults = {
 var inputCanvas;
 var inputCanvasCtx;
 var aspectRatio;
+var params;
 
 function go()
 {
@@ -26,7 +27,6 @@ function go()
   var t = new Image();
   t.src = $("#input_thumb").attr("src");
   t.onload = function() {
-    var params;
     inputCanvas.width=t.width;
     inputCanvas.height=t.height;
     inputCanvasCtx.drawImage(t,0,0);
@@ -78,14 +78,14 @@ $(function() {
   $("#large_formats_button").click(function () {
     $("#params").html(
       "version: textorizer 1<br/>"+
-      "opacity: "+defaults.opacity+"<br/>"+
-      "text: '"+defaults.text+"'<br/>"+
-      "seed: "+defaults.seed+"<br/>"+
-      "nb_strings: "+defaults.nb_strings+"<br/>"+
-      "threshold: "+defaults.threshold+"<br/>"+
-      "font_size_min: "+defaults.font_size_min+"<br/>"+
-      "font_size_max: "+defaults.font_size_max+"<br/>"+
-      "font: "+defaults.font);
+      "opacity: "+params.opacity+"<br/>"+
+      "text: '"+params.text+"'<br/>"+
+      "seed: "+params.seed+"<br/>"+
+      "nb_strings: "+params.nb_strings+"<br/>"+
+      "threshold: "+params.threshold+"<br/>"+
+      "font_size_min: "+params.font_size_min+"<br/>"+
+      "font_size_max: "+params.font_size_max+"<br/>"+
+      "font: "+params.font);
 
     $("#large_formats_popup").dialog();
   });
