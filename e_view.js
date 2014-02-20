@@ -193,6 +193,9 @@ $(function() {
         go();
       }
     });
+    $("#render_window").click(function () {
+      window.open(output_canvas.toDataURL());
+    });
   }
 
 

@@ -191,6 +191,9 @@ $(function () {
         go();
       }
     });
+    $("#render_window").click(function () {
+      window.open(output_canvas.toDataURL());
+    });
   }
 
   // populate the fonts dropowns

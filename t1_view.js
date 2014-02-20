@@ -38,13 +38,16 @@ function go()
       outputHeight: admin_mode ? $("#height_control").slider('value') : defaults.output_height,
       outputCanvas: output_canvas,
       text: $("#text").val(),
-      seed: Date.now(),
+      seed: admin_mode ? $("#seed_control").val() : Date.now(),
       nb_strings: $("#nb_strings").slider('value'),
       threshold: $("#threshold").slider('value'),
       font_size_min: $("#font_size").slider('values',0),
       font_size_max: $("#font_size").slider('values',1),
       font: $('#font :selected').text()
     };
+    if (admin_mode) {
+      $("#seed_control").val(params.seed);
+    }
     params.outputCanvas.height = params.outputHeight;
     params.outputCanvas.width = params.outputHeight*inputCanvas.width/inputCanvas.height;
     Textorizer[0].textorize(params);
@@ -158,8 +161,10 @@ $(function() {
         go();
       }
     });
+    $("#render_window").click(function () {
+      window.open(output_canvas.toDataURL());
+    });
   }
-
 
   // populate the fonts dropowns
   $("#font").html("<option>"+Fonts.join("</option><option>")+"</option>");
