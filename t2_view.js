@@ -1,5 +1,4 @@
 /*jslint devel: true, browser: true, maxerr: 50, indent: 2 */
-
 var $, output_canvas, Textorizer, Fonts;
 
 var defaults = {
@@ -19,6 +18,7 @@ var inputCanvas;
 var inputCanvasCtx;
 var aspectRatio;
 var params;
+var admin_mode;
 
 function go() {
   "use strict";
@@ -35,7 +35,7 @@ function go() {
     params = {
       inputCanvas: inputCanvas,
       opacity: $("#opacity").slider('value'),
-      outputHeight: defaults.output_height,
+      outputHeight: admin_mode ? $("#height_control").slider('value') : defaults.output_height,
       outputCanvas: output_canvas,
       text: $("#text").val(),
       text_size: $("#text_size").slider('value'),
@@ -45,6 +45,8 @@ function go() {
       font_scale: $("#font_scale").slider('value'),
       font: $('#font :selected').text()
     };
+    params.outputCanvas.height = params.outputHeight;
+    params.outputCanvas.width = params.outputHeight*inputCanvas.width/inputCanvas.height;
     Textorizer[1].textorize(params);
     $("#buttons").show();
     $("#buttons_spinning_wheel").hide();
@@ -175,6 +177,21 @@ $(function () {
       go();
     }
   });
+
+  admin_mode = /298948/.test(window.location.href);
+  
+  if (admin_mode) {
+    $(".secret").css("display","block");
+    $("#height_control").slider({
+      min: 100,
+      max: 10000,
+      step: 10,
+      value: defaults.output_height,
+      change: function () {
+        go();
+      }
+    });
+  }
 
   // populate the fonts dropowns
   $("#font").html("<option>" + Fonts.join("</option><option>") + "</option>");

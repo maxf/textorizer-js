@@ -1,4 +1,5 @@
-var $, Image, Textorizer, document, FileReader;
+/* jslint devel: true, browser: true, maxerr: 50, indent: 2 */
+var $, Textorizer;
 
 var defaults = {
   "opacity":30,
@@ -19,6 +20,7 @@ var inputCanvasCtx;
 var aspectRatio;
 var output_canvas;
 var params;
+var admin_mode;
 
 function go()
 {
@@ -36,7 +38,7 @@ function go()
     params = {
       inputCanvas: inputCanvas,
       opacity: $("#opacity").slider('value'),
-      outputHeight: defaults.output_height,
+      outputHeight: admin_mode ? $("#height_control").slider('value') : defaults.output_height,
       outputCanvas: output_canvas,
       theta: $("#theta").slider('value'),
       waviness: $("#waviness").slider('value'),
@@ -46,6 +48,8 @@ function go()
       tx: $("#tx").slider('value'),
       ty: $("#ty").slider('value')
     };
+    params.outputCanvas.height = params.outputHeight;
+    params.outputCanvas.width = params.outputHeight*inputCanvas.width/inputCanvas.height;
     Textorizer[2].textorize(params);
     $("#buttons").show();
     $("#buttons_spinning_wheel").hide();
@@ -174,6 +178,23 @@ $(function() {
                      change: function () {
                         go();
                       }});
+
+
+  admin_mode = /298948/.test(window.location.href);
+  
+  if (admin_mode) {
+    $(".secret").css("display","block");
+    $("#height_control").slider({
+      min: 100,
+      max: 10000,
+      step: 10,
+      value: defaults.output_height,
+      change: function () {
+        go();
+      }
+    });
+  }
+
 
   $("#input_thumb").attr("src", defaults.image_file);
 
