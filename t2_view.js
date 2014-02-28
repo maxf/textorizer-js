@@ -47,6 +47,13 @@ function go() {
     };
     params.outputCanvas.height = params.outputHeight;
     params.outputCanvas.width = params.outputHeight*inputCanvas.width/inputCanvas.height;
+    params.text_size *= params.outputHeight / defaults.output_height;
+//    params.line_height *= params.outputHeight / defaults.output_height;
+    params.kerning *= params.outputHeight / defaults.output_height;
+    params.font_scale *= params.outputHeight / defaults.output_height;
+
+    console.log("op: "+params.opacity+", ts: "+params.text_size+", lh: "+params.line_height+", sa: "+params.saturation+", ke: "+params.kerning+", fs:"+params.font_scale);
+
     Textorizer[1].textorize(params);
     $("#buttons").show();
     $("#buttons_spinning_wheel").hide();
@@ -57,7 +64,6 @@ function go() {
 // a thumbnail has been loaded
 function thumb_loaded(event) {
   "use strict";
-  console.log("thumb_loaded");
   // prepare the output canvas
   var newImg = new Image();
   newImg.src = event.target.src;
