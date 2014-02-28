@@ -29,7 +29,14 @@
             </div>
 
             <div id="large_formats_popup" title="Large Formats" style="display:none">
-              To make larger pictures, copy the text in this window and email it to max@lapin-bleu.net. Also attach your original picture.<br/><div id="params"></div>
+              To get a larger picture, send an email to max@lapin-bleu.net, including:
+              <ul>
+                <li>Your original picture attached</li>
+                <li>A copy of the text below, under the horizontal line</li>
+                <li>(optional) the size of the large picture you would like to receive</li>
+              </ul>
+              Within a week, you will receive an email reply with a large version of your generated picture.
+              <br/><hr/><div id="params"></div>
             </div>
 
             <div id="secondary_panel">
@@ -39,21 +46,21 @@
                 </div>
                 <button id="large_formats_button">Larger Image</button>
                 <div class="secret">
-                  <label>Image Height:</label>
+                  <label>Image Height: <span id="value-output-height"></span></label>
                   <div id="height_control"></div>
                   <button id="render_window">Pop up</button>
                 </div>
-                <label>Opacity:</label>
+                <label>Opacity: <span id="value-opacity"></span></label>
                 <div id="opacity"></div>
-                <label>Angle:</label>
+                <label>Angle: <span id="value-theta"></span></label>
                 <div id="theta"></div>
-                <label>Waviness:</label>
+                <label>Waviness: <span id="value-waviness"></span></label>
                 <div id="waviness"></div>
-                <label>Space between lines:</label>
+                <label>Space between lines: <span id="value-line-height"></span></label>
                 <div id="line_height"></div>
-                <label>Stretch X:</label>
+                <label>Stretch X: <span id="value-sx"></span></label>
                 <div id="sx"></div>
-                <label>Stretch Y:</label>
+                <label>Stretch Y: <span id="value-sy"></span></label>
                 <div id="sy"></div>
                 <div style="display:none"> <!-- not really useful, and confusing -->
                   <label>Tx:</label>

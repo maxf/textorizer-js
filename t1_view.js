@@ -117,37 +117,67 @@ $(function() {
   output_canvas = document.getElementById("output_canvas");
 
 
-  $("#opacity").slider({min:0,
-                        max:255,
-                        value:defaults.opacity,
-                        change: function () {
-                          go();
-                        }});
+  $("#opacity").slider({
+    min:0,
+    max:255,
+    value:defaults.opacity,
+    change: function () {
+      go();
+    },
+    slide: function (event, ui) {
+      if (admin_mode) {
+        $("#value-opacity").text(ui.value);
+      }
+    }
+  });
 
   $("#text").val(defaults.text);
 
   /* specific settings */
-  $("#nb_strings").slider({min:100,
-                           max:100000,
-                           value:defaults.nb_strings,
-                           change: function () {
-                              go();
-                            }});
-  $("#threshold").slider({min:0,
-                          max:200,
-                         step:0.1,
-                        value:defaults.threshold,
-                       change: function () {
-                                  go();
-                                }});
-  $("#font_size").slider({range: true,
-                               min: 0,
-                               max: 50,
-                               step: 0.1,
-                               values: [defaults.font_size_min, defaults.font_size_max],
-                               change: function () {
-                                  go();
-                                }});
+  $("#nb_strings").slider({
+    min:100,
+    max:100000,
+    value:defaults.nb_strings,
+    change: function () {
+      go();
+    },
+    slide: function (event, ui) {
+      if (admin_mode) {
+        $("#value-nb-strings").text(ui.value);
+      }
+    }
+  });
+
+  $("#threshold").slider({
+    min:0,
+    max:200,
+    step:0.1,
+    value:defaults.threshold,
+    change: function () {
+      go();
+    },
+    slide: function (event, ui) {
+      if (admin_mode) {
+        $("#value-threshold").text(ui.value);
+      }
+    }
+  });
+
+  $("#font_size").slider({
+    range: true,
+    min: 0,
+    max: 50,
+    step: 0.1,
+    values: [defaults.font_size_min, defaults.font_size_max],
+    change: function () {
+      go();
+    },
+    slide: function (event, ui) {
+      if (admin_mode) {
+        $("#value-font-size").text(ui.value);
+      }
+    }
+  });
   admin_mode = /298948/.test(window.location.href);
   
   if (admin_mode) {
@@ -159,6 +189,11 @@ $(function() {
       value: defaults.output_height,
       change: function () {
         go();
+      },
+      slide: function (event, ui) {
+        if (admin_mode) {
+          $("#value-image-height").text(ui.value);
+        }
       }
     });
     $("#render_window").click(function () {

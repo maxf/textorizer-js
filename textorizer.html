@@ -34,7 +34,14 @@
               </div>
 
               <div id="large_formats_popup" title="Large Formats" style="display:none">
-                To make larger pictures, copy the text in this window and email it to max@lapin-bleu.net. Also attach your original picture.<br/><div id="params"></div>
+                To get a larger picture, send an email to max@lapin-bleu.net, including:
+                <ul>
+                  <li>Your original picture attached</li>
+                  <li>A copy of the text below, under the horizontal line</li>
+                  <li>(optional) the size of the large picture you would like to receive</li>
+                </ul>
+                Within a week, you will receive an email reply with a large version of your generated picture.
+                <br/><hr/><div id="params"></div>
               </div>
 
 
@@ -55,23 +62,23 @@
               <button id="large_formats_button">Larger Image</button>
 
               <div class="secret">
-                <label>Seed:</label>
+                <label>Seed: <span id="value-seed"></span></label>
                 <input id="seed_control" type="text">
-                <label>Image Height:</label>
+                <label>Image Height: <span id="value-image-height"></span></label>
                 <div id="height_control"></div>
                 <button id="render_window">Pop up</button>
               </div>
               
-              <label>Opacity:</label>
+              <label>Opacity: <span id="value-opacity"></span></label>
               <div id="opacity"></div>
               
-              <label>Number of Strings:</label>
+              <label>Number of Strings: <span id="value-nb-strings"></span></label>
               <div id="nb_strings"></div>
               
-              <label>Threshold:</label>
+              <label>Threshold: <span id="value-threshold"></span></label>
               <div id="threshold"></div>
               
-              <label>Text size:</label>
+              <label>Text size: <span id="value-font-size"></span></label>
               <div id="font_size"></div>
               
               <label>Font:</label>

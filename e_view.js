@@ -120,6 +120,11 @@ $(function() {
                         value:defaults.opacity,
                         change: function () {
                           go();
+                        },
+                        slide: function (event, ui) {
+                          if (admin_mode) {
+                            $("#value-opacity").text(ui.value);
+                          }
                         }});
 
 
@@ -129,6 +134,11 @@ $(function() {
                       value:defaults.theta,
                       change: function () {
                         go();
+                      },
+                      slide: function (event, ui) {
+                        if (admin_mode) {
+                          $("#value-theta").text(ui.value);
+                        }
                       }});
 
   $("#waviness").slider({min:0,
@@ -137,6 +147,11 @@ $(function() {
                          value:defaults.waviness,
                          change: function () {
                             go();
+                          },
+                          slide: function (event, ui) {
+                            if (admin_mode) {
+                              $("#value-waviness").text(ui.value);
+                            }
                           }});
 
   $("#line_height").slider({min:1,
@@ -145,6 +160,11 @@ $(function() {
                               value:defaults.line_height,
                               change: function () {
                                 go();
+                              },
+                              slide: function (event, ui) {
+                                if (admin_mode) {
+                                  $("#value-line-height").text(ui.value);
+                                }
                               }});
 
   $("#sx").slider({min:0,
@@ -153,15 +173,25 @@ $(function() {
                      value:defaults.sx,
                      change: function () {
                         go();
+                      },
+                      slide: function (event, ui) {
+                        if (admin_mode) {
+                          $("#value-sx").text(ui.value);
+                        }
                       }});
 
   $("#sy").slider({min:0,
-                     max:2,
-                     step: 0.01,
-                     value:defaults.sy,
-                     change: function () {
-                        go();
-                      }});
+                   max:2,
+                   step: 0.01,
+                   value:defaults.sy,
+                   change: function () {
+                      go();
+                    },
+                   slide: function (event, ui) {
+                      if (admin_mode) {
+                        $("#value-sy").text(ui.value);
+                      }
+                    }});
 
   $("#tx").slider({min:0,
                      max:10,

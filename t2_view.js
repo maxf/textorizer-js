@@ -20,8 +20,10 @@ var aspectRatio;
 var params;
 var admin_mode;
 
+
 function go() {
   "use strict";
+  
   $("#buttons").hide();
   $("#buttons_spinning_wheel").show();
   output_canvas.style.display = "none";
@@ -45,15 +47,15 @@ function go() {
       font_scale: $("#font_scale").slider('value'),
       font: $('#font :selected').text()
     };
-    params.outputCanvas.height = params.outputHeight;
-    params.outputCanvas.width = params.outputHeight*inputCanvas.width/inputCanvas.height;
-    params.text_size *= params.outputHeight / defaults.output_height;
-//    params.line_height *= params.outputHeight / defaults.output_height;
-    params.kerning *= params.outputHeight / defaults.output_height;
-    params.font_scale *= params.outputHeight / defaults.output_height;
 
-    console.log("op: "+params.opacity+", ts: "+params.text_size+", lh: "+params.line_height+", sa: "+params.saturation+", ke: "+params.kerning+", fs:"+params.font_scale);
-
+    if (admin_mode) {
+      params.outputCanvas.height = params.outputHeight;
+      params.outputCanvas.width = params.outputHeight*inputCanvas.width/inputCanvas.height;
+      params.text_size *= params.outputHeight / defaults.output_height;
+  //    params.line_height *= params.outputHeight / defaults.output_height;
+      params.kerning *= params.outputHeight / defaults.output_height;
+      params.font_scale *= params.outputHeight / defaults.output_height;
+    }
     Textorizer[1].textorize(params);
     $("#buttons").show();
     $("#buttons_spinning_wheel").hide();
@@ -91,14 +93,15 @@ $(function () {
   $("#large_formats_button").click(function () {
     $("#params").html(
       "version: textorizer 2<br/>"+
-      "text: '"+params.text+"'<br/>"+
       "opacity: "+params.opacity+"<br/>"+
       "text_size: "+params.text_size+"<br/>"+
       "line_height: "+params.line_height+"<br/>"+
       "saturation: "+params.saturation+"<br/>"+
       "kerning: "+params.kerning+"<br/>"+
       "font_scale: "+params.font_scale+"<br/>"+
-      "font: "+params.font);
+      "font: "+params.font+"<br/>"+
+      "text: '"+params.text+"'<br/>"
+    );
 
     $("#large_formats_popup").dialog();
   });
@@ -129,6 +132,11 @@ $(function () {
     value: defaults.opacity,
     change: function () {
       go();
+    },
+    slide: function (event, ui) {
+      if (admin_mode) {
+        $("#value-opacity").text(ui.value);
+      }
     }
   });
 
@@ -141,6 +149,11 @@ $(function () {
     value: defaults.text_size,
     change: function () {
       go();
+    },
+    slide: function (event, ui) {
+      if (admin_mode) {
+        $("#value-text-size").text(ui.value);
+      }
     }
   });
 
@@ -151,6 +164,11 @@ $(function () {
     value: defaults.line_height,
     change: function () {
       go();
+    },
+    slide: function (event, ui) {
+      if (admin_mode) {
+        $("#value-line-height").text(ui.value);
+      }
     }
   });
 
@@ -161,6 +179,11 @@ $(function () {
     value: defaults.saturation,
     change: function () {
       go();
+    },
+    slide: function (event, ui) {
+      if (admin_mode) {
+        $("#value-saturation").text(ui.value);
+      }
     }
   });
 
@@ -171,6 +194,11 @@ $(function () {
     value: defaults.kerning,
     change: function () {
       go();
+    },
+    slide: function (event, ui) {
+      if (admin_mode) {
+        $("#value-kerning").text(ui.value);
+      }
     }
   });
 
@@ -181,6 +209,11 @@ $(function () {
     value: defaults.font_scale,
     change: function () {
       go();
+    },
+    slide: function (event, ui) {
+      if (admin_mode) {
+        $("#value-font-scale").text(ui.value);
+      }
     }
   });
 
@@ -190,11 +223,16 @@ $(function () {
     $(".secret").css("display","block");
     $("#height_control").slider({
       min: 100,
-      max: 10000,
-      step: 10,
+      max: 5000,
+      step: 100,
       value: defaults.output_height,
       change: function () {
         go();
+      },
+      slide: function (event, ui) {
+        if (admin_mode) {
+          $("#value-output-height").text(ui.value);
+        }
       }
     });
     $("#render_window").click(function () {
