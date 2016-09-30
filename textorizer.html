@@ -3,23 +3,23 @@
   <head>
     <title>textorizer-js</title>
     <!--    <link rel="stylesheet" href="style.css"/>-->
-    <link type="text/css" href="css/ui-lightness/jquery-ui-1.8rc3.custom.css" rel="stylesheet" />	
+    <link type="text/css" href="css/ui-lightness/jquery-ui-1.8rc3.custom.css" rel="stylesheet" />
 		<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui-1.8rc3.custom.min.js"></script>
 
 		<script type="text/javascript" src="common.js"></script>
 		<script type="text/javascript" src="textorizer.js"></script>
-    <script type="text/javascript" src="t1_view.js"></script> 
-    <script type="text/javascript" src="utils.js"></script> 
-    <script type="text/javascript" src="fontList.js"></script> 
+    <script type="text/javascript" src="t1_view.js"></script>
+    <script type="text/javascript" src="utils.js"></script>
+    <script type="text/javascript" src="fontList.js"></script>
     <script type="text/javascript" src="seedrandom.js"></script>
-    
+
     <link type="text/css" href="textorizer.css" rel="stylesheet"/>
   </head>
   <body>
     <div id="main">
           <div id="panel">
-            <h1><img style="vertical-align: middle" src="Textorizer_48x48.png" alt="Textorizer"/>Textorizer 1</h1> 
+            <h1><img style="vertical-align: middle" src="Textorizer_48x48.png" alt="Textorizer"/>Textorizer 1</h1>
             <p><small><a href=".">What's this?</a> <a href=".#documentation">Help!</a> <a href="#" id="privacy">privacy concerns?</a></small></p>
             <p style="text-align: center">
               <img id="input_thumb" height="100px" alt="Select an image file below" src="" style="vertical-align: middle; display:none"/><br/>
@@ -28,7 +28,7 @@
             <div id="picture_select">
               Change picture:
               <input id="file_selector" type="file" accept="image/*;capture=camera"/>
-  
+
               <div id="privacy_popup" title="Privacy" style="display:none">
                 The image never leaves your computer: we don't upload it anywhere. The whole process happens in your browser.
               </div>
@@ -45,7 +45,7 @@
               </div>
 
 
-              
+
             </div>
             <hr/>
             <div id="secondary_panel">
@@ -55,32 +55,28 @@
                 </span>
               </div>
 
-  
+
               <label>Text:</label>
               <textarea id="text" cols="20" rows="6"></textarea>
               <button id="preview_button"  onclick="go()">Render</button>
-              <button id="large_formats_button">Larger Image</button>
+              <label>Seed: <span id="value-seed"></span></label>
+              <input id="seed_control" type="text">
+              <label>Image Height: <span id="value-image-height"></span></label>
+              <div id="height_control"></div>
+              <button id="render_window">Pop up</button>
 
-              <div class="secret">
-                <label>Seed: <span id="value-seed"></span></label>
-                <input id="seed_control" type="text">
-                <label>Image Height: <span id="value-image-height"></span></label>
-                <div id="height_control"></div>
-                <button id="render_window">Pop up</button>
-              </div>
-              
               <label>Opacity: <span id="value-opacity"></span></label>
               <div id="opacity"></div>
-              
+
               <label>Number of Strings: <span id="value-nb-strings"></span></label>
               <div id="nb_strings"></div>
-              
+
               <label>Threshold: <span id="value-threshold"></span></label>
               <div id="threshold"></div>
-              
+
               <label>Text size: <span id="value-font-size"></span></label>
               <div id="font_size"></div>
-              
+
               <label>Font:</label>
               <select id="font">
                 <option>Arial Black</option>
@@ -94,14 +90,14 @@
           <canvas id="output_canvas" width="400" height="400" style="display:none"></canvas>
         </div>
         <canvas style="display:none" id="input_canvas" width="10" height="10"></canvas>
-<script type="text/javascript"> 
+<script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script> 
-<script type="text/javascript"> 
+</script>
+<script type="text/javascript">
 var pageTracker = _gat._getTracker("UA-3434078-1");
 pageTracker._initData();
 pageTracker._trackPageview();
-</script> 
+</script>
   </body>
 </html>

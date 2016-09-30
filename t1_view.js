@@ -17,7 +17,6 @@ var inputCanvas;
 var inputCanvasCtx;
 var aspectRatio;
 var params;
-var admin_mode;
 
 function go()
 {
@@ -35,19 +34,17 @@ function go()
     params = {
       inputCanvas: inputCanvas,
       opacity: $("#opacity").slider('value'),
-      outputHeight: admin_mode ? $("#height_control").slider('value') : defaults.output_height,
+      outputHeight: $("#height_control").slider('value'),
       outputCanvas: output_canvas,
       text: $("#text").val(),
-      seed: admin_mode ? $("#seed_control").val() : Date.now(),
+      seed: $("#seed_control").val(),
       nb_strings: $("#nb_strings").slider('value'),
       threshold: $("#threshold").slider('value'),
       font_size_min: $("#font_size").slider('values',0),
       font_size_max: $("#font_size").slider('values',1),
       font: $('#font :selected').text()
     };
-    if (admin_mode) {
-      $("#seed_control").val(params.seed);
-    }
+    $("#seed_control").val(params.seed);
     params.outputCanvas.height = params.outputHeight;
     params.outputCanvas.width = params.outputHeight*inputCanvas.width/inputCanvas.height;
     Textorizer[0].textorize(params);
@@ -125,9 +122,7 @@ $(function() {
       go();
     },
     slide: function (event, ui) {
-      if (admin_mode) {
-        $("#value-opacity").text(ui.value);
-      }
+      $("#value-opacity").text(ui.value);
     }
   });
 
@@ -142,9 +137,7 @@ $(function() {
       go();
     },
     slide: function (event, ui) {
-      if (admin_mode) {
-        $("#value-nb-strings").text(ui.value);
-      }
+      $("#value-nb-strings").text(ui.value);
     }
   });
 
@@ -157,9 +150,7 @@ $(function() {
       go();
     },
     slide: function (event, ui) {
-      if (admin_mode) {
-        $("#value-threshold").text(ui.value);
-      }
+      $("#value-threshold").text(ui.value);
     }
   });
 
@@ -173,33 +164,25 @@ $(function() {
       go();
     },
     slide: function (event, ui) {
-      if (admin_mode) {
-        $("#value-font-size").text(ui.value);
-      }
+      $("#value-font-size").text(ui.value);
     }
   });
-  admin_mode = /298948/.test(window.location.href);
-  
-  if (admin_mode) {
-    $(".secret").css("display","block");
-    $("#height_control").slider({
-      min: 100,
-      max: 10000,
-      step: 10,
-      value: defaults.output_height,
-      change: function () {
-        go();
-      },
-      slide: function (event, ui) {
-        if (admin_mode) {
-          $("#value-image-height").text(ui.value);
-        }
-      }
-    });
-    $("#render_window").click(function () {
-      window.open(output_canvas.toDataURL());
-    });
-  }
+
+  $("#height_control").slider({
+    min: 100,
+    max: 10000,
+    step: 10,
+    value: defaults.output_height,
+    change: function () {
+      go();
+    },
+    slide: function (event, ui) {
+      $("#value-image-height").text(ui.value);
+    }
+  });
+  $("#render_window").click(function () {
+    window.open(output_canvas.toDataURL());
+  });
 
   // populate the fonts dropowns
   $("#font").html("<option>"+Fonts.join("</option><option>")+"</option>");

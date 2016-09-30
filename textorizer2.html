@@ -3,22 +3,22 @@
   <head>
     <title>textorizer-js</title>
 <!--    <link rel="stylesheet" href="style.css"/>-->
-		<link type="text/css" href="css/ui-lightness/jquery-ui-1.8rc3.custom.css" rel="stylesheet" />	
+		<link type="text/css" href="css/ui-lightness/jquery-ui-1.8rc3.custom.css" rel="stylesheet" />
 		<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui-1.8rc3.custom.min.js"></script>
 
-    <script type="text/javascript" src="common.js"></script> 
+    <script type="text/javascript" src="common.js"></script>
 		<script type="text/javascript" src="textorizer.js"></script>
-    <script type="text/javascript" src="t2_view.js"></script> 
-    <script type="text/javascript" src="utils.js"></script> 
-    <script type="text/javascript" src="fontList.js"></script> 
-    
+    <script type="text/javascript" src="t2_view.js"></script>
+    <script type="text/javascript" src="utils.js"></script>
+    <script type="text/javascript" src="fontList.js"></script>
+
     <link type="text/css" href="textorizer.css" rel="stylesheet"/>
   </head>
   <body>
     <div id="main">
           <div id="panel">
-            <h1><img style="vertical-align: middle" src="Textorizer_48x48.png" alt="Textorizer"/>Textorizer 2</h1> 
+            <h1><img style="vertical-align: middle" src="Textorizer_48x48.png" alt="Textorizer"/>Textorizer 2</h1>
             <p><small><a href=".">What's this?</a> <a href=".#documentation">Help!</a>               <a href="#" id="privacy">privacy concerns?</a></small></p>
 
             <p style="text-align: center">
@@ -53,32 +53,29 @@
               <label>Text:</label>
               <textarea id="text" cols="20" rows="4"></textarea>
               <button id="preview_button"  onclick="go()">Render</button>
-              <button id="large_formats_button">Larger Image</button>
 
-              <div class="secret">
-                <label>Image Height: <span id="value-output-height"><span></label>
-                <div id="height_control"></div>
-                <button id="render_window">Pop up</button>
-              </div>
-              
+              <label>Image Height: <span id="value-output-height"><span></label>
+              <div id="height_control"></div>
+              <button id="render_window">Pop up</button>
+
               <label>Opacity: <span id="value-opacity"><span></label>
               <div id="opacity"></div>
-              
+
               <label>Text Size: <span id="value-text-size"><span></label>
               <div id="text_size"></div>
-              
+
               <label>Line Height: <span id="value-line-height"><span></label>
               <div id="line_height"></div>
-              
+
               <label>Saturation: <span id="value-saturation"><span></label>
               <div id="saturation"></div>
-              
+
               <label>Kerning: <span id="value-kerning"><span></label>
               <div id="kerning"></div>
-              
+
               <label>Font Scale: <span id="value-font-scale"><span></label>
               <div id="font_scale"></div>
-              
+
               <label>Font:</label>
               <select id="font">
                 <option>Arial Black</option>
@@ -87,7 +84,7 @@
                 <option>Times New Roman</option>
               </select>
 
-            </div>            
+            </div>
           </div>
           <canvas id="output_canvas" width="400" height="400" style="display:none"></canvas>
         </div>
@@ -104,6 +101,6 @@
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
-</script> 
+</script>
   </body>
 </html>

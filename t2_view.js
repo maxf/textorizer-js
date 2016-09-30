@@ -18,12 +18,11 @@ var inputCanvas;
 var inputCanvasCtx;
 var aspectRatio;
 var params;
-var admin_mode;
 
 
 function go() {
   "use strict";
-  
+
   $("#buttons").hide();
   $("#buttons_spinning_wheel").show();
   output_canvas.style.display = "none";
@@ -37,7 +36,7 @@ function go() {
     params = {
       inputCanvas: inputCanvas,
       opacity: $("#opacity").slider('value'),
-      outputHeight: admin_mode ? $("#height_control").slider('value') : defaults.output_height,
+      outputHeight: $("#height_control").slider('value'),
       outputCanvas: output_canvas,
       text: $("#text").val(),
       text_size: $("#text_size").slider('value'),
@@ -48,14 +47,12 @@ function go() {
       font: $('#font :selected').text()
     };
 
-    if (admin_mode) {
-      params.outputCanvas.height = params.outputHeight;
-      params.outputCanvas.width = params.outputHeight*inputCanvas.width/inputCanvas.height;
-      params.text_size *= params.outputHeight / defaults.output_height;
-  //    params.line_height *= params.outputHeight / defaults.output_height;
-      params.kerning *= params.outputHeight / defaults.output_height;
-      params.font_scale *= params.outputHeight / defaults.output_height;
-    }
+    params.outputCanvas.height = params.outputHeight;
+    params.outputCanvas.width = params.outputHeight*inputCanvas.width/inputCanvas.height;
+    params.text_size *= params.outputHeight / defaults.output_height;
+//    params.line_height *= params.outputHeight / defaults.output_height;
+    params.kerning *= params.outputHeight / defaults.output_height;
+    params.font_scale *= params.outputHeight / defaults.output_height;
     Textorizer[1].textorize(params);
     $("#buttons").show();
     $("#buttons_spinning_wheel").hide();
@@ -74,7 +71,7 @@ function thumb_loaded(event) {
   output_canvas.height = defaults.output_height;
   output_canvas.width = defaults.output_height * aspectRatio;
 
-  // and render 
+  // and render
   go();
 }
 
@@ -134,9 +131,7 @@ $(function () {
       go();
     },
     slide: function (event, ui) {
-      if (admin_mode) {
-        $("#value-opacity").text(ui.value);
-      }
+      $("#value-opacity").text(ui.value);
     }
   });
 
@@ -151,9 +146,7 @@ $(function () {
       go();
     },
     slide: function (event, ui) {
-      if (admin_mode) {
-        $("#value-text-size").text(ui.value);
-      }
+      $("#value-text-size").text(ui.value);
     }
   });
 
@@ -166,9 +159,7 @@ $(function () {
       go();
     },
     slide: function (event, ui) {
-      if (admin_mode) {
-        $("#value-line-height").text(ui.value);
-      }
+      $("#value-line-height").text(ui.value);
     }
   });
 
@@ -181,9 +172,7 @@ $(function () {
       go();
     },
     slide: function (event, ui) {
-      if (admin_mode) {
-        $("#value-saturation").text(ui.value);
-      }
+      $("#value-saturation").text(ui.value);
     }
   });
 
@@ -196,9 +185,7 @@ $(function () {
       go();
     },
     slide: function (event, ui) {
-      if (admin_mode) {
-        $("#value-kerning").text(ui.value);
-      }
+      $("#value-kerning").text(ui.value);
     }
   });
 
@@ -211,34 +198,25 @@ $(function () {
       go();
     },
     slide: function (event, ui) {
-      if (admin_mode) {
-        $("#value-font-scale").text(ui.value);
-      }
+      $("#value-font-scale").text(ui.value);
     }
   });
 
-  admin_mode = /298948/.test(window.location.href);
-  
-  if (admin_mode) {
-    $(".secret").css("display","block");
-    $("#height_control").slider({
-      min: 100,
-      max: 5000,
-      step: 100,
-      value: defaults.output_height,
-      change: function () {
-        go();
-      },
-      slide: function (event, ui) {
-        if (admin_mode) {
-          $("#value-output-height").text(ui.value);
-        }
-      }
-    });
-    $("#render_window").click(function () {
-      window.open(output_canvas.toDataURL());
-    });
-  }
+  $("#height_control").slider({
+    min: 100,
+    max: 5000,
+    step: 100,
+    value: defaults.output_height,
+    change: function () {
+      go();
+    },
+    slide: function (event, ui) {
+      $("#value-output-height").text(ui.value);
+    }
+  });
+  $("#render_window").click(function () {
+    window.open(output_canvas.toDataURL());
+  });
 
   // populate the fonts dropowns
   $("#font").html("<option>" + Fonts.join("</option><option>") + "</option>");

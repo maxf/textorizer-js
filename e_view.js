@@ -20,7 +20,6 @@ var inputCanvasCtx;
 var aspectRatio;
 var output_canvas;
 var params;
-var admin_mode;
 
 function go()
 {
@@ -38,7 +37,7 @@ function go()
     params = {
       inputCanvas: inputCanvas,
       opacity: $("#opacity").slider('value'),
-      outputHeight: admin_mode ? $("#height_control").slider('value') : defaults.output_height,
+      outputHeight: $("#height_control").slider('value'),
       outputCanvas: output_canvas,
       theta: $("#theta").slider('value'),
       waviness: $("#waviness").slider('value'),
@@ -122,9 +121,7 @@ $(function() {
                           go();
                         },
                         slide: function (event, ui) {
-                          if (admin_mode) {
-                            $("#value-opacity").text(ui.value);
-                          }
+                          $("#value-opacity").text(ui.value);
                         }});
 
 
@@ -136,9 +133,7 @@ $(function() {
                         go();
                       },
                       slide: function (event, ui) {
-                        if (admin_mode) {
-                          $("#value-theta").text(ui.value);
-                        }
+                        $("#value-theta").text(ui.value);
                       }});
 
   $("#waviness").slider({min:0,
@@ -149,9 +144,7 @@ $(function() {
                             go();
                           },
                           slide: function (event, ui) {
-                            if (admin_mode) {
-                              $("#value-waviness").text(ui.value);
-                            }
+                            $("#value-waviness").text(ui.value);
                           }});
 
   $("#line_height").slider({min:1,
@@ -162,9 +155,7 @@ $(function() {
                                 go();
                               },
                               slide: function (event, ui) {
-                                if (admin_mode) {
-                                  $("#value-line-height").text(ui.value);
-                                }
+                                $("#value-line-height").text(ui.value);
                               }});
 
   $("#sx").slider({min:0,
@@ -175,9 +166,7 @@ $(function() {
                         go();
                       },
                       slide: function (event, ui) {
-                        if (admin_mode) {
-                          $("#value-sx").text(ui.value);
-                        }
+                        $("#value-sx").text(ui.value);
                       }});
 
   $("#sy").slider({min:0,
@@ -188,9 +177,7 @@ $(function() {
                       go();
                     },
                    slide: function (event, ui) {
-                      if (admin_mode) {
-                        $("#value-sy").text(ui.value);
-                      }
+                      $("#value-sy").text(ui.value);
                     }});
 
   $("#tx").slider({min:0,
@@ -210,23 +197,18 @@ $(function() {
                       }});
 
 
-  admin_mode = /298948/.test(window.location.href);
-  
-  if (admin_mode) {
-    $(".secret").css("display","block");
-    $("#height_control").slider({
-      min: 100,
-      max: 10000,
-      step: 10,
-      value: defaults.output_height,
-      change: function () {
-        go();
-      }
-    });
-    $("#render_window").click(function () {
-      window.open(output_canvas.toDataURL());
-    });
-  }
+  $("#height_control").slider({
+    min: 100,
+    max: 10000,
+    step: 10,
+    value: defaults.output_height,
+    change: function () {
+      go();
+    }
+  });
+  $("#render_window").click(function () {
+    window.open(output_canvas.toDataURL());
+  });
 
 
   $("#input_thumb").attr("src", defaults.image_file);

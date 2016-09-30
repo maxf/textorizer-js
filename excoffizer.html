@@ -3,13 +3,13 @@
   <head>
     <title>textorizer-js</title>
 <!--    <link rel="stylesheet" href="style.css"/>-->
-		<link type="text/css" href="css/ui-lightness/jquery-ui-1.8rc3.custom.css" rel="stylesheet" />	
+		<link type="text/css" href="css/ui-lightness/jquery-ui-1.8rc3.custom.css" rel="stylesheet" />
 		<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui-1.8rc3.custom.min.js"></script>
 
 		<script type="text/javascript" src="common.js"></script>
 		<script type="text/javascript" src="textorizer.js"></script>
-    <script type="text/javascript" src="e_view.js"></script> 
+    <script type="text/javascript" src="e_view.js"></script>
     <script type="text/javascript" src="utils.js"></script>
 
     <link type="text/css" href="textorizer.css" rel="stylesheet"/>
@@ -44,12 +44,9 @@
                 <div style="text-align: center">
                   <img id="buttons_spinning_wheel" src="spinning_wheel.gif" alt="spinning wheel"  style="vertical-align: middle" />
                 </div>
-                <button id="large_formats_button">Larger Image</button>
-                <div class="secret">
-                  <label>Image Height: <span id="value-output-height"></span></label>
-                  <div id="height_control"></div>
-                  <button id="render_window">Pop up</button>
-                </div>
+                <label>Image Height: <span id="value-output-height"></span></label>
+                <div id="height_control"></div>
+                <button id="render_window">Pop up</button>
                 <label>Opacity: <span id="value-opacity"></span></label>
                 <div id="opacity"></div>
                 <label>Angle: <span id="value-theta"></span></label>
@@ -68,21 +65,21 @@
                   <label>Ty:</label>
                   <div id="ty"></div>
                 </div>
-              </div>            
+              </div>
           </div>
           <canvas id="output_canvas" width="400" height="400" style="display:none"></canvas>
         </div>
       </div>
 
     <canvas style="display:none" id="input_canvas" width="10" height="10"></canvas>
-<script type="text/javascript"> 
+<script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script> 
-<script type="text/javascript"> 
+</script>
+<script type="text/javascript">
 var pageTracker = _gat._getTracker("UA-3434078-1");
 pageTracker._initData();
 pageTracker._trackPageview();
-</script> 
+</script>
   </body>
 </html>
