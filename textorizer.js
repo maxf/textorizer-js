@@ -221,7 +221,7 @@ Textorizer[1] = {
 
 
             // empirically shift letter to the top-left, since sampled pixel is on its top-left corner
-          outputCtx.fillText(c, x-fontSize/2, y+3+fontSize*lineHeight-fontSize/2);
+          outputCtx.fillText(c, x, y+3+fontSize*lineHeight-fontSize/2);
           rx += letterWidth * (1+kerning);
         } else {
             // this is white space, reduce its width to make the text denser
