@@ -1,5 +1,5 @@
 /* jslint devel: true, browser: true, maxerr: 50, indent: 2 */
-var $, Textorizer;
+var Textorizer;
 
 var defaults = {
   "opacity":30,
@@ -14,6 +14,22 @@ var defaults = {
   "image_file": "dali.png"
 };
 
+const id = id => document.getElementById(id);
+
+id("opacity").value = defaults.opacity;
+id("value-opacity").innerHTML = defaults.opacity;
+id("theta").value = defaults.theta;
+id("value-theta").innerHTML = defaults.theta;
+id("waviness").value = defaults.waviness;
+id("value-waviness").innerHTML = defaults.waviness;
+id("line_height").value = defaults.line_height;
+id("value-line_height").innerHTML = defaults.line_height;
+id("sx").value = defaults.sx;
+id("value-sx").innerHTML = defaults.sx;
+id("sy").value = defaults.sy;
+id("value-sy").innerHTML = defaults.sy;
+id("height_control").value = defaults.output_height;
+id("value-height_control").innerHTML = defaults.output_height;
 
 var inputCanvas;
 var inputCanvasCtx;
@@ -24,34 +40,29 @@ var params;
 function go()
 {
   "use strict";
-  $("#buttons").hide();
-  $("#buttons_spinning_wheel").show();
-  output_canvas.style.display="none";
   // Put the pixels of the original image into the canvas
   var t = new Image();
-  t.src = $("#input_thumb").attr("src");
+  t.src = id("input_thumb").getAttribute("src");
   t.onload = function() {
     inputCanvas.width=t.width;
     inputCanvas.height=t.height;
     inputCanvasCtx.drawImage(t,0,0);
     params = {
       inputCanvas: inputCanvas,
-      opacity: $("#opacity").slider('value'),
-      outputHeight: $("#height_control").slider('value'),
+      opacity: parseInt(id("opacity").value),
+      outputHeight: parseInt(id("height_control").value),
       outputCanvas: output_canvas,
-      theta: $("#theta").slider('value'),
-      waviness: $("#waviness").slider('value'),
-      line_height: $("#line_height").slider('value'),
-      sx: $("#sx").slider('value'),
-      sy: $("#sy").slider('value'),
-      tx: $("#tx").slider('value'),
-      ty: $("#ty").slider('value')
+      theta: parseInt(id("theta").value),
+      waviness: parseFloat(id("waviness").value),
+      line_height: parseInt(id("line_height").value),
+      sx: parseFloat(id("sx").value),
+      sy: parseFloat(id("sy").value),
+      tx: defaults.tx,
+      ty: defaults.ty,
     };
     params.outputCanvas.height = params.outputHeight;
     params.outputCanvas.width = params.outputHeight*inputCanvas.width/inputCanvas.height;
     Textorizer[2].textorize(params);
-    $("#buttons").show();
-    $("#buttons_spinning_wheel").hide();
     output_canvas.style.display="block";
   };
 }
@@ -71,146 +82,62 @@ function thumb_loaded(event) {
 }
 
 
-$(function() {
-  "use strict";
-  inputCanvas = document.getElementById("input_canvas");
-  inputCanvasCtx = inputCanvas.getContext('2d');
+inputCanvas = id("input_canvas");
+inputCanvasCtx = inputCanvas.getContext('2d');
 
-  $("#privacy").click(function () {
-    $("#privacy_popup").dialog();
-  });
-  $("#cors").click(function () {
-    $("#cors_popup").dialog();
-  });
-  $("#large_formats_button").click(function () {
-    $("#params").html(
-      "version: excoffizer<br/>"+
-      "opacity: "+params.opacity+"<br/>"+
-      "theta: '"+params.theta+"'<br/>"+
-      "waviness: "+params.waviness+"<br/>"+
-      "line_height: "+params.line_height+"<br/>"+
-      "sx: "+params.sx+"<br/>"+
-      "sy: "+params.sy+"<br/>"+
-      "tx: "+params.tx+"<br/>"+
-      "ty: "+params.ty+"<br/>");
-
-    $("#large_formats_popup").dialog();
-  });
-
-  $("#file_selector").change(function(e){
-                                var fr = new FileReader();
-                                fr.onload = function() {
-                                  $("#input_thumb").attr("src",fr.result);
-                                };
-                                fr.readAsDataURL(e.target.files[0]);
-                              });
-
-  // only re activate the buttons when the image is loaded **FIXME - image could already be loaded (if we reselect the existing URL)
-  $("#input_thumb").load(function(e){
-                            thumb_loaded(e,0);
-                            $("#secondary_panel, #output_canvas, #input_thumb").show();
-                          });
-
-  // no jquery on line below. We need the raw node values since we're operating on the attributes directly
-  output_canvas = document.getElementById("output_canvas");
-
-  $("#opacity").slider({min:0,
-                        max:255,
-                        value:defaults.opacity,
-                        change: function () {
-                          go();
-                        },
-                        slide: function (event, ui) {
-                          $("#value-opacity").text(ui.value);
-                        }});
-
-
-  $("#theta").slider({min:0,
-                      max:180,
-                      step: 0.1,
-                      value:defaults.theta,
-                      change: function () {
-                        go();
-                      },
-                      slide: function (event, ui) {
-                        $("#value-theta").text(ui.value);
-                      }});
-
-  $("#waviness").slider({min:0,
-                         max:30,
-                         step: 0.1,
-                         value:defaults.waviness,
-                         change: function () {
-                            go();
-                          },
-                          slide: function (event, ui) {
-                            $("#value-waviness").text(ui.value);
-                          }});
-
-  $("#line_height").slider({min:1,
-                              max:100,
-                              step: 1,
-                              value:defaults.line_height,
-                              change: function () {
-                                go();
-                              },
-                              slide: function (event, ui) {
-                                $("#value-line-height").text(ui.value);
-                              }});
-
-  $("#sx").slider({min:0,
-                     max:2,
-                     step: 0.01,
-                     value:defaults.sx,
-                     change: function () {
-                        go();
-                      },
-                      slide: function (event, ui) {
-                        $("#value-sx").text(ui.value);
-                      }});
-
-  $("#sy").slider({min:0,
-                   max:2,
-                   step: 0.01,
-                   value:defaults.sy,
-                   change: function () {
-                      go();
-                    },
-                   slide: function (event, ui) {
-                      $("#value-sy").text(ui.value);
-                    }});
-
-  $("#tx").slider({min:0,
-                     max:10,
-                     step: 0.01,
-                     value:defaults.tx,
-                     change: function () {
-                        go();
-                      }});
-
-  $("#ty").slider({min:0,
-                     max:10,
-                     step: 0.01,
-                     value:defaults.ty,
-                     change: function () {
-                        go();
-                      }});
-
-
-  $("#height_control").slider({
-    min: 100,
-    max: 10000,
-    step: 10,
-    value: defaults.output_height,
-    change: function () {
-      go();
-    }
-  });
-  $("#render_window").click(function () {
-    window.open(output_canvas.toDataURL());
-  });
-
-
-  $("#input_thumb").attr("src", defaults.image_file);
-
+id("file_selector").addEventListener('change', e => {
+  var fr = new FileReader();
+  fr.onload = function() {
+    id("input_thumb").setAttribute("src", fr.result);
+  };
+  fr.readAsDataURL(e.target.files[0]);
 });
+
+// only re activate the buttons when the image is loaded **FIXME - image could already be loaded (if we reselect the existing URL)
+id("input_thumb").addEventListener('load', e => {
+  thumb_loaded(e, 0);
+});
+
+// no jquery on line below. We need the raw node values since we're operating on the attributes directly
+output_canvas = id("output_canvas");
+
+id("opacity").addEventListener("change", event => {
+  id("value-opacity").innerHTML = event.target.value;
+  go();
+});
+
+id("theta").addEventListener("change", event => {
+  id("value-theta").innerHTML = event.target.value;
+  go();
+});
+
+id("waviness").addEventListener("change", event => {
+  id("value-waviness").innerHTML = event.target.value;
+  go();
+});
+
+id("line_height").addEventListener("change", event => {
+  id("value-line_height").innerHTML = event.target.value;
+  go();
+});
+
+id("sx").addEventListener("change", event => {
+  id("value-sx").innerHTML = event.target.value;
+  go();
+});
+
+id("sy").addEventListener("change", event => {
+  id("value-sy").innerHTML = event.target.value;
+  go();
+});
+
+id("height_control").addEventListener("change", event => {
+  id("value-height_control").innerHTML = event.target.value;
+  go();
+});
+
+id("render_window").addEventListener("click", event => {
+  window.open(output_canvas.toDataURL());
+});
+
+id("input_thumb").setAttribute("src", defaults.image_file);
