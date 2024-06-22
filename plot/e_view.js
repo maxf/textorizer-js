@@ -1,5 +1,5 @@
 /* jslint devel: true, browser: true, maxerr: 50, indent: 2 */
-var Textorizer;
+var Excoffizer;
 
 var defaults = {
   "opacity":30,
@@ -62,7 +62,8 @@ function go()
     };
     params.outputCanvas.height = params.outputHeight;
     params.outputCanvas.width = params.outputHeight*inputCanvas.width/inputCanvas.height;
-    Textorizer[2].textorize(params);
+    const svg = Excoffizer.excoffize(params);
+    document.getElementById('svg-canvas').innerHtml = svg;
     output_canvas.style.display="block";
   };
 }
