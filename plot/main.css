@@ -4,5 +4,5 @@ label { display: block; margin: .5em 0 .2em 0; text-align: left }
 img { border: 1px solid gray; }
 input { width: 100% }
 h1 > img { border: none; padding-right: .2em }
-#panel { width: 250px; }
-#output_canvas { position: absolute; left: 270px; top: 0px; border: 1px solid black }
+#panel { width: 250px; float: left }
+#output-canvas { float: right; border: 1px solid black }

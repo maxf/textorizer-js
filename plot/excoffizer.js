@@ -53,36 +53,17 @@ var Excoffizer = {
 
   _excoffize: function() {
     "use strict";
-    var outputCanvas = this._params.outputCanvas,
-        outputCtx    = outputCanvas.getContext('2d'),
-        inputWidth   = this.inputPixmap.width,
+    var inputWidth   = this.inputPixmap.width,
         inputHeight  = this.inputPixmap.height,
-        outputWidth  = outputCanvas.width,
-        outputHeight = outputCanvas.height,
+        outputWidth  = 500,
+        outputHeight = 500,
         opacity      = this._params.opacity,
         lineHeight   = this._params.line_height,
         corner1, corner2, corner3, corner4, minX, minY, maxX, maxY, stepx, stepy, x, y,
         imageP, rx, ry, imageP2, rx2, ry2, radius, radius2, sidePoints, sidePoints2, zoom;
-
-    // reset values
-    outputCtx.shadowColor="black";
-    outputCtx.shadowOffsetX=0;
-    outputCtx.shadowOffsetY=0;
-    outputCtx.shadowBlur=0;
-
-
-    // clear output canvas
-    outputCtx.fillStyle = "white";
-    outputCtx.fillRect(0,0,outputWidth,outputHeight);
-
-    // and add in the initial picture with transparency
-    outputCtx.globalAlpha = opacity/256;
-    outputCtx.drawImage(this.inputPixmap.canvas,0,0,outputWidth,outputHeight);
-    outputCtx.globalAlpha = 1;
-
-    // ready to draw
-    outputCtx.fillStyle='black';
-
+    let outputSvg = `
+    <svg width="500" height="500">
+    `;
 
     // boundaries of the image in sine space
     corner1 = this._P2S(0,0);
@@ -98,10 +79,6 @@ var Excoffizer = {
 
     stepx=2;
     stepy=lineHeight;
-
-    outputSvg = `
-    <svg>
-    `;
 
     for (y=minY-this._wiggleAmplitude ;y<maxY+this._wiggleAmplitude;y+=stepy) {
       for (x=minX;x<maxX;x+=stepx) {
@@ -131,13 +108,7 @@ var Excoffizer = {
           sidePoints2[1]*=zoom;
           sidePoints2[2]*=zoom;
           sidePoints2[3]*=zoom;
-          outputCtx.beginPath();
-          outputCtx.moveTo(sidePoints[0],sidePoints[1]);
-          outputCtx.lineTo(sidePoints[2],sidePoints[3]);
-          outputCtx.lineTo(sidePoints2[0],sidePoints2[1]);
-          outputCtx.lineTo(sidePoints2[2],sidePoints2[3]);
-          outputCtx.fill();
-          outputSvg += `<path s="M${sidePoints[0]},${sidePoints[1]} L${sidePoints[2]},${sidePoints[3]} L${sidePoints2[0]},${sidePoints2[1]} L${sidePoints2[2]},${sidePoints2[3]}" stroke="none" fill="black"/>`;
+          outputSvg += `<path d="M${sidePoints[0]},${sidePoints[1]} L${sidePoints[2]},${sidePoints[3]} L${sidePoints2[0]},${sidePoints2[1]} L${sidePoints2[2]},${sidePoints2[3]}" stroke="none" fill="black"/>\n`;
 
         }
       }

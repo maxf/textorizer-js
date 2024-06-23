@@ -8,7 +8,6 @@
     <div id="main">
           <div id="panel">
             <h1>Excoffizer</h1>
-            <div id="svg-canvas"></div>
             <p style="text-align: center">
               <img id="input_thumb" height="100px" alt="Select an image file below" src="" style="vertical-align: middle; display:none"/>
             </p>
@@ -17,12 +16,7 @@
 
             <div id="secondary_panel">
               <div id="buttons">
-                <label>Image Height: <span id="value-height_control"></span></label>
-                <input id="height_control" type="range" min="100" max="10000" step="100"/>
                 <button id="render_window">Pop up</button>
-
-                <label>Opacity: <span id="value-opacity"></span></label>
-                <input id="opacity" type="range" min="0" max="255"/>
 
                 <label>Angle: <span id="value-theta"></span></label>
                 <input id="theta" type="range" min="0" max="180"/>
@@ -40,12 +34,12 @@
                 <input id="sy" type="range" min="0" max="2" step="0.01" />
 
               </div>
-          </div>
-          <canvas id="output_canvas" width="400" height="400" style="display:none"></canvas>
-        </div>
-      </div>
+            </div>
 
-      <canvas style="display:none" id="input_canvas" width="10" height="10"></canvas>
+          </div>
+          <div id="output-canvas" width="500" height="500"></div>
+
+          <canvas style="display:none" id="input_canvas" width="10" height="10"></canvas>
 
       <script type="text/javascript" src="common.js"></script>
       <script type="text/javascript" src="excoffizer.js"></script>
