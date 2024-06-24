@@ -51,7 +51,6 @@ function go()
       ty: defaults.ty,
     };
     const svg = Excoffizer.excoffize(params);
-    console.log(svg)
     document.getElementById('output-canvas').innerHTML = svg;
   };
 }
@@ -115,7 +114,10 @@ id("sy").addEventListener("change", event => {
 
 
 id("render_window").addEventListener("click", event => {
-  window.open(output_canvas.toDataURL());
+  const newWin = window.open('','_blank');
+  newWin.title = 'Excoffizer SVG';
+  newWin.document.write(Excoffizer.excoffize(params));
+  newWin.focus();
 });
 
 id("input_thumb").setAttribute("src", defaults.image_file);
