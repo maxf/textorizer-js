@@ -56,13 +56,15 @@ var Excoffizer = {
     var inputWidth   = this.inputPixmap.width,
         inputHeight  = this.inputPixmap.height,
         outputWidth  = 500,
-        outputHeight = 500,
+        outputHeight = 500*inputHeight/inputWidth,
         opacity      = this._params.opacity,
         lineHeight   = this._params.line_height,
+        margin       = this._params.margin,
         corner1, corner2, corner3, corner4, minX, minY, maxX, maxY, stepx, stepy, x, y,
         imageP, rx, ry, imageP2, rx2, ry2, radius, radius2, sidePoints, sidePoints2, zoom;
+
     let outputSvg = `
-    <svg width="500" height="500">
+    <svg width="${outputWidth}" height="${outputHeight}" viewBox="${-margin} ${-margin} ${outputWidth+2*margin} ${outputHeight+2*margin}">
     `;
 
     // boundaries of the image in sine space
