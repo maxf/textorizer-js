@@ -105,7 +105,9 @@ var Excoffizer = {
 
         if (rx  >= 0 && rx  < inputWidth && ry  >= 0 && ry  < inputHeight) {
 
-          radius=100/(40+this.inputPixmap.brightnessAverageAt(Math.floor(rx), Math.floor(ry), this._blur));
+          const imageLevel = this.inputPixmap.brightnessAverageAt(Math.floor(rx), Math.floor(ry), this._blur)
+
+          radius = lineHeight * ( 1 - imageLevel / 255) / 2 - 0.05;
 
           sidePoints=this._sidePoints(rx,ry,rx2,ry2,radius);
 
