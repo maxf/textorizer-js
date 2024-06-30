@@ -54,10 +54,14 @@ Pixmap.prototype.colorAverageAt = function( x, y, radius ) {
       }
     }
   }
-  return new Color(resultR/count, resultG/count, resultB/count, 1);
+  if (count === 0) {
+    return new Color(255, 255, 255, 1);
+  } else {
+    return new Color(resultR/count, resultG/count, resultB/count, 1);
+  }
 };
 
 Pixmap.prototype.brightnessAverageAt = function(x, y, radius) {
+  //console.log(5, x, y, radius, this.colorAverageAt(x,y,radius).brightness());
   return this.colorAverageAt(x,y,radius).brightness();
 }
-

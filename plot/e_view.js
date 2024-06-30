@@ -2,15 +2,16 @@
 var Excoffizer;
 
 var defaults = {
-  "theta":30,
-  "waviness":10,
-  "line_height":5,
-  "sx":1,
-  "sy":1,
-  "tx":0,
-  "ty":0,
-  "margin": 10,
-  "image_file": "dali.png"
+  theta: 160,
+  waviness: 1.6,
+  line_height: 5,
+  sx: 1,
+  sy: 1,
+  tx: 0,
+  ty: 0,
+  margin: 10,
+  image_file: "dali.png",
+  blur: 1,
 };
 
 const id = id => document.getElementById(id);
@@ -27,6 +28,8 @@ id("sy").value = defaults.sy;
 id("value-sy").innerHTML = defaults.sy;
 id("margin").value = defaults.margin;
 id("value-margin").innerHTML = defaults.margin;
+id("blur").value = defaults.blur;
+id("value-blur").innerHTML = defaults.blur;
 
 var inputCanvas;
 var inputCanvasCtx;
@@ -52,7 +55,8 @@ function go()
       sy: parseFloat(id("sy").value),
       tx: defaults.tx,
       ty: defaults.ty,
-      margin: parseInt(id("margin").value)
+      margin: parseInt(id("margin").value),
+      blur: parseInt(id("blur").value)
     };
     const svg = Excoffizer.excoffize(params);
     document.getElementById('output-canvas').innerHTML = svg;
@@ -132,6 +136,11 @@ id("sy").addEventListener("change", event => {
 
 id("margin").addEventListener("change", event => {
   id("value-margin").innerHTML = event.target.value;
+  go();
+});
+
+id("blur").addEventListener("change", event => {
+  id("value-blur").innerHTML = event.target.value;
   go();
 });
 

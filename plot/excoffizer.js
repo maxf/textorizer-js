@@ -2,13 +2,15 @@ var Excoffizer = {
 
   // public
 
-  excoffize: function(params) {
+  excoffize: function(params, debug) {
     "use strict";
+    this.debug = debug;
     this._params = params;
     this.inputPixmap = new Pixmap(params.inputCanvas);
     this._wiggleFrequency = this._params.waviness/100.0;
     this._wiggleAmplitude = this._wiggleFrequency===0 ? 0 : 0.5/this._wiggleFrequency;
-    this._params.theta*=Math.PI/180; // degrees to radians
+    this._params.theta *= Math.PI/180; // degrees to radians
+    this._blur = params.blur;
 
     return this._excoffize();
   },
@@ -44,11 +46,13 @@ var Excoffizer = {
 
   _sidePoints: function(x1,y1,x2,y2,r) {
     "use strict";
-    var L=Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)),
-        px=(x2-x1)*r/L,
-        py=(y2-y1)*r/L;
+    const L=Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
 
-    return [x1-py-(px/20), y1+px-(py/20), x1+py-(px/20), y1-px-(py/20)];
+    const px=(x2-x1)*r/L;
+    const py=(y2-y1)*r/L;
+    const result = [x1-py-(px/20), y1+px-(py/20), x1+py-(px/20), y1-px-(py/20)];
+
+    return result;
   },
 
   _excoffize: function() {
@@ -57,14 +61,13 @@ var Excoffizer = {
         inputHeight  = this.inputPixmap.height,
         outputWidth  = 500,
         outputHeight = 500*inputHeight/inputWidth,
-        opacity      = this._params.opacity,
         lineHeight   = this._params.line_height,
         margin       = this._params.margin,
         corner1, corner2, corner3, corner4, minX, minY, maxX, maxY, stepx, stepy, x, y,
         imageP, rx, ry, imageP2, rx2, ry2, radius, radius2, sidePoints, sidePoints2, zoom;
 
     let outputSvg = `
-    <svg width="${outputWidth}" height="${outputHeight}" viewBox="${-margin} ${-margin} ${outputWidth+2*margin} ${outputHeight+2*margin}">
+    <svg id="svg" width="${outputWidth}" height="${outputHeight}" viewBox="${-margin} ${-margin} ${outputWidth+2*margin} ${outputHeight+2*margin}">
     `;
 
     // boundaries of the image in sine space
@@ -79,39 +82,64 @@ var Excoffizer = {
 
     // from the min/max bounding box, we know which sines to draw
 
-    stepx=2;
+    stepx=3;
     stepy=lineHeight;
 
     for (y=minY-this._wiggleAmplitude ;y<maxY+this._wiggleAmplitude;y+=stepy) {
+
+      const leftPoints = [];
+      const rightPoints = [];
+
       for (x=minX;x<maxX;x+=stepx) {
         imageP=this._S2P(x,y+this._wiggle(x));
         rx=imageP[0];
         ry=imageP[1];
 
-        // rx2,ry2 is the point ahead, to which we draw a segment
+        // rx2,ry2 is the next point ahead
+        // we need it to compute the side points as they should stick out from segment (rx1, ry1), (rx2, ry2)
         imageP2=this._S2P(x+stepx,y+this._wiggle(x+stepx));
         rx2=imageP2[0];
         ry2=imageP2[1];
 
-        if ((rx  >= 0 && rx  < inputWidth && ry  >= 0 && ry  < inputHeight)||(rx2 >= 0 && rx2 < inputWidth && ry2 >= 0 && ry2 < inputHeight)) {
+        if (rx  >= 0 && rx  < inputWidth && ry  >= 0 && ry  < inputHeight) {
 
-          radius=100/(10+this.inputPixmap.brightnessAverageAt(Math.floor(rx), Math.floor(ry), 1));
-          radius2=100/(10+this.inputPixmap.brightnessAverageAt(Math.floor(rx2), Math.floor(ry2), 1));
+          radius=100/(10+this.inputPixmap.brightnessAverageAt(Math.floor(rx), Math.floor(ry), this._blur));
 
           sidePoints=this._sidePoints(rx,ry,rx2,ry2,radius);
-          sidePoints2=this._sidePoints(rx2,ry2,rx,ry,radius2);
-          // scale everything to output resolution
+
           zoom=outputWidth/inputWidth;
           sidePoints[0]*=zoom;
           sidePoints[1]*=zoom;
           sidePoints[2]*=zoom;
           sidePoints[3]*=zoom;
-          sidePoints2[0]*=zoom;
-          sidePoints2[1]*=zoom;
-          sidePoints2[2]*=zoom;
-          sidePoints2[3]*=zoom;
-          outputSvg += `<path d="M${sidePoints[0]},${sidePoints[1]} L${sidePoints[2]},${sidePoints[3]} L${sidePoints2[0]},${sidePoints2[1]} L${sidePoints2[2]},${sidePoints2[3]}" stroke="none" fill="black"/>\n`;
 
+          rightPoints.push({ x: sidePoints[0], y: sidePoints[1] });
+          leftPoints.push({ x: sidePoints[2], y: sidePoints[3] });
+
+          if (this.debug) {
+            outputSvg += `
+              <circle cx="${sidePoints[0]}" cy="${sidePoints[1]}" r=".5" fill="blue" />
+              <circle cx="${sidePoints[2]}" cy="${sidePoints[3]}" r=".5" fill="blue" />
+            `;
+          }
+        }
+      }
+
+      const polygonPoints = leftPoints.concat(rightPoints.reverse());
+
+      if (polygonPoints.length > 4) {
+        // outputSvg += `<path d="M${polygonPoints[0].x},${polygonPoints[0].y}"/>`;
+        const m = `M${polygonPoints[0].x} ${polygonPoints[0].y}`;
+        const q = `L${polygonPoints[1].x} ${polygonPoints[1].y} L${polygonPoints[2].x} ${polygonPoints[2].y}`;
+        polygonPoints.shift();
+        polygonPoints.shift();
+        polygonPoints.shift();
+        const l = polygonPoints.map(point => ` L ${point.x} ${point.y}`).join(' ');
+
+        if (this.debug) {
+          outputSvg += `<path d="${m} ${q} ${l}" stroke="black" stroke-width=".3" opacity="0.5" fill="#ddd"/>`;
+        } else {
+          outputSvg += `<path d="${m} ${q} ${l}" stroke="none" fill="black"/>`;
         }
       }
     }
