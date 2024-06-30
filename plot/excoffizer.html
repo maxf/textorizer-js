@@ -6,49 +6,49 @@
   </head>
   <body>
     <div id="main">
-          <div id="panel">
-            <h1>Excoffizer</h1>
-            <p style="text-align: center">
-              <img id="input_thumb" height="100px" alt="Select an image file below" src="" style="vertical-align: middle"/>
-            </p>
-            <input id="file_selector" type="file" accept="image/*;capture=camera" class="image_selector"/>
+      <div id="panel">
+        <h1>Excoffizer</h1>
+        <input id="file_selector" type="file" accept="image/*;capture=camera" class="image_selector"/>
+        <div id="secondary_panel">
+          <div id="buttons">
+            <label>Angle: <span id="value-theta"></span></label>
+            <input id="theta" type="range" min="0" max="180"/>
 
+            <label>Waviness: <span id="value-waviness"></span></label>
+            <input id="waviness" type="range" min="0" max="30" step="0.1"/>
 
-            <div id="secondary_panel">
-              <div id="buttons">
-                <label>Angle: <span id="value-theta"></span></label>
-                <input id="theta" type="range" min="0" max="180"/>
+            <label>Space between lines: <span id="value-line_height"></span></label>
+            <input id="line_height" type="range" min="1" max="10" step="0.1" />
 
-                <label>Waviness: <span id="value-waviness"></span></label>
-                <input id="waviness" type="range" min="0" max="30" step="0.1"/>
+            <label>Stretch X: <span id="value-sx"></span></label>
+            <input id="sx" type="range" min="0" max="2" step="0.01" />
 
-                <label>Space between lines: <span id="value-line_height"></span></label>
-                <input id="line_height" type="range" min="1" max="10"/>
+            <label>Stretch Y: <span id="value-sy"></span></label>
+            <input id="sy" type="range" min="0" max="2" step="0.01" />
 
-                <label>Stretch X: <span id="value-sx"></span></label>
-                <input id="sx" type="range" min="0" max="2" step="0.01" />
+            <label>Blur: <span id="value-blur"></span></label>
+            <input id="blur" type="range" min="1" max="10" step="1" />
 
-                <label>Stretch Y: <span id="value-sy"></span></label>
-                <input id="sy" type="range" min="0" max="2" step="0.01" />
+            <label>Margin: <span id="value-margin"></span></label>
+            <input id="margin" type="range" min="-100" max="100" step="1" />
 
-                <label>Blur: <span id="value-blur"></span></label>
-                <input id="blur" type="range" min="1" max="10" step="1" />
-
-                <label>Margin: <span id="value-margin"></span></label>
-                <input id="margin" type="range" min="-100" max="100" step="1" />
-
-                <button id="save-button">Save as SVG</button>
-              </div>
-            </div>
-
+            <button id="save-button">Save as SVG</button>
           </div>
-          <div id="output-canvas" width="500" height="500"></div>
+        </div>
+      </div>
 
-          <canvas style="display:none" id="input_canvas" width="10" height="10"></canvas>
+      <div id="output-canvas" width="500" height="500"></div>
+    </div>
 
-      <script type="text/javascript" src="excoffizer.js"></script>
-      <script type="text/javascript" src="e_view.js"></script>
-      <script type="text/javascript" src="utils.js"></script>
+    <div style="clear: both">
+      <canvas style="display:none" id="input_canvas" width="10" height="10"></canvas>
+      <img id="input_thumb" height="800px" alt="Select an image file below" src=""/> <!-- setting display: none messes output. TODO: find out why -->
+    </div>
+
+
+    <script type="text/javascript" src="excoffizer.js"></script>
+    <script type="text/javascript" src="e_view.js"></script>
+    <script type="text/javascript" src="utils.js"></script>
 
   </body>
 </html>

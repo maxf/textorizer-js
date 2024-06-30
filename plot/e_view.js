@@ -50,7 +50,7 @@ function go()
       inputCanvas: id('input_canvas'),
       theta: parseInt(id("theta").value),
       waviness: parseFloat(id("waviness").value),
-      line_height: parseInt(id("line_height").value),
+      line_height: parseFloat(id("line_height").value),
       sx: parseFloat(id("sx").value),
       sy: parseFloat(id("sy").value),
       tx: defaults.tx,

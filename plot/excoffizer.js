@@ -84,7 +84,7 @@ var Excoffizer = {
 
     // from the min/max bounding box, we know which sines to draw
 
-    stepx=1;
+    stepx=3;
     stepy=lineHeight;
 
     for (y=minY-this._wiggleAmplitude ;y<maxY+this._wiggleAmplitude;y+=stepy) {
@@ -105,7 +105,7 @@ var Excoffizer = {
 
         if (rx  >= 0 && rx  < inputWidth && ry  >= 0 && ry  < inputHeight) {
 
-          radius=20/(40+this.inputPixmap.brightnessAverageAt(Math.floor(rx), Math.floor(ry), this._blur));
+          radius=100/(40+this.inputPixmap.brightnessAverageAt(Math.floor(rx), Math.floor(ry), this._blur));
 
           sidePoints=this._sidePoints(rx,ry,rx2,ry2,radius);
 
