@@ -2,9 +2,9 @@
 var Excoffizer;
 
 var defaults = {
-  theta: 160,
-  waviness: 1.6,
-  line_height: 5,
+  theta: 43,
+  waviness: 1,
+  line_height: 7.6,
   sx: 1,
   sy: 1,
   tx: 0,
