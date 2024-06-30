@@ -65,12 +65,14 @@ var Excoffizer = {
         margin       = this._params.margin,
         corner1, corner2, corner3, corner4, minX, minY, maxX, maxY, stepx, stepy, x, y,
         imageP, rx, ry, imageP2, rx2, ry2, radius, radius2, sidePoints, sidePoints2, zoom;
-
     let outputSvg = `
     <svg id="svg" width="${outputWidth}" height="${outputHeight}" viewBox="${-margin} ${-margin} ${outputWidth+2*margin} ${outputHeight+2*margin}">
     `;
 
     // boundaries of the image in sine space
+
+    // TODO: make this independent of the input picture's resolution
+
     corner1 = this._P2S(0,0);
     corner2 = this._P2S(inputWidth,0);
     corner3 = this._P2S(inputWidth,inputHeight);
@@ -82,7 +84,7 @@ var Excoffizer = {
 
     // from the min/max bounding box, we know which sines to draw
 
-    stepx=3;
+    stepx=1;
     stepy=lineHeight;
 
     for (y=minY-this._wiggleAmplitude ;y<maxY+this._wiggleAmplitude;y+=stepy) {
@@ -103,7 +105,7 @@ var Excoffizer = {
 
         if (rx  >= 0 && rx  < inputWidth && ry  >= 0 && ry  < inputHeight) {
 
-          radius=100/(10+this.inputPixmap.brightnessAverageAt(Math.floor(rx), Math.floor(ry), this._blur));
+          radius=20/(40+this.inputPixmap.brightnessAverageAt(Math.floor(rx), Math.floor(ry), this._blur));
 
           sidePoints=this._sidePoints(rx,ry,rx2,ry2,radius);
 

@@ -31,23 +31,23 @@ id("value-margin").innerHTML = defaults.margin;
 id("blur").value = defaults.blur;
 id("value-blur").innerHTML = defaults.blur;
 
-var inputCanvas;
-var inputCanvasCtx;
 var aspectRatio;
 var params;
 
 function go()
 {
   "use strict";
-  // Put the pixels of the original image into the canvas
+  // Put the pixels of the original <img> into the <canvas>
   var t = new Image();
   t.src = id("input_thumb").getAttribute("src");
   t.onload = function() {
-    inputCanvas.width=t.width;
-    inputCanvas.height=t.height;
-    inputCanvasCtx.drawImage(t,0,0);
+    const thumbWidth = id("input_thumb").width;
+    const thumbHeight = id("input_thumb").height;
+    id("input_canvas").width = thumbWidth;
+    id("input_canvas").height = thumbHeight;
+    id("input_canvas").getContext('2d').drawImage(t,0,0, thumbWidth, thumbHeight);
     params = {
-      inputCanvas: inputCanvas,
+      inputCanvas: id('input_canvas'),
       theta: parseInt(id("theta").value),
       waviness: parseFloat(id("waviness").value),
       line_height: parseInt(id("line_height").value),
@@ -90,8 +90,6 @@ function thumb_loaded(event) {
 }
 
 
-inputCanvas = id("input_canvas");
-inputCanvasCtx = inputCanvas.getContext('2d');
 
 id("file_selector").addEventListener('change', e => {
   var fr = new FileReader();
