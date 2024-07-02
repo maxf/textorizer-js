@@ -55,6 +55,16 @@ var Excoffizer = {
     return result;
   },
 
+  _poly2path: function(polygon) {
+    if (polygon.length > 4) {
+      const m = `M${polygon[0].x} ${polygon[0].y}`;
+      polygon.shift();
+      const l = polygon.map(point => ` L ${point.x} ${point.y}`).join(' ');
+
+      return `<path d="${m} ${l}" stroke="black" stroke-width=".3" fill="none" />`;
+    }
+  },
+
   _excoffize: function() {
     "use strict";
     var inputWidth   = this.inputPixmap.width,
@@ -91,6 +101,10 @@ var Excoffizer = {
 
       const leftPoints = [];
       const rightPoints = [];
+      const hatchPoints1 = [];
+      const hatchPoints2 = [];
+
+      let counter = 0;
 
       for (x=minX;x<maxX;x+=stepx) {
         imageP=this._S2P(x,y+this._wiggle(x));
@@ -103,7 +117,7 @@ var Excoffizer = {
         rx2=imageP2[0];
         ry2=imageP2[1];
 
-        if (rx  >= 0 && rx  < inputWidth && ry  >= 0 && ry  < inputHeight) {
+        if ((rx  >= 0 && rx  < inputWidth && ry  >= 0 && ry  < inputHeight) || (rx2 >= 0 && rx2 < inputWidth && ry2 >= 0 && ry2 < inputHeight)) {
 
           const imageLevel = this.inputPixmap.brightnessAverageAt(Math.floor(rx), Math.floor(ry), this._blur)
 
@@ -120,30 +134,28 @@ var Excoffizer = {
           rightPoints.push({ x: sidePoints[0], y: sidePoints[1] });
           leftPoints.push({ x: sidePoints[2], y: sidePoints[3] });
 
+          if (counter++ % 2) {
+            hatchPoints1.push({ x: sidePoints[0], y: sidePoints[1] });
+            hatchPoints2.push({ x: sidePoints[2], y: sidePoints[3] });
+          } else {
+            hatchPoints1.push({ x: sidePoints[2], y: sidePoints[3] });
+            hatchPoints2.push({ x: sidePoints[0], y: sidePoints[1] });
+          }
+
+
+          // const polygonPoints = leftPoints.concat(rightPoints.reverse());
+
+          outputSvg += this._poly2path(leftPoints);
+          outputSvg += this._poly2path(rightPoints);
+          outputSvg += this._poly2path(hatchPoints1);
+          outputSvg += this._poly2path(hatchPoints2); // broken
+
           if (this.debug) {
             outputSvg += `
               <circle cx="${sidePoints[0]}" cy="${sidePoints[1]}" r=".5" fill="blue" />
               <circle cx="${sidePoints[2]}" cy="${sidePoints[3]}" r=".5" fill="blue" />
             `;
           }
-        }
-      }
-
-      const polygonPoints = leftPoints.concat(rightPoints.reverse());
-
-      if (polygonPoints.length > 4) {
-        // outputSvg += `<path d="M${polygonPoints[0].x},${polygonPoints[0].y}"/>`;
-        const m = `M${polygonPoints[0].x} ${polygonPoints[0].y}`;
-        const q = `L${polygonPoints[1].x} ${polygonPoints[1].y} L${polygonPoints[2].x} ${polygonPoints[2].y}`;
-        polygonPoints.shift();
-        polygonPoints.shift();
-        polygonPoints.shift();
-        const l = polygonPoints.map(point => ` L ${point.x} ${point.y}`).join(' ');
-
-        if (this.debug) {
-          outputSvg += `<path d="${m} ${q} ${l}" stroke="black" stroke-width=".3" opacity="0.5" fill="#ddd"/>`;
-        } else {
-          outputSvg += `<path d="${m} ${q} ${l}" stroke="none" fill="black"/>`;
         }
       }
     }
