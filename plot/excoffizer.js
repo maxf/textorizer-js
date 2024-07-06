@@ -61,7 +61,7 @@ var Excoffizer = {
       polygon.shift();
       const l = polygon.map(point => ` L ${point.x} ${point.y}`).join(' ');
 
-      return `<path d="${m} ${l}" stroke="black" stroke-width=".3" fill="none" />`;
+      return `<path d="${m} ${l}" stroke="black" stroke-width="1" fill="none" />`;
     }
   },
 
@@ -94,7 +94,7 @@ var Excoffizer = {
 
     // from the min/max bounding box, we know which sines to draw
 
-    stepx=3;
+    stepx=1;
     stepy=lineHeight;
 
     for (y=minY-this._wiggleAmplitude ;y<maxY+this._wiggleAmplitude;y+=stepy) {
@@ -145,9 +145,9 @@ var Excoffizer = {
 
           // const polygonPoints = leftPoints.concat(rightPoints.reverse());
 
-          outputSvg += this._poly2path(leftPoints);
-          outputSvg += this._poly2path(rightPoints);
-          outputSvg += this._poly2path(hatchPoints1);
+//          outputSvg += this._poly2path(leftPoints);
+//          outputSvg += this._poly2path(rightPoints);
+//          outputSvg += this._poly2path(hatchPoints1);
           outputSvg += this._poly2path(hatchPoints2); // broken
 
           if (this.debug) {
