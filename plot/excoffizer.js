@@ -21,19 +21,20 @@ var Excoffizer = {
     return this._wiggleAmplitude*Math.sin(x*this._wiggleFrequency);
   },
 
-  _S2P: function(x,y) {
-    "use strict";
+  _S2P: function({x, y}) {
     // transform x,y from "sine space" to picture space
     // rotation ('theta'), scaling (sx,sy), translation (tx, ty)
     var c=Math.cos(this._params.theta),
         s=Math.sin(this._params.theta),
         sx=this._params.sx, sy=this._params.sy,
         tx=this._params.tx, ty=this._params.ty;
-    return [x*sx*c - y*sy*s + tx*sx*c - ty*sy*s, x*sx*s + y*sy*c + tx*sx*s + ty*sy*c];
+    return {
+      x: x*sx*c - y*sy*s + tx*sx*c - ty*sy*s,
+      y: x*sx*s + y*sy*c + tx*sx*s + ty*sy*c
+    };
   },
 
-  _P2S: function(x,y) {
-    "use strict";
+  _P2S: function({x, y}) {
     // convert x,y from picture space to  "sine space"
 
     var c=Math.cos(-this._params.theta),
@@ -41,18 +42,21 @@ var Excoffizer = {
         sx = 1/this._params.sx, sy = 1/this._params.sy,
         tx = -this._params.tx, ty = -this._params.ty;
 
-    return [ x*sx*c - y*sx*s + tx, x*sy*s + y*sy*c + ty ];
+    return {
+      x: x*sx*c - y*sx*s + tx,
+      y: x*sy*s + y*sy*c + ty
+    };
   },
 
-  _sidePoints: function(x1,y1,x2,y2,r) {
-    "use strict";
-    const L=Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
+  _sidePoints: function(p1, p2, r) {
+    const L=Math.sqrt((p2.x-p1.x)*(p2.x-p1.x) + (p2.y-p1.y)*(p2.y-p1.y));
 
-    const px=(x2-x1)*r/L;
-    const py=(y2-y1)*r/L;
-    const result = [x1-py-(px/20), y1+px-(py/20), x1+py-(px/20), y1-px-(py/20)];
-
-    return result;
+    const px=(p2.x-p1.x)*r/L;
+    const py=(p2.y-p1.y)*r/L;
+    return [
+      { x: p1.x-py-(px/20), y: p1.y+px-(py/20) },
+      { x: p1.x+py-(px/20), y: p1.y-px-(py/20) }
+    ];
   },
 
   _poly2path: function(polygon) {
@@ -83,14 +87,14 @@ var Excoffizer = {
 
     // TODO: make this independent of the input picture's resolution
 
-    corner1 = this._P2S(0,0);
-    corner2 = this._P2S(inputWidth,0);
-    corner3 = this._P2S(inputWidth,inputHeight);
-    corner4 = this._P2S(0,inputHeight);
-    minX=Math.min(corner1[0],corner2[0],corner3[0],corner4[0]);
-    minY=Math.min(corner1[1],corner2[1],corner3[1],corner4[1]);
-    maxX=Math.max(corner1[0],corner2[0],corner3[0],corner4[0]);
-    maxY=Math.max(corner1[1],corner2[1],corner3[1],corner4[1]);
+    corner1 = this._P2S({x: 0, y: 0});
+    corner2 = this._P2S({x: inputWidth, y: 0});
+    corner3 = this._P2S({x: inputWidth, y: inputHeight});
+    corner4 = this._P2S({x: 0, y: inputHeight});
+    minX=Math.min(corner1.x,corner2.x,corner3.x,corner4.x);
+    minY=Math.min(corner1.y,corner2.y,corner3.y,corner4.y);
+    maxX=Math.max(corner1.x,corner2.x,corner3.x,corner4.x);
+    maxY=Math.max(corner1.y,corner2.y,corner3.y,corner4.y);
 
     // from the min/max bounding box, we know which sines to draw
 
@@ -107,39 +111,35 @@ var Excoffizer = {
       let counter = 0;
 
       for (x=minX;x<maxX;x+=stepx) {
-        imageP=this._S2P(x,y+this._wiggle(x));
-        rx=imageP[0];
-        ry=imageP[1];
+        imageP = this._S2P({x, y: y+this._wiggle(x)});
 
-        // rx2,ry2 is the next point ahead
+        // next point ahead
         // we need it to compute the side points as they should stick out from segment (rx1, ry1), (rx2, ry2)
-        imageP2=this._S2P(x+stepx,y+this._wiggle(x+stepx));
-        rx2=imageP2[0];
-        ry2=imageP2[1];
+        imageP2 = this._S2P({ x: x + stepx, y: y + this._wiggle(x+stepx)});
 
-        if ((rx  >= 0 && rx  < inputWidth && ry  >= 0 && ry  < inputHeight) || (rx2 >= 0 && rx2 < inputWidth && ry2 >= 0 && ry2 < inputHeight)) {
+        if ((imageP.x >= 0 && imageP.x  < inputWidth && imageP.y  >= 0 && imageP.y  < inputHeight) || (imageP2.x >= 0 && imageP2.x < inputWidth && imageP2.y >= 0 && imageP2.y < inputHeight)) {
 
-          const imageLevel = this.inputPixmap.brightnessAverageAt(Math.floor(rx), Math.floor(ry), this._blur)
+          const imageLevel = this.inputPixmap.brightnessAverageAt(Math.floor(imageP.x), Math.floor(imageP.y), this._blur)
 
           radius = lineHeight * ( 1 - imageLevel / 255) / 2 - 0.05;
 
-          sidePoints=this._sidePoints(rx,ry,rx2,ry2,radius);
+          const [ sidePoint1, sidePoint2 ] = this._sidePoints(imageP, imageP2, radius);
 
           zoom=outputWidth/inputWidth;
-          sidePoints[0]*=zoom;
-          sidePoints[1]*=zoom;
-          sidePoints[2]*=zoom;
-          sidePoints[3]*=zoom;
+          sidePoint1.x *= zoom;
+          sidePoint1.y *= zoom;
+          sidePoint2.x *= zoom;
+          sidePoint2.y *= zoom;
 
-          rightPoints.push({ x: sidePoints[0], y: sidePoints[1] });
-          leftPoints.push({ x: sidePoints[2], y: sidePoints[3] });
+          rightPoints.push({ x: sidePoint1.x, y: sidePoint1.y });
+          leftPoints.push({ x: sidePoint2.x, y: sidePoint2.y });
 
           if (counter++ % 2) {
-            hatchPoints1.push({ x: sidePoints[0], y: sidePoints[1] });
-            hatchPoints2.push({ x: sidePoints[2], y: sidePoints[3] });
+            hatchPoints1.push(sidePoint1);
+            hatchPoints2.push(sidePoint2);
           } else {
-            hatchPoints1.push({ x: sidePoints[2], y: sidePoints[3] });
-            hatchPoints2.push({ x: sidePoints[0], y: sidePoints[1] });
+            hatchPoints1.push(sidePoint2);
+            hatchPoints2.push(sidePoint1);
           }
 
 
