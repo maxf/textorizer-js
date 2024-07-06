@@ -65,7 +65,9 @@ var Excoffizer = {
       polygon.shift();
       const l = polygon.map(point => ` L ${point.x} ${point.y}`).join(' ');
 
-      return `<path d="${m} ${l}" stroke="black" stroke-width=".1" fill="none" />`;
+      return `<path d="${m} ${l}"/>\n`;
+    } else {
+      return '';
     }
   },
 
@@ -77,10 +79,11 @@ var Excoffizer = {
         outputHeight = 500*inputHeight/inputWidth,
         lineHeight   = this._params.line_height,
         margin       = this._params.margin,
-        corner1, corner2, corner3, corner4, minX, minY, maxX, maxY, stepx, stepy,
+        corner1, corner2, corner3, corner4, minX, minY, maxX, maxY,
         p, p2, radius, radius2, sidePoints, sidePoints2;
     let outputSvg = `
     <svg id="svg" width="${outputWidth}" height="${outputHeight}" viewBox="${-margin} ${-margin} ${outputWidth+2*margin} ${outputHeight+2*margin}">
+      <g stroke="black" stroke-width="1" fill="none">
     `;
 
     // boundaries of the image in sine space
@@ -95,21 +98,21 @@ var Excoffizer = {
 
     // from the min/max bounding box, we know which sines to draw
 
+    let stepx=3;
+    const stepy=lineHeight;
 
-    // TODO:
-    //  2. increase frequency (decrease stepx) with darkness
-
-
-    stepx=1;
-    stepy=lineHeight;
-
+        //for (let y = minY - this._wiggleAmplitude; y < maxY + this._wiggleAmplitude; y += stepy) {
     for (let y = minY - this._wiggleAmplitude; y < maxY + this._wiggleAmplitude; y += stepy) {
 
       const hatchPoints2 = [];
 
       let counter = 0;
 
+      outputSvg += "<!-- next y -->\n";
+
       for (let x = minX; x < maxX; x += stepx) {
+
+        outputSvg += "<!-- next x -->\n";
         p = this._S2P({x, y: y+this._wiggle(x)});
 
         // next point ahead
@@ -124,7 +127,7 @@ var Excoffizer = {
 
           const zoom=outputWidth/inputWidth;
 
-          if (radius < 0.3) {
+          if (radius < 0.5) {
             p.x *= zoom;
             p.y *= zoom;
             hatchPoints2.push(p);
@@ -141,18 +144,15 @@ var Excoffizer = {
               hatchPoints2.push(sidePoint1);
             }
           }
-          
-          outputSvg += this._poly2path(hatchPoints2); // broken
 
-          if (this.debug) {
-            outputSvg += `
-              <circle cx="${hatchpoints2.x}" cy="${hatchpoints2.y}" r=".5" fill="blue" />
-            `;
-          }
+          // how far away should the next point be?
+          stepx = Math.max(1, 4 - radius);
+
         }
       }
+      outputSvg += this._poly2path(hatchPoints2);
     }
-    outputSvg += `</svg>`;
+    outputSvg += `</g></svg>`;
     return outputSvg;
   }
 };
