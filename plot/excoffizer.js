@@ -71,6 +71,25 @@ var Excoffizer = {
     }
   },
 
+  _poly2pathSmooth: function(polygon) {
+    if (polygon.length > 4) {
+      const ps = [];
+      for (i=0; i < polygon.length-1; i++) {
+        ps.push(polygon[i]);
+        ps.push({ x: (polygon[i].x + polygon[i+1].x)/2, y: (polygon[i].y + polygon[i+1].y)/2 });
+      }
+      ps.push(polygon[polygon.length-1])
+
+      let d = `M ${ps[0].x} ${ps[0].y} L ${ps[1].x} ${ps[1].y}`;
+      for (i=2; i < ps.length - 1; i+= 2) {
+        d = d + `Q ${ps[i].x} ${ps[i].y}, ${ps[i+1].x} ${ps[i+1].y} `
+      }
+      return `<path d="${d}"/>\n`;
+    } else {
+      return '';
+    }
+  },
+
   _excoffize: function() {
     "use strict";
     var inputWidth   = this.inputPixmap.width,
