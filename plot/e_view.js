@@ -1,5 +1,4 @@
 /* jslint devel: true, browser: true, maxerr: 50, indent: 2 */
-var Excoffizer;
 
 var defaults = {
   theta: 43,
@@ -58,7 +57,8 @@ function go()
       margin: parseInt(id("margin").value),
       blur: parseInt(id("blur").value)
     };
-    const svg = Excoffizer.excoffize(params);
+    const excoffizator = new Excoffizer(params);
+    const svg = excoffizator.excoffize(params);
     document.getElementById('output-canvas').innerHTML = svg;
   };
 }

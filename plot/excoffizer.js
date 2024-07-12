@@ -1,9 +1,6 @@
-var Excoffizer = {
+class Excoffizer {
 
-  // public
-
-  excoffize: function(params, debug) {
-    "use strict";
+  constructor(params, debug) {
     this.debug = debug;
     this._params = params;
     this.inputPixmap = new Pixmap(params.inputCanvas);
@@ -11,17 +8,18 @@ var Excoffizer = {
     this._wiggleAmplitude = this._wiggleFrequency===0 ? 0 : 0.5/this._wiggleFrequency;
     this._params.theta *= Math.PI/180; // degrees to radians
     this._blur = params.blur;
+  }
 
+  excoffize() {
     return this._excoffize();
-  },
+  }
 
   // private
-  _wiggle: function(x) {
-    "use strict";
+  _wiggle(x) {
     return this._wiggleAmplitude*Math.sin(x*this._wiggleFrequency);
-  },
+  }
 
-  _S2P: function({x, y}) {
+  _S2P({x, y}) {
     // transform x,y from "sine space" to picture space
     // rotation ('theta'), scaling (sx,sy), translation (tx, ty)
     var c=Math.cos(this._params.theta),
@@ -32,9 +30,9 @@ var Excoffizer = {
       x: x*sx*c - y*sy*s + tx*sx*c - ty*sy*s,
       y: x*sx*s + y*sy*c + tx*sx*s + ty*sy*c
     };
-  },
+  }
 
-  _P2S: function({x, y}) {
+  _P2S({x, y}) {
     // convert x,y from picture space to  "sine space"
 
     var c=Math.cos(-this._params.theta),
@@ -46,9 +44,9 @@ var Excoffizer = {
       x: x*sx*c - y*sx*s + tx,
       y: x*sy*s + y*sy*c + ty
     };
-  },
+  }
 
-  _sidePoints: function(p1, p2, r) {
+  _sidePoints(p1, p2, r) {
     const L=Math.sqrt((p2.x-p1.x)*(p2.x-p1.x) + (p2.y-p1.y)*(p2.y-p1.y));
 
     const px=(p2.x-p1.x)*r/L;
@@ -57,9 +55,9 @@ var Excoffizer = {
       { x: p1.x-py-(px/20), y: p1.y+px-(py/20) },
       { x: p1.x+py-(px/20), y: p1.y-px-(py/20) }
     ];
-  },
+  }
 
-  _poly2path: function(polygon) {
+  _poly2path(polygon) {
     if (polygon.length > 4) {
       const m = `M${polygon[0].x} ${polygon[0].y}`;
       polygon.shift();
@@ -69,28 +67,28 @@ var Excoffizer = {
     } else {
       return '';
     }
-  },
+  }
 
-  _poly2pathSmooth: function(polygon) {
+  _poly2pathSmooth(polygon) {
     if (polygon.length > 4) {
       const ps = [];
-      for (i=0; i < polygon.length-1; i++) {
+      for (let i=0; i < polygon.length-1; i++) {
         ps.push(polygon[i]);
         ps.push({ x: (polygon[i].x + polygon[i+1].x)/2, y: (polygon[i].y + polygon[i+1].y)/2 });
       }
       ps.push(polygon[polygon.length-1])
 
       let d = `M ${ps[0].x} ${ps[0].y} L ${ps[1].x} ${ps[1].y}`;
-      for (i=2; i < ps.length - 1; i+= 2) {
+      for (let i=2; i < ps.length - 1; i+= 2) {
         d = d + `C ${ps[i].x} ${ps[i].y}, ${ps[i].x} ${ps[i].y}, ${ps[i+1].x} ${ps[i+1].y} `
       }
       return `<path d="${d}"/>\n`;
     } else {
       return '';
     }
-  },
+  }
 
-  _excoffize: function() {
+  _excoffize() {
     "use strict";
     var inputWidth   = this.inputPixmap.width,
         inputHeight  = this.inputPixmap.height,
@@ -174,4 +172,4 @@ var Excoffizer = {
     outputSvg += `</g></svg>`;
     return outputSvg;
   }
-};
+}
