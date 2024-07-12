@@ -82,7 +82,7 @@ var Excoffizer = {
 
       let d = `M ${ps[0].x} ${ps[0].y} L ${ps[1].x} ${ps[1].y}`;
       for (i=2; i < ps.length - 1; i+= 2) {
-        d = d + `Q ${ps[i].x} ${ps[i].y}, ${ps[i+1].x} ${ps[i+1].y} `
+        d = d + `C ${ps[i].x} ${ps[i].y}, ${ps[i].x} ${ps[i].y}, ${ps[i+1].x} ${ps[i+1].y} `
       }
       return `<path d="${d}"/>\n`;
     } else {
@@ -169,7 +169,7 @@ var Excoffizer = {
 
         }
       }
-      outputSvg += this._poly2path(hatchPoints2);
+      outputSvg += this._poly2pathSmooth(hatchPoints2);
     }
     outputSvg += `</g></svg>`;
     return outputSvg;
