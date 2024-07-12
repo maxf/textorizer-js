@@ -100,6 +100,19 @@ class Excoffizer {
         p, p2, radius, radius2, sidePoints, sidePoints2;
     let outputSvg = `
     <svg id="svg" width="${outputWidth}" height="${outputHeight}" viewBox="${-margin} ${-margin} ${outputWidth+2*margin} ${outputHeight+2*margin}">
+      <desc>
+        Made by excoffizer
+        Params:
+        - waviness: ${this._params.waviness}
+        - theta: ${this._params.theta}
+        - blur: ${this._blur}
+        - line_height: ${this._params.line_height}
+        - margin: ${this._params.margin}
+        - sx: ${this._params.sx}
+        - sy: ${this._params.sy}
+        - tx: ${this._params.tx}
+        - ty: ${this._params.ty}
+      </desc>
       <g stroke="black" stroke-width="1" fill="none">
     `;
 
