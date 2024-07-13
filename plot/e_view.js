@@ -44,7 +44,7 @@ function go()
     const thumbHeight = id("input_thumb").height;
     id("input_canvas").width = thumbWidth;
     id("input_canvas").height = thumbHeight;
-    id("input_canvas").getContext('2d').drawImage(t,0,0, thumbWidth, thumbHeight);
+    id("input_canvas").getContext('2d', { willReadFrequently: true }).drawImage(t,0,0, thumbWidth, thumbHeight);
     params = {
       inputCanvas: id('input_canvas'),
       theta: parseInt(id("theta").value),
