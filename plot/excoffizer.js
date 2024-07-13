@@ -135,10 +135,8 @@ class Excoffizer {
     for (let y = minY - this.#wiggleAmplitude; y < maxY + this.#wiggleAmplitude; y += stepy) {
       const hatchPoints2 = [];
       let counter = 0;
-      outputSvg += "<!-- next y -->\n";
 
       for (let x = minX; x < maxX; x += stepx) {
-        outputSvg += "<!-- next x -->\n";
         const p = this.#S2P({x, y: y+this.#wiggle(x)});
 
         // next point ahead
