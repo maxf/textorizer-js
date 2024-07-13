@@ -31,17 +31,6 @@ class Pixmap {
     this._pixels = this.context.getImageData(0,0,this.canvas.width,this.canvas.height).data;
   }
 
-  colorAt(x, y) {
-    const index = 4*(x + this.width*y);
-    return new Color(
-      this._pixels[index],
-      this._pixels[index+1],
-      this._pixels[index+2],
-      this._pixels[index+3]
-    );
-  }
-
-
   colorAverageAt( x, y, radius ) {
     let index;
     let resultR=0.0, resultG=0.0, resultB=0.0;
@@ -52,9 +41,15 @@ class Pixmap {
         if (x + i >= 0 && x + i < this.width && y + j >= 0 && y + j < this.height) {
           count++;
           index = 4*((x+i)+this.width*(y+j));
-          resultR+=this._pixels[index];
-          resultG+=this._pixels[index+1];
-          resultB+=this._pixels[index+2];
+          if (this._pixels[index+3] === 0) {
+            resultR += 255;
+            resultG += 255;
+            resultB += 255;
+          } else {
+            resultR+=this._pixels[index];
+            resultG+=this._pixels[index+1];
+            resultB+=this._pixels[index+2];
+          }
         }
       }
     }
