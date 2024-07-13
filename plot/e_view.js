@@ -19,8 +19,8 @@ id("theta").value = defaults.theta;
 id("value-theta").innerHTML = defaults.theta;
 id("waviness").value = defaults.waviness;
 id("value-waviness").innerHTML = defaults.waviness;
-id("line_height").value = defaults.line_height;
-id("value-line_height").innerHTML = defaults.line_height;
+id("line-height").value = defaults.lineHeight;
+id("value-line-height").innerHTML = defaults.lineHeight;
 id("sx").value = defaults.sx;
 id("value-sx").innerHTML = defaults.sx;
 id("sy").value = defaults.sy;
@@ -49,7 +49,7 @@ function go()
       inputCanvas: id('input_canvas'),
       theta: parseInt(id("theta").value),
       waviness: parseFloat(id("waviness").value),
-      line_height: parseFloat(id("line_height").value),
+      lineHeight: parseFloat(id("line-height").value),
       sx: parseFloat(id("sx").value),
       sy: parseFloat(id("sy").value),
       tx: defaults.tx,
@@ -117,8 +117,8 @@ id("waviness").addEventListener("change", event => {
   go();
 });
 
-id("line_height").addEventListener("change", event => {
-  id("value-line_height").innerHTML = event.target.value;
+id("line-height").addEventListener("change", event => {
+  id("value-line-height").innerHTML = event.target.value;
   go();
 });
 

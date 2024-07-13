@@ -96,7 +96,7 @@ class Excoffizer {
     const inputHeight  = this.#inputPixmap.height;
     const outputWidth  = 500;
     const outputHeight = 500 * inputHeight / inputWidth;
-    const lineHeight = this.#params.line_height;
+    const lineHeight = this.#params.lineHeight;
     const margin = this.#params.margin;
     let outputSvg = `
     <svg id="svg" width="${outputWidth}" height="${outputHeight}" viewBox="${-margin} ${-margin} ${outputWidth+2*margin} ${outputHeight+2*margin}">
@@ -106,7 +106,7 @@ class Excoffizer {
         - waviness: ${this.#params.waviness}
         - theta: ${this.#params.theta}
         - blur: ${this.#blur}
-        - line height: ${this.#params.line_height}
+        - line height: ${this.#params.lineHeight}
         - margin: ${this.#params.margin}
         - sx: ${this.#params.sx}
         - sy: ${this.#params.sy}
